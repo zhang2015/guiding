@@ -1,0 +1,291 @@
+/*通用外层边框*/
+.main_wrapper{
+  width: 1210px;
+  height: auto;
+  margin: auto;
+}
+/*主体布局样式*/
+.main_content{
+  padding: 30px 0;
+}
+.main_content_left{
+  width: 964px;
+  float: left;
+}
+.main_content_right{
+  width: 226px;
+  float: right;
+}
+/*管理中心主体布局样式*/
+.manage_content{
+  padding: 30px 0;
+}
+.manage_content_left{
+  width: 226px;
+  float: left;
+}
+.manage_content_right{
+  width: 964px;
+  float: right;
+}
+/*标签页框样式*/
+.tab_type_box{
+  width: 962px;
+  border: 1px solid #e5e7ed;
+}
+.tab_type_head{
+  display: flex;
+  width: 100%;
+  height: 40px;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #e5e7ed;
+  background: #fcfcfc;
+}
+.tab_type_head a{
+  display: block;
+  width: 120px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 15px;
+  color: #616161;
+  background: #fcfcfc;
+  border-right: 1px solid #e5e7ed;
+}
+.tab_type_head a.active{
+  color: #6398ed;
+  border-top: 2px solid #6398ed;
+  background: #fff;
+}
+.tab_type_head p{
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+  font-size: 14px;
+  color: #6398ed;
+}
+.tab_type_head p span:nth-child(1){
+  font-size: 16px;
+}
+.tab_type_head p span:nth-child(2){
+  padding-left: 10px;
+  cursor: pointer;
+}
+/*详情框样式*/
+.details_type_box{
+  border: 1px solid #e5e7ed;
+  padding: 20px;
+}
+/*通用列表框样式*/
+.common_type_box{
+  border: 1px solid #e5e7ed;
+  width: 962px;
+}
+.common_type_head{
+  display: flex;
+  height: 40px;
+  padding-left: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #e5e7ed;
+  background: #fcfcfc;
+  font-size: 14px;
+  color: #b3b3b3;
+}
+/*通用内边距样式*/
+.padding20{
+  padding:20px;
+}
+/*通用弹窗样式*/
+.windows_wrapper{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+}
+.windows_box{
+  position: absolute;
+  width: 730px;
+  height: auto;
+  top: 200px;
+  left: 50%;
+  margin-left: -365px;
+  background: #fff;
+}
+.windows_head{
+  display: flex;
+  height: 45px;
+  padding: 0 20px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7ed;
+  background: #f8f8f8;
+  font-size: 15px;
+  color: #616161;
+}
+.windows_content{
+  padding: 30px 40px;
+}
+.windows_content section{
+  display: flex;
+  height: 50px;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+}
+.windows_content section .label{
+  width: 100px;
+  text-align: left;
+}
+.windows_content section input{
+  width: 458px;
+  height: 40px;
+  border: 1px solid #e5e7ed;
+  font-size: 14px;
+  padding-left: 10px;
+}
+.windows_content section input.shot{
+  width: 318px;
+}
+.windows_content section span.smscode_btn{
+  width: 130px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  color: #87ce76;
+  border: 1px solid #87ce76;
+  margin-left: 7px;
+}
+.windows_content section select{
+  width: 163px;
+  height: 40px;
+  padding-left: 10px;
+  margin-right: 10px;
+  font-size: 14px;
+  border: 1px solid #e5e7ed;
+}
+.windows_btn{
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
+.windows_btn span{
+  width: 158px;
+  height: 45px;
+  text-align: center;
+  line-height: 45px;
+  font-size: 14px;
+  margin: 0 8px;
+  border-radius: 4px;
+}
+.windows_btn_cancel{
+  border: 1px solid #e5e7ed;
+  background: #f8f8f8;
+  color: #898989;
+}
+.windows_btn_confirm{
+  border: 1px solid #6398ed;
+  background: #6398ed;
+  color: #fff;  
+}
+/*通用按钮样式*/
+.common_btn_box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.submit_btn{
+  border: 1px solid #6398ed;
+  background: #6398ed;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  line-height: 58px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cancel_btn{
+  border: 1px solid #e5e7ed;
+  background: #f8f8f8;
+  color: #898989;
+  font-size: 14px;
+  text-align: center;
+  line-height: 58px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+/*管理模块通用信息列表样式*/
+.manage_list_common li{
+  display: flex;
+  height: 70px;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #e5e7ed;
+  color: #616161;
+  font-size: 14px;
+}
+.manage_list_common li.upload{
+  height: auto;
+  padding: 10px 0;
+  align-items: flex-start;
+}
+.manage_list_common li input{
+  width: 458px;
+  height: 40px;
+  border: 1px solid #e5e7ed;
+  font-size: 14px;
+  padding-left: 10px;
+}
+.manage_list_common li p:nth-child(1){
+  width: 135px;
+  padding-left: 75px;
+}
+.manage_list_common li p:nth-child(2){
+  width: 335px;
+}
+.manage_list_common li p:nth-child(3) span{
+  color: #6389ed;
+}
+.manage_list_common li:last-child{
+  border: 0;
+}
+.manage_list_common li select{
+  width: 163px;
+  height: 40px;
+  padding-left: 10px;
+  margin-right: 10px;
+  font-size: 14px;
+  border: 1px solid #e5e7ed;
+}
+/*通用表格样式*/
+.common_table{
+  color: #898989;
+  font-size: 14px;
+}
+.common_table th{
+  height: 40px;
+  background: #f9fafc;
+  border: 1px solid #e5e7ed;
+  padding-left: 20px;
+  vertical-align: middle;
+  text-align: left;
+}
+.common_table th.text_center{
+  text-align: center;
+  padding: 0;
+}
+.common_table th.text_left,.common_table td.text_left{
+  text-align: left;
+  padding-left: 20px;
+}
+.common_table td{
+  height: 50px;
+  border: 1px solid #e5e7ed;
+  vertical-align: middle;
+  text-align: center;
+}
