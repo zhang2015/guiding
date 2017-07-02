@@ -62,7 +62,11 @@ import wallet from '../components/wallet/wallet'
 import withDraw from '../components/withDraw/withDraw'
 import InvoiceDetails from '../components/InvoiceDetails/InvoiceDetails'
 import InvoiceApply from '../components/InvoiceApply/InvoiceApply'
-
+import companyManageInvoiceList from '../components/companyManageInvoiceList/companyManageInvoiceList'
+import companyManageInvoiceDetails from '../components/companyManageInvoiceDetails/companyManageInvoiceDetails'
+import companyManageInvoicePost from '../components/companyManageInvoicePost/companyManageInvoicePost'
+import myCompanyClaim from '../components/myCompanyClaim/myCompanyClaim'
+import myCompanyClaimApply from '../components/myCompanyClaimApply/myCompanyClaimApply'
 
 Vue.use(Router)
 
@@ -258,6 +262,16 @@ export default new Router({
                   path: '/manage/personal/myCompany/myCompanyManage',
                   name: 'myCompanyManage',
                   component: myCompanyManage
+                },
+                {
+                  path: '/manage/personal/myCompany/myCompanyClaim',
+                  name: 'myCompanyClaim',
+                  component: myCompanyClaim
+                },
+                {
+                  path: '/manage/personal/myCompany/myCompanyClaimApply',
+                  name: 'myCompanyClaimApply',
+                  component: myCompanyClaimApply
                 }
               ]
             },
@@ -271,6 +285,16 @@ export default new Router({
                   path: '/manage/personal/invoiceManage/invoiceList',
                   name: 'invoiceList',
                   component: invoiceList
+                },
+                {
+                  path: '/manage/personal/invoiceManage/InvoiceDetails',
+                  name: 'InvoiceDetails',
+                  component: InvoiceDetails
+                },
+                {
+                  path: '/manage/personal/invoiceManage/InvoiceApply',
+                  name: 'InvoiceApply',
+                  component: InvoiceApply
                 }
               ]
             },
@@ -372,27 +396,35 @@ export default new Router({
               path: '/manage/companyManage/companyManageInvoice',
               name: 'companyManageInvoice',
               component: companyManageInvoice,
-              redirect: '/manage/companyManage/companyManageInvoice/companyManageInvoiceAll',
+              redirect: '/manage/companyManage/companyManageInvoice/companyManageInvoiceList',
               children:[
                 {
-                  path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceAll',
-                  name: 'companyManageInvoiceAll',
-                  component: companyManageInvoiceAll
+                  path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceList',
+                  name: 'companyManageInvoiceList',
+                  component: companyManageInvoiceList,
+                  redirect: '/manage/companyManage/companyManageInvoice/companyManageInvoiceList/companyManageInvoiceAll',
+                  children:[
+                    {
+                      path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceList/companyManageInvoiceAll',
+                      name: 'companyManageInvoiceAll',
+                      component: companyManageInvoiceAll
+                    },
+                    {
+                      path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceList/companyManageInvoiceSend',
+                      name: 'companyManageInvoiceSend',
+                      component: companyManageInvoiceSend
+                    }
+                  ]
                 },
                 {
-                  path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceSend',
-                  name: 'companyManageInvoiceSend',
-                  component: companyManageInvoiceSend
+                  path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceDetails',
+                  name: 'companyManageInvoiceDetails',
+                  component: companyManageInvoiceDetails
                 },
                 {
-                  path: '/manage/companyManage/companyManageInvoice/InvoiceDetails',
-                  name: 'InvoiceDetails',
-                  component: InvoiceDetails
-                },
-                {
-                  path: '/manage/companyManage/companyManageInvoice/InvoiceApply',
-                  name: 'InvoiceApply',
-                  component: InvoiceApply
+                  path: '/manage/companyManage/companyManageInvoice/companyManageInvoicePost',
+                  name: 'companyManageInvoicePost',
+                  component: companyManageInvoicePost
                 }
               ]
             },
