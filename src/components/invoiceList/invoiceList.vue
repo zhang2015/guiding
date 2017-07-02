@@ -1,14 +1,14 @@
 <template>
   <div>
-    <invoiceListCommon></invoiceListCommon>
+    <invoiceListPersonal></invoiceListPersonal>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import invoiceListCommon from '../invoiceListCommon/invoiceListCommon'
+  import invoiceListPersonal from '../invoiceListPersonal/invoiceListPersonal'
   export default {
     components:{
-      invoiceListCommon
+      invoiceListPersonal
     }
   }
 </script>

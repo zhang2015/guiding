@@ -24,7 +24,8 @@
         infor:{
           title:'帮助中心',
           iconname:'icon-id',
-          btntext:'公司认领'
+          btntext:'公司认领',
+          path: '#/manage/personal/myCompany/myCompanyClaim'
         },
         questionlist:[
           {

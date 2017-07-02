@@ -4,33 +4,29 @@
       <tr>
         <th width="175">订单号</th>
         <th width="135">服务项目</th>
-        <th width="240">客户姓名</th>
-        <th width="120" class="text_center">发票总额</th>
-        <th width="130" class="text_center">详情</th>
+        <th width="240">服务机构</th>
+        <th width="120" class="text_center">服务价格</th>
+        <th width="130" class="text_center">状态</th>
         <th width="110" class="text_center">操作</th>
       </tr>
       <tr>
         <td>3223432323424224</td>
         <td>服务项目名称</td>
-        <td>丁坚</td>
+        <td>服务公司名称服务公司名称</td>
         <td class="money">￥200.00</td>
+        <td>服务未结束</td>
         <td>
-          <router-link :to="{name:'companyManageInvoiceDetails'}" class="invoice_details">详情</router-link>
-        </td>
-        <td>
-          <router-link :to="{name:'companyManageInvoicePost'}" class="apply_invoice">邮寄发票</router-link>
+          <router-link :to="{name:'InvoiceApply'}" class="apply_invoice">申请开票</router-link>
         </td>
       </tr>
       <tr>
         <td>3223432323424224</td>
         <td>服务项目名称</td>
-        <td>丁坚</td>
+        <td>服务公司名称服务公司名称</td>
         <td class="money">￥200.00</td>
+        <td>服务未结束</td>
         <td>
-          <router-link :to="{name:'companyManageInvoiceDetails'}" class="invoice_details">详情</router-link>
-        </td>
-        <td>
-          <span>已邮寄</span>
+          <router-link :to="{name:'InvoiceDetails'}" class="invoice_details">详情</router-link>
         </td>
       </tr>
     </table>

@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <table class="common_table invoice_table">
+  <div class="tab_type_box">
+    <div class="tab_type_head">
+      <a class="active">发票详情</a>
+    </div>
+    <div class="padding20">
+      <table class="common_table invoice_table">
       <tr>
         <th width="175" >订单号</th>
         <th width="130">服务项目</th>
@@ -62,6 +66,11 @@
       <span>四川省成都市锦江区锦华路一段120号天府新谷2栋2单元2010</span>
       <span>132****5220</span>
     </p>
+    <div class="common_btn_box invoice_btn_box">
+      <span class="submit_btn invoice_submit_btn">邮寄发票</span>
+      <span class="cancel_btn invoice_cancel_btn">取消</span>
+    </div>
+    </div>
   </div>
 </template>
 
@@ -70,7 +79,7 @@
 </script>
 
 <style media="screen">
-  .invoice_table .money{
+.invoice_table .money{
     color: #ff8a6e;
   }
   .manage_list_common.manage_list_invoice li p:nth-child(1){
@@ -106,5 +115,14 @@
   }
   .consignee_address span:nth-child(2){
     font-weight: 600; 
+  }
+  .invoice_btn_box{
+    padding-top: 30px;
+  }
+  .invoice_submit_btn,.invoice_cancel_btn{
+    width: 160px;
+    height: 45px;
+    line-height: 45px;
+    margin: 0 10px;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="tab_type_box">
     <div class="tab_type_head">
-      <a class="active">公司管理</a>
+      <a class="active">公司认领</a>
     </div>
     <div class="padding20">
       <ul class="manage_list_common setting_list">
@@ -9,29 +9,21 @@
           <p>企业名称</p>
           <input type="text" placeholder="请输入公司名称">
         </li>
-        <li class="upload">
-          <p>LOGO</p>
-          <img src="../../assets/uploadimg.png">
+        <li>
+          <p>真实姓名</p>
+          <input type="text" placeholder="请输入您的真实姓名">
         </li>
         <li>
-          <p>联系电话</p>
-          <input type="text" placeholder="请输入联系电话">
+          <p>手机号</p>
+          <input type="text" placeholder="请输入您的手机号">
         </li>
         <li>
           <p>邮箱</p>
           <input type="text" placeholder="请输入您的邮箱">
         </li>
-        <li>
-          <p>官方网址</p>
-          <input type="text" placeholder="请输入官方网址">
-        </li>
-        <li>
-          <p>地址</p>
-          <input type="text" placeholder="请输入公司地址">
-        </li>
-        <li>
-          <p>公司介绍</p>
-        
+        <li class="upload">
+          <p>营业执照</p>
+          <img src="../../assets/uploadimg.png">
         </li>
         <li>
           <p></p>

@@ -35,7 +35,7 @@
             </a>
             <span>
               <span class="audited">
-                <a>管理</a>
+                <router-link :to="{name:'myCompanyManage'}">管理</router-link>
                 <span>取消管理</span>
               </span>
             </span>
@@ -62,9 +62,7 @@
               南京小米科技有限公司
             </a>
             <span>
-              <a class="claim">
-                认领
-              </a>
+              <router-link :to="{name: 'myCompanyClaimApply'}" class="claim">认领</router-link>
             </span>
           </h1>
           <p>

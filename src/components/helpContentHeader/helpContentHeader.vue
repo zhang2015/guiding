@@ -3,7 +3,8 @@
     <p>{{infor.title}}</p>
     <p>
       <span :class="infor.iconname"></span>
-      <span>{{infor.btntext}}</span>
+      <span v-if="infor.path" @click="linkto()">{{infor.btntext}}</span>
+      <span v-else>{{infor.btntext}}</span>
     </p>
   </div>
 </template>
@@ -11,6 +12,11 @@
 <script type="text/ecmascript-6">
   export default {
     props: ['infor'],
+    methods:{
+      linkto:function(){
+        window.location.href=this.infor.path;
+      }
+    }
   }
 </script>
 
