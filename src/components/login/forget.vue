@@ -1,6 +1,6 @@
 <template>
     <div class="login_box">
-        <p class="center_type login_head">新用户注册</p>
+        <p class="center_type login_head">忘记密码</p>
         <section >
             <input type="text" class="login_input" v-model="phone" placeholder="请输入您的手机号">
             <div class="twoItem">
@@ -10,7 +10,7 @@
             <input type="password" class="login_input" v-model="newpass" placeholder="请输入新密码">
             <input type="password" class="login_input" v-model="repass" placeholder="请输入确认新密码">
         </section>
-        <span class="sign_btn">确定</span>
+        <span class="sign_btn forget_btn">确定</span>
     </div>
 </template>
 
@@ -31,5 +31,7 @@ export default {
 </script>
 
 <style media="screen">
-
+.forget_btn{
+    margin: 10px auto;
+}
 </style>

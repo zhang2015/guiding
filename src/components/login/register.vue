@@ -2,16 +2,16 @@
     <div class="login_box">
         <p class="center_type login_head">新用户注册</p>
         <section >
-            <input type="text" class="login_input" v-model="phone" placeholder="请输入您的手机号">
+            <input type="text" class="login_input phone" v-model="phone" placeholder="请输入您的手机号">
             <div class="twoItem">
-                <input type="text" class="login_input smscode_input" v-model="smscode" placeholder="请输入手机验证码">
+                <input type="text" class="login_input smscode_input code" v-model="smscode" placeholder="请输入手机验证码">
                 <span class="smscode_btn">获取验证码</span>
             </div>
-            <input type="password" class="login_input" v-model="pass" placeholder="请输入您的密码">
+            <input type="password" class="login_input pass" v-model="pass" placeholder="请输入您的密码">
         </section>
         
         <p class="left_type">
-            <span class="icon-check"></span>同意<a>用户协议</a>
+            <span class="icon-ok"></span>同意<a>用户协议</a>
         </p>
         <span class="sign_btn">免费注册</span>
         <p class="between_type">
@@ -25,8 +25,8 @@
                 <span>微信登录</span>
             </div>
             <div>
-                <img src="./image/weibo.png" />
-                <span>微博登录</span>
+                <img src="./image/qq.png" />
+                <span>QQ登录</span>
             </div>
         </div>
     </div>
