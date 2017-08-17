@@ -22,6 +22,13 @@ import firmDetails from '../components/firmDetails/firmDetails'
 import firmEquity from '../components/firmEquity/firmEquity'
 import firmIntro from '../components/firmIntro/firmIntro'
 import firmBusiness from '../components/firmBusiness/firmBusiness'
+
+import organizationDetails from '../components/organizationDetails/organizationDetails'
+import organizationEquity from '../components/organizationEquity/organizationEquity'
+import organizationIntro from '../components/organizationIntro/organizationIntro'
+import organizationBusiness from '../components/organizationBusiness/organizationBusiness'
+import organizationTeam from '../components/organizationTeam/organizationTeam'
+
 import personal from '../components/personal/personal'
 import orderForm from '../components/orderForm/orderForm'
 import orderFormAll from '../components/orderFormAll/orderFormAll'
@@ -72,6 +79,11 @@ import login from '../components/login/login'
 import log_in from '../components/login/log_in'
 import register from '../components/login/register'
 import forget from '../components/login/forget'
+import cart from '../components/cart/cart'
+import cartList from '../components/cart/cartList'
+import cartDetail from '../components/cart/cartDetail'
+import cartSuccess from '../components/cart/cartSuccess'
+
 
 Vue.use(Router)
 
@@ -191,6 +203,33 @@ export default new Router({
                     path: '/firmDetails/:id/firmBusiness',
                     name: 'firmBusiness',
                     component: firmBusiness
+                }
+            ]
+        },
+        {
+            path: '/organizationDetails/:id',
+            name: 'organizationDetails',
+            component: organizationDetails,
+            redirect: '/organizationDetails/:id/organizationEquity',
+            children: [{
+                    path: '/organizationDetails/:id/organizationEquity',
+                    name: 'organizationEquity',
+                    component: organizationEquity
+                },
+                {
+                    path: '/organizationDetails/:id/organizationIntro',
+                    name: 'organizationIntro',
+                    component: organizationIntro
+                },
+                {
+                    path: '/organizationDetails/:id/organizationBusiness',
+                    name: 'organizationBusiness',
+                    component: organizationBusiness
+                },
+                {
+                    path: '/organizationDetails/:id/organizationTeam',
+                    name: 'organizationTeam',
+                    component: organizationTeam
                 }
             ]
         },
@@ -449,6 +488,26 @@ export default new Router({
                             name: 'companyManageLogout',
                             component: companyManageLogout
                         }
+                    ]
+                },
+                {
+                    path: '/manage/cart',
+                    name: 'cart',
+                    component: cart,
+                    redirect: '/manage/cart/cartList',
+                    children: [{
+                            path: '/manage/cart/cartList',
+                            name: 'cartList',
+                            component: cartList
+                    },{
+                            path: '/manage/cart/cartDetail',
+                            name: 'cartDetail',
+                            component: cartDetail
+                    },{
+                            path: '/manage/cart/cartSuccess',
+                            name: 'cartSuccess',
+                            component: cartSuccess
+                    }
                     ]
                 }
             ]

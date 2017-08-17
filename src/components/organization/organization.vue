@@ -14,11 +14,17 @@
         <span v-for="item in address" @click="toggleTabs_address(item.value)" :class="{active:item.value==addressvalue}">{{item.name}}</span>
       </section>
     </div>
+    <div class="company_list_box common_type_box">
+      <p class="company_list_head common_type_head">
+          我们为您找到<span>10</span>家符合条件的企业
+      </p>
+      <organizationList></organizationList>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  
+  import organizationList from '../organizationList/organizationList'
 
   export default {
     data(){
@@ -117,6 +123,9 @@
       typevalue:function(){
         console.log(this.typevalue);
       }
+    },
+    components:{
+      organizationList
     }
   }
 </script>
