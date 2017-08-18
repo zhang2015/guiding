@@ -22,6 +22,11 @@
             iconclass: 'icon-doc'
           },
           {
+            name: '消息中心',
+            pathname: 'myMessage',
+            iconclass: 'icon-heart'
+          },
+          {
             name: '我的收藏',
             pathname: 'myCollect',
             iconclass: 'icon-heart'

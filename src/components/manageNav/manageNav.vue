@@ -28,6 +28,7 @@
           </div>
           <div class="loged_menu" v-show="menuShow">
             <router-link :to="{name:'orderForm'}"><span class="icon-doc"></span>我的订单</router-link>
+            <router-link :to="{name:'myMessage'}"><span class="icon-doc"></span>消息中心</router-link>
             <router-link :to="{name:'myCollect'}"><span class="icon-heart"></span>我的收藏</router-link>
             <router-link :to="{name:'myCompany'}"><span class="icon-briefcase"></span>我的公司</router-link>
             <router-link :to="{name:'invoiceManage'}"><span class="icon-box"></span>发票管理</router-link>

@@ -16,7 +16,7 @@
             <span>总额:￥400.00</span>
           </p>
           <p>
-            <a>订单详情</a>
+            <router-link :to="{ name: 'companyManageOrderDetail',params:{ orderId: 12}}">订单详情</router-link>
           </p>
           <p>
             <span class="nopay">待支付</span>
