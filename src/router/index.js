@@ -22,6 +22,13 @@ import firmDetails from '../components/firmDetails/firmDetails'
 import firmEquity from '../components/firmEquity/firmEquity'
 import firmIntro from '../components/firmIntro/firmIntro'
 import firmBusiness from '../components/firmBusiness/firmBusiness'
+
+import organizationDetails from '../components/organizationDetails/organizationDetails'
+import organizationEquity from '../components/organizationEquity/organizationEquity'
+import organizationIntro from '../components/organizationIntro/organizationIntro'
+import organizationBusiness from '../components/organizationBusiness/organizationBusiness'
+import organizationTeam from '../components/organizationTeam/organizationTeam'
+
 import personal from '../components/personal/personal'
 import orderForm from '../components/orderForm/orderForm'
 import orderFormAll from '../components/orderFormAll/orderFormAll'
@@ -73,6 +80,15 @@ import companyManageInvoiceDetails from '../components/companyManageInvoiceDetai
 import companyManageInvoicePost from '../components/companyManageInvoicePost/companyManageInvoicePost'
 import myCompanyClaim from '../components/myCompanyClaim/myCompanyClaim'
 import myCompanyClaimApply from '../components/myCompanyClaimApply/myCompanyClaimApply'
+import login from '../components/login/login'
+import log_in from '../components/login/log_in'
+import register from '../components/login/register'
+import forget from '../components/login/forget'
+import cart from '../components/cart/cart'
+import cartList from '../components/cart/cartList'
+import cartDetail from '../components/cart/cartDetail'
+import cartSuccess from '../components/cart/cartSuccess'
+
 
 Vue.use(Router)
 
@@ -192,6 +208,334 @@ export default new Router({
                     path: '/firmDetails/:id/firmBusiness',
                     name: 'firmBusiness',
                     component: firmBusiness
+                }
+            ]
+        },
+        {
+            path: '/firmDetails/:id',
+            name: 'firmDetails',
+            component: firmDetails,
+            redirect: '/firmDetails/:id/firmEquity',
+            children: [{
+                    path: '/firmDetails/:id/firmEquity',
+                    name: 'firmEquity',
+                    component: firmEquity
+                },
+                {
+                    path: '/firmDetails/:id/firmIntro',
+                    name: 'firmIntro',
+                    component: firmIntro
+                },
+                {
+                    path: '/firmDetails/:id/firmBusiness',
+                    name: 'firmBusiness',
+                    component: firmBusiness
+				}
+			]
+		},
+		{
+            path: '/organizationDetails/:id',
+            name: 'organizationDetails',
+            component: organizationDetails,
+            redirect: '/organizationDetails/:id/organizationEquity',
+            children: [{
+                    path: '/organizationDetails/:id/organizationEquity',
+                    name: 'organizationEquity',
+                    component: organizationEquity
+                },
+                {
+                    path: '/organizationDetails/:id/organizationIntro',
+                    name: 'organizationIntro',
+                    component: organizationIntro
+                },
+                {
+                    path: '/organizationDetails/:id/organizationBusiness',
+                    name: 'organizationBusiness',
+                    component: organizationBusiness
+                },
+                {
+                    path: '/organizationDetails/:id/organizationTeam',
+                    name: 'organizationTeam',
+                    component: organizationTeam
+                }
+            ]
+        },
+        {
+            path: '/manage',
+            name: 'manage',
+            component: manage,
+            redirect: '/manage/personal',
+            children: [{
+                    path: '/manage/personal',
+                    name: 'personal',
+                    component: personal,
+                    redirect: '/manage/personal/orderForm',
+                    children: [{
+                            path: '/manage/personal/orderForm',
+                            name: 'orderForm',
+                            component: orderForm,
+                            redirect: '/manage/personal/orderForm/orderFormAll',
+                            children: [{
+                                    path: '/manage/personal/orderForm/orderFormAll',
+                                    name: 'orderFormAll',
+                                    component: orderFormAll
+                                },
+                                {
+                                    path: '/manage/personal/orderForm/orderFormPay',
+                                    name: 'orderFormPay',
+                                    component: orderFormPay
+                                },
+                                {
+                                    path: '/manage/personal/orderForm/orderFormFinish',
+                                    name: 'orderFormFinish',
+                                    component: orderFormFinish
+                                }
+                            ]
+                        },
+                        {
+                            path: '/manage/personal/myCollect',
+                            name: 'myCollect',
+                            component: myCollect,
+                            redirect: '/manage/personal/myCollect/CollectOrganization',
+                            children: [{
+                                    path: '/manage/personal/myCollect/CollectOrganization',
+                                    name: 'CollectOrganization',
+                                    component: CollectOrganization
+                                },
+                                {
+                                    path: '/manage/personal/myCollect/CollectFirm',
+                                    name: 'CollectFirm',
+                                    component: CollectFirm
+                                }
+                            ]
+                        },
+                        {
+                            path: '/manage/personal/myCompany',
+                            name: 'myCompany',
+                            component: myCompany,
+                            redirect: '/manage/personal/myCompany/myCompanyList',
+                            children: [{
+                                    path: '/manage/personal/myCompany/myCompanyList',
+                                    name: 'myCompanyList',
+                                    component: myCompanyList
+                                },
+                                {
+                                    path: '/manage/personal/myCompany/myCompanyManage',
+                                    name: 'myCompanyManage',
+                                    component: myCompanyManage
+                                },
+                                {
+                                    path: '/manage/personal/myCompany/myCompanyClaim',
+                                    name: 'myCompanyClaim',
+                                    component: myCompanyClaim
+                                },
+                                {
+                                    path: '/manage/personal/myCompany/myCompanyClaimApply',
+                                    name: 'myCompanyClaimApply',
+                                    component: myCompanyClaimApply
+                                }
+                            ]
+                        },
+                        {
+                            path: '/manage/personal/invoiceManage',
+                            name: 'invoiceManage',
+                            component: invoiceManage,
+                            redirect: '/manage/personal/invoiceManage/invoiceList',
+                            children: [{
+                                    path: '/manage/personal/invoiceManage/invoiceList',
+                                    name: 'invoiceList',
+                                    component: invoiceList
+                                },
+                                {
+                                    path: '/manage/personal/invoiceManage/InvoiceDetails',
+                                    name: 'InvoiceDetails',
+                                    component: InvoiceDetails
+                                },
+                                {
+                                    path: '/manage/personal/invoiceManage/InvoiceApply',
+                                    name: 'InvoiceApply',
+                                    component: InvoiceApply
+                                }
+                            ]
+                        },
+                        {
+                            path: '/manage/personal/consigneeAddress',
+                            name: 'consigneeAddress',
+                            component: consigneeAddress
+                        },
+                        {
+                            path: '/manage/personal/settings',
+                            name: 'settings',
+                            component: settings,
+                            redirect: '/manage/personal/settings/settingAccount',
+                            children: [{
+                                    path: '/manage/personal/settings/settingAccount',
+                                    name: 'settingAccount',
+                                    component: settingAccount
+                                },
+                                {
+                                    path: '/manage/personal/settings/settingInfor',
+                                    name: 'settingInfor',
+                                    component: settingInfor
+                                }
+                            ]
+                        },
+                        {
+                            path: '/manage/personal/logout',
+                            name: 'logout',
+                            component: logout
+                        }
+                    ]
+                },
+                {
+                    path: '/manage/applicationIn',
+                    name: 'applicationIn',
+                    component: applicationIn
+                },
+                {
+                    path: '/manage/companyManage',
+                    name: 'companyManage',
+                    component: companyManage,
+                    redirect: '/manage/companyManage/companyManageOrder',
+                    children: [{
+                            path: '/manage/companyManage/companyManageOrder',
+                            name: 'companyManageOrder',
+                            component: companyManageOrder,
+                            redirect: '/manage/companyManage/companyManageOrder/companyManageOrderAll',
+                            children: [{
+                                    path: '/manage/companyManage/companyManageOrder/companyManageOrderAll',
+                                    name: 'companyManageOrderAll',
+                                    component: companyManageOrderAll
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageOrder/companyManageOrderPact',
+                                    name: 'companyManageOrderPact',
+                                    component: companyManageOrderPact
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageOrder/companyManageOrderReport',
+                                    name: 'companyManageOrderReport',
+                                    component: companyManageOrderReport
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageOrder/companyManageOrderFinal',
+                                    name: 'companyManageOrderFinal',
+                                    component: companyManageOrderFinal
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageOrder/companyManageOrderMail',
+                                    name: 'companyManageOrderMail',
+                                    component: companyManageOrderMail
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageOrder/companyManageOrderComplete',
+                                    name: 'companyManageOrderComplete',
+                                    component: companyManageOrderComplete
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageOrder/companyManageOrderPayment',
+                                    name: 'companyManageOrderPayment',
+                                    component: companyManageOrderPayment
+                                }
+                            ]
+                        },
+                        {
+                            path: '/manage/companyManage/companyManageOrderDetail/:orderId',
+                            name: 'companyManageOrderDetail',
+                            component: companyManageOrderDetail
+                        },
+                        {
+                            path: '/manage/companyManage/companyManageSetting',
+                            name: 'companyManageSetting',
+                            component: companyManageSetting
+                        },
+                        {
+                            path: '/manage/companyManage/companyManageCompany',
+                            name: 'companyManageCompany',
+                            component: companyManageCompany
+                        },
+                        {
+                            path: '/manage/companyManage/companyManageInvoice',
+                            name: 'companyManageInvoice',
+                            component: companyManageInvoice,
+                            redirect: '/manage/companyManage/companyManageInvoice/companyManageInvoiceList',
+                            children: [{
+                                    path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceList',
+                                    name: 'companyManageInvoiceList',
+                                    component: companyManageInvoiceList,
+                                    redirect: '/manage/companyManage/companyManageInvoice/companyManageInvoiceList/companyManageInvoiceAll',
+                                    children: [{
+                                            path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceList/companyManageInvoiceAll',
+                                            name: 'companyManageInvoiceAll',
+                                            component: companyManageInvoiceAll
+                                        },
+                                        {
+                                            path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceList/companyManageInvoiceSend',
+                                            name: 'companyManageInvoiceSend',
+                                            component: companyManageInvoiceSend
+                                        }
+                                    ]
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceDetails',
+                                    name: 'companyManageInvoiceDetails',
+                                    component: companyManageInvoiceDetails
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageInvoice/companyManageInvoicePost',
+                                    name: 'companyManageInvoicePost',
+                                    component: companyManageInvoicePost
+                                }
+                            ]
+                        },
+                        {
+                            path: '/manage/companyManage/companyManageApprove',
+                            name: 'companyManageApprove',
+                            component: companyManageApprove
+                        },
+                        {
+                            path: '/manage/companyManage/companyManageWallet',
+                            name: 'companyManageWallet',
+                            component: companyManageWallet,
+                            redirect: '/manage/companyManage/companyManageWallet/wallet',
+                            children: [{
+                                    path: '/manage/companyManage/companyManageWallet/wallet',
+                                    name: 'wallet',
+                                    component: wallet
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageWallet/withDraw',
+                                    name: 'withDraw',
+                                    component: withDraw
+                                }
+                            ]
+                        },
+                        {
+                            path: '/manage/companyManage/companyManageLogout',
+                            name: 'companyManageLogout',
+                            component: companyManageLogout
+                        }
+                    ]
+                },
+                {
+                    path: '/manage/cart',
+                    name: 'cart',
+                    component: cart,
+                    redirect: '/manage/cart/cartList',
+                    children: [{
+                            path: '/manage/cart/cartList',
+                            name: 'cartList',
+                            component: cartList
+                    },{
+                            path: '/manage/cart/cartDetail',
+                            name: 'cartDetail',
+                            component: cartDetail
+                    },{
+                            path: '/manage/cart/cartSuccess',
+                            name: 'cartSuccess',
+                            component: cartSuccess
+                    }
+                    ]
                 }
             ]
         },
@@ -474,6 +818,28 @@ export default new Router({
                             component: companyManageLogout
                         }
                     ]
+				}
+            ]
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: login,
+            redirect: '',
+            children: [{
+                    path: '',
+                    name: 'log_in',
+                    component: log_in
+                },
+                {
+                    path: '/login/register',
+                    name: 'register',
+                    component: register
+                },
+                {
+                    path: '/login/forget',
+                    name: 'forget',
+                    component: forget
                 }
             ]
         }
