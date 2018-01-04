@@ -1,12 +1,12 @@
 <template>
   <div>
     <mainHeader></mainHeader>
-    <mainNav></mainNav>
+    <mainNav show='false'></mainNav>
     <div class="firm_detail_head_wrapper">
       <div class="firm_detail_head">
-        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498037453275&di=f5e0bb90fe595fae597d70d7631eb504&imgtype=0&src=http%3A%2F%2Fwww.riogrande.co.jp%2Fpinarello_opera%2Flogo_pinarello_sq01.jpg">
+        <img :src="firmInfor.src?firmInfor.src:''">
         <section>
-          <h1>四川贵鼎知识产权评估服务有限公司<a><span class="icon-id"></span>认领公司</a></h1>
+          <h1>{{firmInfor.name}}<router-link :to="{path:userId?'/manage/personal/myCompany/myCompanyClaimApply':'/login',query:{name:firmInfor.name,type:'company',id:firmInfor.id}}"><span class="icon-id"></span>认领公司</router-link></h1>
           <p>
             <span class="icon-tel"></span><span>电话:{{firmInfor.tel}}</span>
             <span class="icon-message"></span><span>邮箱:{{firmInfor.email}}</span>
@@ -30,6 +30,7 @@
               <img src="./images/4.png" alt="">
             </span>
           </div>
+          <div @click="dealCollect">{{!isCollect?'收藏':'取消收藏'}}</div>
         </section>
       </div>
     </div>
@@ -42,7 +43,7 @@
               <router-link :to="{ name: 'firmIntro' }">公司简介</router-link>
               <router-link :to="{ name: 'firmBusiness' }">工商信息</router-link>
             </div>
-            <router-view></router-view>
+            <router-view ref="firmDetailSub"></router-view>
           </div>
         </div>
         <div class="main_content_right">
@@ -58,22 +59,182 @@
   import mainNav from '../mainNav/mainNav'
   import recommend from '../recommend/recommend'
 
+  import request from '../../ajax/request.js';
+
+  import Vue from 'vue'
+
   export default {
     data(){
       return{
+
+        //下载的json对象
+        info:{},
+
+        id:0,
+
         firmInfor:{
-          name: '四川贵鼎知识产权评估服务有限公司',
-          tel: '021-1231111',
-          email: 'asdicahodh@qq.com',
-          link: 'www.baidu.com',
-          address: '四川省成都市高新区天府三街新希望国际B座1201'
+          name: '',
+          tel: '',
+          email: '',
+          link: '',
+          address: '',
+          src:""
         },
+
+        isCollect:false
       }
     },
+
+    beforeMount(){
+      
+    },
+    created(){
+
+      loginStatus(this)
+      
+
+      var id = this.$route.params.id;
+      this.id = id;
+
+      this.downloadDetail();
+
+    },
+    methods:{
+
+      dealCollect(){
+
+        //如果没有登录, 则没有任何操作
+        if(!this.userId){
+          alert("请登录");
+          return;
+        }
+
+        //如果没有收藏, 添加收藏
+        if(!this.isCollect){
+
+          var url = path + "/index/enterprise/add-enterprise-attention"
+          var dict = {
+            "user_id":this.userId,
+            "enterprise_id":this.id
+          }
+
+          this.$http.get(url,{params:dict}).then(function(r){
+
+            var td = r.data;
+            if(td.status == 0){
+
+              alert(td.info);
+
+            }else{
+              this.isCollect = true;
+            }
+
+          })
+
+        }
+
+        //如果收藏了,取消收藏
+        else{
+
+          var url = path + "/index/enterprise/del-enterprise-attention"
+          var dict = {
+            "user_id":this.userId,
+            "enterprise_id":this.id
+          }
+
+          this.$http.get(url,{params:dict}).then(function(r){
+
+            var td = r.data;
+            if(td.status == 0){
+
+              alert(td.info);
+
+            }else{
+              this.isCollect = false;
+            }
+
+          })
+
+        }
+
+      },
+
+
+      downloadDetail:function(){
+        var dict = {
+          enterprise_id:this.id
+        }
+        var self = this;
+
+        //如果能取到userId, 获取收藏数据
+        if(this.userId){
+          dict['user_id'] = this.userId
+          
+        }
+
+
+        request.companyDetail(dict,function(data){
+    
+          //保存下载的json, 供下级使用
+          self.info = data;
+
+
+          //self.firmInfor.name = data.company.title;
+          //Vue.set(self.firmInfor,'name',"aa")
+          //self.$set(self.firmInfor,'name',data.company.title)
+
+          self.firmInfor.id = data.id;
+          self.firmInfor.name = data.title;
+          self.firmInfor.src = path + data.img;
+          self.firmInfor.tel = data.mobile;
+          self.firmInfor.email = data.email;
+          self.firmInfor.link = data.web_url;
+          self.firmInfor.address = data.register_address;
+
+          if(data['is_gz'] != undefined){
+            if(data['is_gz'] == 0){
+              self.isCollect = false;
+            }
+            else{
+              self.isCollect = true;
+            }
+          }
+
+          self.$forceUpdate()
+
+          //
+          var sub = self.$refs.firmDetailSub;
+          if(sub.loadData){
+            sub.loadData();
+          }
+
+        })
+      }
+    },
+
     components:{
       mainHeader,
       mainNav,
       recommend
+    },
+    watch: {
+      '$route' (to, from) {
+        // react to route changes...
+        console.log(""+to.path+" "+to.params.id)
+
+        console.log(""+from.path+" "+from.params.id)
+
+        if(to.params.id != from.params.id){
+
+
+
+          this.id = to.params.id;
+          this.downloadDetail();
+
+          //滚动到顶部
+          window.scrollTo(0,0);
+        }
+      }
     }
   }
 </script>

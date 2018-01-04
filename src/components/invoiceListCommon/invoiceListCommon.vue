@@ -9,19 +9,21 @@
         <th width="130" class="text_center">详情</th>
         <th width="110" class="text_center">操作</th>
       </tr>
-      <tr>
-        <td>3223432323424224</td>
-        <td>服务项目名称</td>
-        <td>丁坚</td>
-        <td class="money">￥200.00</td>
+      <tr v-for="item in invoiceList">
+        <td>{{item.order_id}}</td>
+        <td>{{item.order.servar_area}}</td>
+        <td>{{item.order.buy_user_id}}</td>
+        <td class="money">￥{{item.order.price}}</td>
         <td>
-          <router-link :to="{name:'companyManageInvoiceDetails'}" class="invoice_details">详情</router-link>
+          <router-link :to="{path:'/manage/companyManage/companyManageInvoice/companyManageInvoiceDetails/'+item.id}" class="invoice_details">详情</router-link>
         </td>
         <td>
-          <router-link :to="{name:'companyManageInvoicePost'}" class="apply_invoice">邮寄发票</router-link>
+          <router-link :to="{path:'/manage/companyManage/companyManageInvoice/companyManageInvoiceDetails/'+item.id}" class="apply_invoice">邮寄发票</router-link>
+          
+          <!-- <router-link :to="{name:'companyManageInvoicePost'}" class="apply_invoice">邮寄发票</router-link> -->
         </td>
       </tr>
-      <tr>
+      <!-- <tr>
         <td>3223432323424224</td>
         <td>服务项目名称</td>
         <td>丁坚</td>
@@ -32,13 +34,33 @@
         <td>
           <span>已邮寄</span>
         </td>
-      </tr>
+      </tr> -->
     </table>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  export default {
+    props:['list'],
+    data(){
+      return {
+        invoiceList:[]
+      }
+    },
+    created(){
+      if(this.list != undefined){
+        this.invoiceList = this.list;
+      }
+      
+    },
+    watch:{
+      'list':function(){
+        if(this.list != undefined){
+          this.invoiceList = this.list;
+        }
+      }
+    }
+  }
 </script>
 
 <style media="screen">

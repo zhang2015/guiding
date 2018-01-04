@@ -24,7 +24,7 @@
           {
             name: '消息中心',
             pathname: 'myMessage',
-            iconclass: 'icon-heart'
+            iconclass: 'icon-comment'
           },
           {
             name: '我的收藏',
@@ -52,7 +52,7 @@
             iconclass: 'icon-set'
           },
           {
-            name: '注销账号',
+            name: '安全退出',
             pathname: 'logout',
             iconclass: 'icon-exit'
           }

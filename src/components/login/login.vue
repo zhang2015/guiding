@@ -26,9 +26,11 @@ export default {
     height: 570px;
     justify-content: flex-end;
     align-items: center;
-    background-image: url(./image/loginbg.png); 
-    background-position: 250px center;
+    background-image: url(image/login-img.png);
+    background-image: -webkit-image-set(url(image/login-img.png) 1x, url(image/login-img@2x.png) 2x);
+    background-position: 100px center;
     background-repeat: no-repeat;
+    background-size: 428px 445px
 }
 
 .login_box {

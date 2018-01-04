@@ -9,17 +9,17 @@
         <th width="130" class="text_center">状态</th>
         <th width="110" class="text_center">操作</th>
       </tr>
-      <tr>
-        <td>3223432323424224</td>
-        <td>服务项目名称</td>
-        <td>服务公司名称服务公司名称</td>
-        <td class="money">￥200.00</td>
-        <td>服务未结束</td>
+      <tr v-for="item in showInvoiceList">
+        <td>{{item.order.order_no}}</td>
+        <td>{{item.order.servar_area}}</td>
+        <td>{{item.company.name}}</td>
+        <td class="money">￥{{item.order.price}}</td>
+        <td>{{invoice_status[item.status]}}</td>
         <td>
-          <router-link :to="{name:'InvoiceApply'}" class="apply_invoice">申请开票</router-link>
+          <router-link :to="{name:'InvoiceApply',params:{id:item.id}}" class="apply_invoice">申请开票</router-link>
         </td>
       </tr>
-      <tr>
+      <!-- <tr>
         <td>3223432323424224</td>
         <td>服务项目名称</td>
         <td>服务公司名称服务公司名称</td>
@@ -28,13 +28,29 @@
         <td>
           <router-link :to="{name:'InvoiceDetails'}" class="invoice_details">详情</router-link>
         </td>
-      </tr>
+      </tr> -->
     </table>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  export default {
+    props:['list'],
+    data(){
+      return{
+        invoice_status:invoice_status,
+        showInvoiceList:[]
+      }
+    },
+    created(){
+      this.showInvoiceList = this.list;
+    },
+    watch:{
+      'list':function(){
+        this.showInvoiceList = this.list;
+      }
+    }
+  }
 </script>
 
 <style media="screen">

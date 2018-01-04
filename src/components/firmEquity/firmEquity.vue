@@ -1,40 +1,89 @@
 <template>
   <div class="firm_detail_content">
-    <a class="firm_label">商标信息 20</a><a class="firm_label">专利信息 20</a><a class="firm_label">版权信息 20</a>
+    <a class="firm_label">抵押贷款 {{mortgage.length}}</a>
+    <a class="firm_label">商标信息 {{brandList.length}}</a>
+    <a class="firm_label">专利信息 {{patent.length}}</a>
+    <a class="firm_label">著作权 {{copyright.length}}</a>
+    <a class="firm_label">软件著作权 {{software.length}}</a>
+    
     <div class="table_head">
       <section>
-        <span>商标列表</span>
-        <span>31</span>
+        <span>质押贷款</span>
+        <span>{{mortgage.length}}</span>
       </section>
       <section>
-        <select>
+        <!-- <select>
           <option value="1">评估目的</option>
         </select>
         <select>
           <option value="1">评估日期</option>
-        </select>
+        </select> -->
       </section>
     </div>
     <div class="table_box">
       <table>
         <tr>
+          <th width="45">序号</th>
+          <th width="200">质权人</th>
+          <th width="125">出质人</th>
+          <th  style="word-break:break-all;">质押标的</th>
+          <th width="144">质押期限</th>
+          <th width="144">质押结束</th>
+          <!-- <th width="68">操作</th> -->
+        </tr>
+        <tr v-for="(item,index) in mortgage">
+          <td>{{index+1}}</td>
+          <td>{{item.zhiquanren}}</td>
+          <td>{{item.chuzhiren}}</td>
+          <td width="185" style="word-break:break-all; padding:10px">{{item.zhiyabiaodi}}</td>
+          <td>{{item.evaluate_date}}</td>
+          <td>{{item.end_time}}</td>
+          <!-- <td>
+            <a>详情</a>
+          </td> -->
+        </tr>
+      </table>
+    </div>
+
+
+    <div class="table_head">
+      <section>
+        <span>商标列表</span>
+        <span>{{brandList.length}}</span>
+      </section>
+      <section>
+        <!-- <select>
+          <option value="1">评估目的</option>
+        </select>
+        <select>
+          <option value="1">评估日期</option>
+        </select> -->
+      </section>
+    </div>
+    <div class="table_box">
+      <table>
+        <tr>
+          <th width="65">序号</th>
           <th width="120">商标</th>
           <th width="140">商品名</th>
-          <th width="150">评估目的</th>
-          <th width="148">评估价值</th>
-          <th width="144">评估日期</th>
-          <th width="143">截止日期</th>
+          <th width="150">类别</th>
+          <th width="148">注册号</th>
+          <th width="144">代理机构</th>
+          <th width="143">法律状态</th>
+          <th width="143">申请日期</th>
           <th width="68">操作</th>
         </tr>
-        <tr v-for="item in brandList">
+        <tr v-for="(item,index) in brandList">
+          <td>{{index+1}}</td>
           <td>
-            <img :src="item.icon">
+            <img :src="path+item.img">
           </td>
-          <td>{{item.name}}</td>
-          <td>{{item.aim}}</td>
-          <td>{{item.cost}}</td>
-          <td>{{item.startime}}</td>
-          <td>{{item.stoptime}}</td>
+          <td>{{item.title}}</td>
+          <td>{{item.trade_mark_type}}</td>
+          <td>{{item.register_code}}</td>
+          <td>{{item.agency}}</td>
+          <td>{{item.law_type}}</td>
+          <td>{{item.evaluate_end_time}}</td>
           <td>
             <a>详情</a>
           </td>
@@ -45,10 +94,10 @@
     <div class="table_head">
       <section>
         <span>专利信息</span>
-        <span>31</span>
+        <span>{{patent.length}}</span>
       </section>
       <section>
-        <select>
+        <!-- <select>
           <option value="1">专利类型</option>
         </select>
         <select>
@@ -56,7 +105,7 @@
         </select>
         <select>
           <option value="1">评估日期</option>
-        </select>
+        </select> -->
       </section>
     </div>
     <div class="table_box">
@@ -65,20 +114,18 @@
           <th width="65">序号</th>
           <th width="100">专利类型</th>
           <th width="181">专利名称</th>
-          <th width="125">评估目的</th>
-          <th width="105">评估价值</th>
-          <th width="144">评估日期</th>
-          <th width="125">截止日期</th>
+          <th width="125">申请号</th>
+          <th width="105">代理机构</th>
+          <th width="144">申请日期</th>
           <th width="68">操作</th>
         </tr>
-        <tr>
-          <td>1</td>
-          <td>发明公布</td>
-          <td>F10</td>
-          <td>出资</td>
-          <td>￥20万</td>
-          <td>2017-02-10</td>
-          <td>2017-02-10</td>
+        <tr v-for="(item,index) in patent">
+          <td>{{index+1}}</td>
+          <td>{{patent_type[item.patent_type]}}</td>
+          <td>{{item.title}}</td>
+          <td>{{item.apply_code}}</td>
+          <td>{{item.agency}}</td>
+          <td>{{item.evaluate_date}}</td>
           <td>
             <a>详情</a>
           </td>
@@ -88,51 +135,150 @@
 <!---->
     <div class="table_head">
       <section>
-        <span>版权信息</span>
-        <span>31</span>
+        <span>著作权信息</span>
+        <span>{{copyright.length}}</span>
       </section>
       <section>
-        <select>
+        <!-- <select>
           <option value="1">评估目的</option>
         </select>
         <select>
           <option value="1">评估日期</option>
-        </select>
+        </select> -->
       </section>
     </div>
     <div class="table_box">
       <table>
         <tr>
           <th width="65">序号</th>
-          <th width="284">专利名称</th>
-          <th width="125">评估目的</th>
-          <th width="105">评估价值</th>
-          <th width="144">评估日期</th>
-          <th width="124">截止日期</th>
+          <th width="284">著作权名称</th>
+          <th width="125">登记类型</th>
+          <th width="105">登记号</th>
+          <th width="144">登记日期</th>
           <th width="68">操作</th>
         </tr>
-        <tr>
-          <td>1</td>
-          <td>F10</td>
-          <td>出资</td>
-          <td>￥20万</td>
-          <td>2017-02-10</td>
-          <td>2017-02-10</td>
+        <tr v-for="(item,index) in copyright">
+          <td>{{index+1}}</td>
+          <td>{{item.title}}</td>
+          <td>{{register_type[item.register_type]}}</td>
+          <td>{{item.register_code}}</td>
+          <td>{{item.end_date}}</td>
           <td>
             <a>详情</a>
           </td>
         </tr>
       </table>
     </div>
+
+  <div class="table_head">
+      <section>
+        <span>软件著作权信息</span>
+        <span>{{software.length}}</span>
+      </section>
+      <section>
+        <!-- <select>
+          <option value="1">评估目的</option>
+        </select>
+        <select>
+          <option value="1">评估日期</option>
+        </select> -->
+      </section>
+    </div>
+    <div class="table_box">
+      <table>
+        <tr>
+          <th width="65">序号</th>
+          <th width="284">著作权名称</th>
+          <th width="125">版本号</th>
+          <th width="105">分类号</th>
+          <th width="144">登记日期</th>
+          <th width="68">操作</th>
+        </tr>
+        <tr v-for="(item,index) in software">
+          <td>{{index+1}}</td>
+          <td>{{item.title}}</td>
+          <td>{{item.version_code}}</td>
+          <td>{{item.cate_code}}</td>
+          <td>{{item.end_date}}</td>
+          <td>
+            <a>详情</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
+
+    created(){
+        //获取到了上级组件了
+        //console.log("equity="+JSON.stringify(this.$parent.$data));
+
+        this.loadData();
+
+        this.downloadTypeData();
+    },
+    methods:{
+      dealTime(){
+
+      },
+      downloadTypeData:function(){
+
+        var url = path+'/index/enterprise/enterprise-conf'
+        this.$http.get(url).then(function(r){
+            this.register_type = r.data.register_type
+            this.evaluate_type = r.data.evaluate_type
+            this.patent_type = r.data.patent_type
+        })
+
+      },
+      loadData:function(){
+        console.log("loadData")
+        var info = this.$parent.$data.info;
+
+        
+        //商标
+          this.brandList = info.trademark?info.trademark:[];
+
+          //专利
+          this.patent = info.patent?info.patent:[];
+
+          //copyright
+          this.copyright = info.copyright?info.copyright:[];
+
+          //software
+          this.software = info.software?info.software:[];
+
+          //mortgage
+          this.mortgage = info.mortgage?info.mortgage:[];
+        
+
+
+      }
+    },
+
     data(){
       return{
+
         id:this.$route.params.id,
+        path:path,
+
+        register_type:{},
+        evaluate_type:{},
+        patent_type:{},
+
+        //5个列表
+        mortgage:[],
+        patent:[],
+        copyright:[],
+        software:[],
         brandList:[
+
+        /*
           {
             name:'F10',
             id:'1',
@@ -186,7 +332,7 @@
             cost:'￥20万',
             startime:'2017-02-12',
             stoptime:'2017-12-21'
-          }
+          }*/
         ]
       }
     },

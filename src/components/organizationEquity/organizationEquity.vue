@@ -1,7 +1,16 @@
 <template>
   <div class="record_list">
     <ul>
-      <li>
+      <li v-for="item in list">
+        <div>
+          <img :src="path+item.buy_company_img">
+          {{item.buy_company_name}}
+          <span>购买了</span>
+          服务项目一          
+        </div>
+        <span>{{item.created_at}}</span>
+      </li>
+      <!-- <li>
         <div>
           <img src="http://www.cycling-update.info/uploads/_project/2016BrandVoting_/Fuji_Logo.jpg">
           公司名称
@@ -18,16 +27,7 @@
           服务项目一          
         </div>
         <span>2017-09-10</span>
-      </li>
-      <li>
-        <div>
-          <img src="http://www.cycling-update.info/uploads/_project/2016BrandVoting_/Fuji_Logo.jpg">
-          公司名称
-          <span>购买了</span>
-          服务项目一          
-        </div>
-        <span>2017-09-10</span>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>
@@ -36,9 +36,24 @@
   export default {
     data(){
       return{
-        
+        list: '',
       }
     },
+    props:[
+      'orderdata'
+    ],
+    created:function(){
+      this.init();
+    },
+    methods: {
+      init: function () {
+        var _this = this
+        function content(){
+          _this.list = _this.orderdata
+        }
+        setTimeout(content,1000)
+      }
+    }
   }
 </script>
 

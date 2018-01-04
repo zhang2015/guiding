@@ -43,19 +43,29 @@
     padding-left: 20px;
     color: #898989;
     font-size: 14px;
+
+    flex-wrap: wrap;
   }
+
+
+
   .company_selet_box section p{
     width: 90px;
+
   }
   .company_selet_box section span{
     height: 22px;
     line-height: 22px;
     padding: 0 9px;
     cursor: pointer;
+      transition: .3s;
   }
+    .company_selet_box section span:hover{
+        color: #0484FF
+    }
   .company_selet_box section span.active{
     border-radius: 4px;
-    background: #6398ed;
+    background: #0484FF;
     color: #fff;
   }
   .company_list_box{

@@ -8,10 +8,10 @@
         <th width="186" class="text_center">服务价格</th>
       </tr>
       <tr>
-        <td class="text_left">3223432323424224</td>
-        <td class="text_left">服务项目名称</td>
-        <td class="text_left">四川贵鼎知识产权服务有限公司</td>
-        <td class="money">￥200.00</td>
+        <td class="text_left">{{result.order?result.order.order_no:''}}</td>
+        <td class="text_left">{{result.order?result.order.servar_area:''}}</td>
+        <td class="text_left">{{result.company?result.company.name:''}}</td>
+        <td class="money">￥{{result.order?result.order.price:''}}</td>
       </tr>
     </table>
     <p class="title_invoice">发票信息</p>
@@ -19,44 +19,54 @@
       <li>
         <p>发票类型</p>
         <section>
-          <span v-for="item in types" :key=item class="types" :class="{'active': typesValue=== item.value}" @click="types_tab(item.value)">{{item.name}}</span>
+          <span v-for="(item,index) in types" :key=index class="types" :class="{'active': typesValue=== item.value}" @click="types_tab(item.value)">{{item.name}}</span>
         </section>
       </li>
       <li>
         <p>发票抬头</p>
-        <input type="text" placeholder="请输入发票抬头">
+        <input v-model="invoice_header" type="text" placeholder="请输入发票抬头">
       </li>
       <li class="upload">
         <p>税务登记证号</p>
         <section>
-          <input type="text" placeholder="请填写15到20位有效税务登记证号码">
+          <input v-model="registration_no" type="text" placeholder="请填写15到20位有效税务登记证号码">
           <p class="des_1">请与贵公司财务人员核实后，填写准确的税务登记证号或三证合一号或五证合一号，以免影响发票后续的使用</p>
         </section>
       </li>
       <li>
         <p>开户银行</p>
-        <input type="text" placeholder="开户行及支行，例：招商银行南油支行">
+        <input v-model="bank_name" type="text" placeholder="开户行及支行，例：招商银行南油支行">
       </li>
       <li>
         <p>开户账号</p>
-        <input type="text" placeholder="请填写贵公司开户许可登记银行账号">
+        <input v-model="bank_num" type="text" placeholder="请填写贵公司开户许可登记银行账号">
       </li>
       <li>
         <p>注册场所地址</p>
-        <input type="text" placeholder="请填写税务登记证上的地址">
+        <input v-model="adress" type="text" placeholder="请填写税务登记证上的地址">
       </li>
       <li>
         <p>公司注册电话</p>
-        <input type="text" placeholder="请填写公司注册电话">
+        <input v-model="mobile" type="text" placeholder="请填写公司注册电话">
       </li>
       <li class="upload">
         <p>税务登记扫描件</p>
-        <img src="../../assets/uploadimg.png">
+        <img :src="shuiwu_img">
+        <div class="file-select-box">
+          <input id="shuiwu" class="shuiwu_img" type="file" 
+            @change="uploadImageChange('shuiwu')">
+        </div>
+        
         <span>请上传税务登记扫描件或三证合一或五证合一的证照扫描件（复印件需加盖公章）</span>
+        
       </li>
       <li class="upload">
         <p>一般纳税人证明扫描件</p>
-        <img src="../../assets/uploadimg.png">
+        <img :src="saomiao_img">
+        <div class="file-select-box">
+          <input id="saomiao" class="saomiao_img" type="file"
+            @change="uploadImageChange('saomiao')">
+        </div>
       </li>
     </ul>
     <p class="title_invoice">收件地址</p>
@@ -69,7 +79,7 @@
       <span class="change_address">更换地址</span>
     </p>
     <div class="common_btn_box invoiceapply_btn_box">
-      <span class="submit_btn invoiceapply_submit_btn">提交</span>
+      <span class="submit_btn invoiceapply_submit_btn" @click="dealSendInvoice">提交</span>
       <span class="cancel_btn invoiceapply_cancel_btn">取消</span>
     </div>
   </div>
@@ -92,13 +102,103 @@
             name: '企业增值税专用发票',
             value: '3'
           }
-        ]
+        ],
+
+        result:{},
+        address:{},
+
+        //发票信息
+        invoice_type:"1",
+        invoice_header:"2",
+        registration_no:"3",
+        bank_name:"4",
+        bank_num:"5",
+        adress:"6",
+        mobile:"7",
+        shuiwu_img:require("../../assets/uploadimg.png"),
+        saomiao_img:require("../../assets/uploadimg.png"),
+        address_id:"10",
+
+        shuiwu_img_file:"",
+        saomiao_img_file:""
+
       }
     },
     methods:{
+      dealSendInvoice:function(){
+        //alert("提交")
+
+        /*
+        var url = path + "/index/invoice/add-invoice";
+        var dict = {
+          user_id:this.userId,
+          id:this.$route.params.id,
+          invoice_type:this.invoice_type,
+          invoice_header:this.invoice_header,
+          registration_no:this.registration_no,
+          bank_name:this.bank_name,
+          bank_num:this.bank_num,
+          adress:this.adress,
+          mobile:this.mobile,
+          shuiwu_img:shuiwu_img_file,
+          saomiao_img:saomiao_img_file,
+          address_id:this.address_id
+        }
+        this.$http.post(url,dict,{"emulateJSON":true}).then(function(r){
+          var td = r.data;
+     
+        })
+        */
+
+      },
       types_tab:function(value){
         this.typesValue = value;
+      },
+      downloadDetail:function(){
+        // /index/invoice/show?id=11
+        var id = this.$route.params.id;
+
+        var url = path + "/index/invoice/show?id="+id;
+        this.$http.get(url).then(function(r){
+          var td = r.data;
+
+          this.result = td.result;
+
+          this.address = td.address;        
+        })
+      },
+      uploadImageChange:function(fileTagId){
+        //获取文件标签
+        var fileTag = document.getElementById(fileTagId);
+        
+        
+        //检测和获取文件路径
+        if(fileTag.files.length==0){
+          return ;
+        }
+        var uploadFile = fileTag.files[0];
+        var url = window.URL.createObjectURL(uploadFile);
+        console.log("url = "+url);
+        
+
+
+        //显示图片
+        if(fileTagId == 'shuiwu'){
+          this.shuiwu_img = url
+          this.shuiwu_img_file = uploadFile
+        }else{
+          this.saomiao_img = url;
+          this.saomiao_img_file = uploadFile
+        }
+        
+        
       }
+    },
+    created(){
+      loginStatus(this);
+
+      this.downloadDetail();
+      
     }
   }
 </script>
@@ -168,5 +268,18 @@
   span.change_address{
     color: #6389ed;
     cursor: pointer;
+  }
+
+  .file-select-box{
+    position:absolute;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    left:505px; 
+  }
+
+  .file-select-box input{
+    padding-bottom: 60px;
+    opacity: 0.1;
   }
 </style>

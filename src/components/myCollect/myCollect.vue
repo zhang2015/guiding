@@ -6,12 +6,18 @@
     </div>
     <div class="padding20">
       <router-view></router-view>
+      
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  import ZHPagination from '../ZHPagination/ZHPagination'
+  export default {
+    components:{
+      ZHPagination
+    }
+  }
 </script>
 
 <style media="screen">

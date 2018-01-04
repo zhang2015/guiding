@@ -1,7 +1,8 @@
 <template>
   <div class="firm_detail_content">
-    <div class="table_business">
-      <table>
+    
+    <div class="table_business" v-html="service_area">
+      <!-- <table>
         <tr>
           <td class="table_business_label" width="165">统计社会信用信息代码:</td>
           <td width="285">9111113293091229Q</td>
@@ -56,7 +57,7 @@
           <td class="table_business_label" width="165">经营范围:</td>
           <td colspan="3">小米商城是小米官方网站直营小米旗下所有产品，囊括小米手机系列小米6、小米5c、小米MIX，红米手机系列红米4X、红米Note 4X，智能硬件,配件及小米生活周边，同时为米粉提供客户服务及售后支持。小米商城是小米官方网站直营小米旗下所有产品，囊括小米手机系列小米6、小米5c、小米MIX，红米手机系列红米4X、红米Note 4X，智能硬件,配件及小米生活周边，同时为米粉提供客户服务及售后支持。小米商城是小米官方网站直营小米旗下所有产品，囊括小米手机系列小米6、小米5c、小米MIX，红米手机系列红米4X、红米Note 4X，智能硬件,配件及小米生活周边，同时为米粉提供客户服务及售后支持。小米商城是小米官方网站直营小米旗下所有产品，囊括小米手机系列小米6、小米5c、小米MIX，红米手机系列红米4X、红米Note 4X，智能硬件,配件及小米生活周边，同时为米粉提供客户服务及售后支持。</td>
         </tr>
-      </table>
+      </table> -->
     </div>
   </div>
 </template>
@@ -65,34 +66,39 @@
   export default {
     data(){
       return{
-        id:this.$route.params.id
+        service_area: '',
       }
+    },
+    props:[
+      'detaildata'
+    ],
+    created:function(){
+      //this.init();
+
+      var info = this.$parent.$data.info;
+
+      //this.init();
+      this.service_area = info.company.service_area;
+    },
+    methods: {
+      // init: function () {
+      //   var _this = this
+      //   function content(){
+      //     _this.content = _this.detaildata.content
+      //   }
+      //   setTimeout(content,1000)
+      // }
     }
   }
 </script>
 
 <style media="screen">
-  .table_business table tr td{
-    height: 48px;
-    vertical-align: middle;
-    text-align: left;
-    padding-left: 20px;
-    border: 1px solid #e5e7ed;
+  .table_business p{
     font-size: 14px;
     color: #898989;
+    line-height: 28px;
+    padding: 10px 0;
   }
-  .table_business table tr td.table_business_label{
-    background: #f9fafc;
-    font-size: 12px;
-    color: #616161;
-  }
-  .table_business table tr.last_table_business td{
-    padding: 20px;
-    line-height: 20px;
-  }
-  .table_business table tr.last_table_business td.table_business_label{
-    vertical-align: top;
-    padding-top: 20px;
-  }
+  
   
 </style>

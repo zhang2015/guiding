@@ -3,58 +3,58 @@
     <div class="table_business">
       <table>
         <tr>
-          <td class="table_business_label" width="165">统计社会信用信息代码:</td>
-          <td width="285">9111113293091229Q</td>
+          <td class="table_business_label" width="165">统一社会信用代码:</td>
+          <td width="285">{{company.world_code}}</td>
           <td class="table_business_label" width="135">注册号:</td>
-          <td width="330">110108012660422</td>
+          <td width="330">{{company.world_code}}</td>
         </tr>
         <tr>
           <td class="table_business_label" width="165">组织机构代码:</td>
-          <td width="285">55138508-2</td>
+          <td width="285">{{company.jsgou_code}}</td>
           <td class="table_business_label" width="135">经营状态:</td>
-          <td width="330">续费（在营、开业、在册）</td>
+          <td width="330">{{company.manage_status}}</td>
         </tr>
         <tr>
           <td class="table_business_label" width="165">法定代表人:</td>
-          <td width="285">雷军</td>
+          <td width="285">{{company.legal_person}}</td>
           <td class="table_business_label" width="135">注册资本:</td>
-          <td width="330">12999323万元人民币</td>
+          <td width="330">{{company.register_money}}</td>
         </tr>
         <tr>
           <td class="table_business_label" width="165">公司类型:</td>
-          <td width="285">有限责任公司（自然人投资或控股）</td>
+          <td width="285">{{company.type_str}}</td>
           <td class="table_business_label" width="135">成立日期:</td>
-          <td width="330">2010-02-03</td>
+          <td width="330">{{company.create_time}}</td>
         </tr>
         <tr>
           <td class="table_business_label" width="165">营业期限:</td>
-          <td width="285">2010-02-03 至 2030-02-02</td>
+          <td width="285">{{company.business_term}}</td>
           <td class="table_business_label" width="135">登记机关:</td>
-          <td width="330">海淀分局</td>
+          <td width="330">{{company.register_jiguan}}</td>
         </tr>
         <tr>
           <td class="table_business_label" width="165">核准日期:</td>
-          <td width="285">2016-10-20</td>
+          <td width="285">{{company.check_date}}</td>
           <td class="table_business_label" width="135">公司规模:</td>
-          <td width="330">-</td>
+          <td width="330">{{company.enterprise_scope}}</td>
         </tr>
         <tr>
           <td class="table_business_label" width="165">所属行业:</td>
-          <td width="285">科技推广和应用服务业</td>
+          <td width="285">{{company.category_id}}</td>
           <td class="table_business_label" width="135">英文名:</td>
-          <td width="330">Xiaomi Inc.</td>
+          <td width="330">{{company.english_title}}</td>
         </tr>
         <tr>
           <td class="table_business_label" width="165">曾用名:</td>
-          <td colspan="3">北京小米科技有限责任公司</td>
+          <td colspan="3">{{company.history_title}}</td>
         </tr>
         <tr>
           <td class="table_business_label" width="165">企业地址:</td>
-          <td colspan="3">北京市海淀区清河中街68号华润五彩城购物中心二期13层</td>
+          <td colspan="3">{{company.register_address}}</td>
         </tr>
         <tr class="last_table_business">
           <td class="table_business_label" width="165">经营范围:</td>
-          <td colspan="3">小米商城是小米官方网站直营小米旗下所有产品，囊括小米手机系列小米6、小米5c、小米MIX，红米手机系列红米4X、红米Note 4X，智能硬件,配件及小米生活周边，同时为米粉提供客户服务及售后支持。小米商城是小米官方网站直营小米旗下所有产品，囊括小米手机系列小米6、小米5c、小米MIX，红米手机系列红米4X、红米Note 4X，智能硬件,配件及小米生活周边，同时为米粉提供客户服务及售后支持。小米商城是小米官方网站直营小米旗下所有产品，囊括小米手机系列小米6、小米5c、小米MIX，红米手机系列红米4X、红米Note 4X，智能硬件,配件及小米生活周边，同时为米粉提供客户服务及售后支持。小米商城是小米官方网站直营小米旗下所有产品，囊括小米手机系列小米6、小米5c、小米MIX，红米手机系列红米4X、红米Note 4X，智能硬件,配件及小米生活周边，同时为米粉提供客户服务及售后支持。</td>
+          <td colspan="3">{{company.business_scope}}</td>
         </tr>
       </table>
     </div>
@@ -63,8 +63,44 @@
 
 <script type="text/ecmascript-6">
   export default {
+
+    created(){
+
+      var info = this.$parent.$data.info;
+
+      this.company = info;
+
+      /*
+      console.log(JSON.stringify(info))
+      this.world_code = info.company.world_code;
+      this.register_code = info.company.register_code;
+      this.jsgou_code = info.company.jsgou_code;
+
+      this.manage_status = info.company.manage_status;
+      this.legal_person = info.company.legal_person;
+      this.register_money = info.company.register_money;
+
+      this.type_str = info.company.manage_status;
+      this.create_time = info.company.manage_status;
+      this.business_term = info.company.manage_status;
+      this.register_jiguan = info.company.manage_status;
+      this.check_date = info.company.manage_status;
+      this.enterprise_scope = info.company.manage_status;
+      this.category_id = info.company.manage_status;
+      this.english_title = info.company.manage_status;
+      this.history_title = info.company.manage_status;
+      this.register_address = info.company.manage_status;
+      this.business_scope = info.company.manage_status;
+      */
+
+      //world_code
+    },
+
     data(){
       return{
+
+        company:{},
+
         id:this.$route.params.id
       }
     }

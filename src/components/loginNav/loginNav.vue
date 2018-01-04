@@ -2,12 +2,14 @@
 <div class="loginNav_wrapper">
   <div class="main_header main_wrapper">
     <p>
-      <img src="../../assets/logo.png" alt="">
+      <router-link to='/'>
+        <img src="../../assets/logo@2x.png" alt="" width="177">
+      </router-link>
     </p>
     <p class="main_unlogin">
       <span class="icon-user"></span>
-      <a>登录</a>
-      <a>注册</a>
+      <router-link to='/login'>登录</router-link>
+      <router-link to='/login/register'>注册</router-link>
     </p>
   </div>
 </div>
@@ -48,7 +50,7 @@
     height: 62px;
   }
   .loginNav_wrapper .main_header img{
-    width: 128px;
+    width: 162px;
     height: 45px;
   }
 </style>

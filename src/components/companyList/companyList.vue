@@ -1,7 +1,32 @@
 <template>
   <div>
     <ul class="my_company_list">
-      <li>
+      <li v-for="item in companyList">
+        <img :src="item.enterprise?path+item.enterprise.img:''">
+        <section>
+          <h1>
+            <a>
+              {{item.enterprise?item.enterprise.title:''}}
+            </a>
+            <span>
+              <span class="auditing">{{item?company_status[item.status]:''}}</span>
+            </span>
+          </h1>
+          <p>
+            <span class="icon-tel"></span>
+            <span>电话:{{item.enterprise?item.enterprise.phone:''}}</span>
+            <span class="icon-message"></span>
+            <span>邮箱:{{item.enterprise?item.enterprise.email:''}}</span>
+            <span class="icon-globe"></span>
+            <span>网址:<a :href="item.enterprise?item.enterprise.web_url:''">{{item.enterprise?item.enterprise.web_url:''}}</a></span>
+          </p>
+          <p>
+            <span class="icon-compass"></span>
+            <span>地址:{{item.enterprise?item.enterprise.address:''}}</span>
+          </p>
+        </section>
+      </li>
+      <!-- <li>
         <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498370799390&di=813dd5f752726dfaf917a2f2ab1e6673&imgtype=0&src=http%3A%2F%2Fimgm.ph.126.net%2FgOGc6lK7LrDuZjSytmnylQ%3D%3D%2F1295347842840489363.png">
         <section>
           <h1>
@@ -9,7 +34,7 @@
               南京小米科技有限公司
             </a>
             <span>
-              <span class="auditing">认领审核中</span>
+              <span class="auditing">入驻审核中</span>
             </span>
           </h1>
           <p>
@@ -78,13 +103,45 @@
             <span>地址:北京市北京市北京市北京市北京市北京市北京市</span>
           </p>
         </section>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+
+  
+
+  export default {
+
+    data(){
+      return {
+        company_status:company_status,
+        path:path,
+        companyList:[]
+      }
+    },
+
+    props:['list'],
+
+    created(){
+      this.companyList = this.list;
+    },
+
+    //创建
+    created(){
+
+      //console.log("created");
+
+    },
+    watch:{
+      'list':function(){
+        this.companyList = this.list;
+      }
+    }
+
+
+  }
 </script>
 
 <style media="screen">

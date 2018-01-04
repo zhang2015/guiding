@@ -13,7 +13,7 @@
         <li>
           <p></p>
           <span class="submit_btn company_submit">提交</span>
-          <span class="cancel_btn invoice_cancel_btn">取消</span>
+          <span class="cancel_btn invoice_cancel_btn ml10">取消</span>
         </li>
       </ul>
   </div>
@@ -24,5 +24,10 @@
 </script>
 
 <style media="screen">
-
+  .company_submit{
+    flex-basis: 100px;
+  }
+  .invoice_cancel_btn{
+    flex-basis: 100px;
+  }
 </style>

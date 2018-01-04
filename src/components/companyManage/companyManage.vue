@@ -3,10 +3,12 @@
     <div class="manage_content_left">
       <div class="company_logo_box">
         <section>
-          <img src="http://pic.58pic.com/58pic/14/58/70/53g58PICj5h_1024.png">
+          <router-link to="/manage/companyManage/companyManageCompany">
+            <img :src="src">
+          </router-link >
           <span>更换logo</span>
         </section>
-        <p>四川贵鼎知识产权服务有限公司</p>
+        <p>{{company.name?company.name:''}}</p>
       </div>
       <commonNav :commonNavList='personalTabs'></commonNav>
     </div>
@@ -54,15 +56,42 @@
             iconclass: 'icon-wallet'
           },
           {
-            name: '注销账号',
+            name: '安全退出',
             pathname: 'companyManageLogout',
             iconclass: 'icon-exit'
           }
         ],
+
+        company:{},
+        path:path,
+        src:require('../../assets/default/qiye_com.png')
+
       }
     },
     components:{
       commonNav
+    },
+    created(){
+
+      loginStatus(this);
+
+      if(this.companyId){
+        this.requestOrganizationDetail();
+      }
+      
+
+    },
+    methods:{
+      requestOrganizationDetail:function(){
+
+        // /index/company/show
+        var url = path + "/index/company/show?company_id="+this.companyId;
+        this.$http.get(url).then(function(r){
+          var td = r.data;
+          this.company = td.company;
+          this.src = path + this.company.cover_img;
+        })
+      }
     }
   }
 </script>

@@ -2,7 +2,7 @@
   <div class="warpper">
     <vheader></vheader>
     <div class="warpper_content">
-      <router-view></router-view>
+      <router-view ref="pageContent"></router-view>
     </div>
     <vfooter></vfooter>
   </div>
@@ -17,7 +17,22 @@ export default {
   components: {
     vheader,
     vfooter
-  }
+  },
+  watch: {
+      '$route' (to, from) {
+
+        if (to.path == '/main') {
+
+          //document.body.style.background = '#f0f0f0';
+
+        }else{
+          //document.body.style.background = '#fff';
+        }
+
+        if(from.path == '/main'){
+        }
+      }
+    },
 }
 </script>
 

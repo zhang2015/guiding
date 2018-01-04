@@ -1,6 +1,13 @@
 <template>
   <div class="collect_list">
-    <section>
+    <section v-for="item in collectionList">
+      <img :src="item.company?path+item.company.cover_img:''">
+      <div>
+        <a :href="'#/organizationDetails/'+item.company_id">{{item.company?item.company.name:''}}</a>
+        <span @click="dealDelCollection(item.company_id)">取消收藏</span>
+      </div>
+    </section>
+    <!-- <section>
       <img src="http://file.hmting.com/data/attachment/forum/201411/08/174731xxymzkxkmvnok13z.jpg">
       <div>
         <a>四川贵鼎知识产权评估服务有限公司</a>
@@ -27,19 +34,60 @@
         <a>四川贵鼎知识产权评估服务有限公司</a>
         <span>取消收藏</span>
       </div>
-    </section>
-    <section>
-      <img src="http://file.hmting.com/data/attachment/forum/201411/08/174731xxymzkxkmvnok13z.jpg">
-      <div>
-        <a>四川贵鼎知识产权评估服务有限公司</a>
-        <span>取消收藏</span>
-      </div>
-    </section>
+    </section> -->
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  export default {
+    props:['list','type'],
+    data(){
+      return {
+        path:path,
+        collectionList:[]
+      }
+    },
+    methods:{
+      dealDelCollection:function(company_id){
+
+        if(this.type == "organization"){
+          var url = path + "/index/company/del-company-attention"
+          var dict = {
+            "user_id":this.userId,
+            "company_id":company_id
+          }
+          this.$http.post(url,dict,{"emulateJSON":true}).then(function(r){
+            var td = r.data;
+            if(td.status == 1){
+              alert("取消收藏成功");
+
+              var parent = this.$parent;
+              parent.downloadList();
+
+            }else{
+              alert("取消收藏失败: "+td.info);
+            }
+          })
+        }
+
+
+      }
+
+    },
+    created(){
+
+      loginStatus(this);
+
+      this.collectionList = this.list;
+      console.log(this.list)
+    },
+    watch:{
+      'list':function(){
+        this.collectionList = this.list;
+  
+      }
+    }
+  }
 </script>
 
 <style media="screen">

@@ -17,44 +17,60 @@
         <div class="address">
             <p>
                 <span class="icon-map-marker"></span>
-                <span>陈邓</span>
-                <span>收件地址收件地址收件地址收件地址收件地址收件地址</span>
+                <span>{{address.name?address.name:''}}</span>
+                <span>{{address.address?('三个id '+address.address):''}}</span>
             </p>
         </div>
         <div class="cartDetail_title">
             <span class="cartDetail_title_name">支付方式</span>
         </div>
         <div class="pay_way">
-            <img src="./images/alpay.png" />
-            <img src="./images/weixinpay.png" />
-            <img src="./images/caifu.png" />
+            
+            <img v-for="(item,index) in payTypeList" :class="{active:payType==item.id}" :src="item.src" @click="dealClickPayType(item.id)"/>
+            <!-- <img :class="{active:payType==0}" src="./images/alpay.png" />
+            <img :class="{active:payType==1}" src="./images/weixinpay.png" />
+            <img :class="{active:payType==2}" src="./images/caifu.png" /> -->
         </div>
         <div class="cartDetail_title">
             <span class="cartDetail_title_name">服务清单</span>
-            <span class="cartDetail_title_btn">返回修改购物车</span>
+            <span class="cartDetail_title_btn"><router-link to="/manage/cart/cartList">返回修改购物车</router-link></span>
         </div>
-        <p class="gongsiname">公司名称公司名称公司名称公司名称</p>
-        <ul class="cartlists">
-            <li>
-                <span>服务名称</span>
-                <span class="money">￥400.00</span>
-                <span class="mun">x2</span>
-            </li>
-            <li>
-                <span>服务名称</span>
-                <span class="money">￥400.00</span>
-                <span class="mun">x2</span>
-            </li>
-        </ul>
-        <div class="cartList_footer">
-            <span class="label">全选</span>
-            <div>
-                <span>已选中<i>2</i>项服务</span>
-                <span>总价：<i>￥400.00*50%</i></span>
-                <span>预付：<i>￥200.00</i></span>
-                <span class="go_pay">提交订单</span>
+
+
+        <div>
+
+            <div v-for="company in cart">
+                <p class="gongsiname">{{company.company_name}}</p>
+                <ul class="cartlists">
+                    <li v-for="service in company.cart">
+                        <span>{{service.service_name}}</span>
+                        <span class="money">￥{{service.price}}</span>
+                        <span class="mun">x{{service.num}}</span>
+                    </li>
+                    <!-- <li>
+                        <span>服务名称</span>
+                        <span class="money">￥400.00</span>
+                        <span class="mun">x2</span>
+                    </li> -->
+                </ul>
             </div>
+            <div class="cartList_footer">
+                <span class="label">全选</span>
+                <div>
+                    <span>已选中 <i>{{getAllCount}} </i>项服务</span>
+                    <span>总价：<i>￥{{getAllPrice}}</i></span>
+                    <span>预付：<i>￥{{getAllPrice*0.5}}</i></span>
+                    <!-- <router-link to="/manage/cart/cartSuccess"> <span class="go_pay" @click="dealGoPay"> 提交订单</span></router-link> -->
+                    <span class="go_pay" @click="dealMakeOrder"> 提交订单</span>
+                </div>
+            </div>
+            
         </div>
+
+      
+
+        
+        
    </div>
 </template>
 
@@ -62,11 +78,228 @@
 export default {
     data() {
         return {
+            payTypeList:[
+                {
+                    id:1,
+                    src:require("./images/alpay.png")
+                },{
+                    id:2,
+                    src:require("./images/weixinpay.png")
+                },{
+                    id:3,
+                    src:require("./images/caifu.png")
+                }
+            ],
+            payType:1,
+
+            //页面状态: 
+            pageType:"",
+
+            cart:{},
+            address:{},
+
+            orderResult:{},
+
+            buyNowData:{}
+
             
         }
     },
     methods: {
+
+        downloadBuyNowData:function(){
+
+            var service_id = this.$route.query.service_id;
+            var num = this.$route.query.num;
+
+            var url = path + "/index/cart/buy-now";
+            var dict = {
+                service_id:service_id,
+                num:num
+            }
+            this.$http.get(url,{params:dict}).then(function(r){
+                var td = r.data;
+                console.log(td)
+                this.buyNowData = td;
+            })
+
+        },
         
+        dealMakeOrder:function(){
+            console.log("dealMakeOrder")
+
+            // /index/cart/make-order
+
+            
+            //发送添加到购物车的请求
+            var url = path + "/index/cart/make-order";
+            var dict = {
+              user_id:this.userId,
+              address_id:this.address.id,
+              pay_type:this.payType
+            }
+            this.$http.post(url,dict,{"emulateJSON":true}).then(function(r){
+              var td = r.data;
+              if(td.status == 1){
+                console.log("创建订单成功, 跳转到订单结果界面");
+
+
+                this.orderResult = td;
+
+                this.$router.push({path:"/manage/cart/orderResult/",query:{order_code:this.orderResult.order_code}})
+
+                
+                /*
+
+                
+
+
+                var url = "http://api.chinashouzhi.com/index/alipay/index-per?order_code="+this.orderResult.order_code
+                console.log("url = "+url);
+
+                this.payUrl = url;
+
+                this.showBoxStatus = 'orderSuccess';
+
+                //获取订单预付款
+                this.dealPayPre();
+
+                */
+
+              }else{
+                this.showBoxStatus = 'orderFail';
+              }
+            })
+            
+
+            
+
+        },
+
+        dealPayPre:function(){
+            console.log("dealGoPay")
+
+            // /index/cart/make-order
+
+            
+            //发送添加到购物车的请求
+            var url = path + "/index/cart/order-per-pay";
+            var dict = {
+              user_id:this.userId,
+              order_code:this.orderResult.order_code
+            }
+            this.$http.get(url,{params:dict}).then(function(r){
+              var td = r.data;
+                //alert("成功获取预付款");
+
+                console.log("td V")
+                console.log(td);
+
+                
+
+                
+  
+                /*
+                var r = confirm("跳转到支付界面?");
+                if(r){
+                    console.log("open")
+
+                    //不能直接跳转, 直接跳转有问题
+                    //location.href = url;
+                }*/
+
+            })
+            
+
+            
+
+        },
+
+        //发起支付
+
+        dealClickPayType:function(id){
+            this.payType = id;
+        },
+        downloadDefaultAddress:function(){
+            var url = path + "/index/cart/default-address?user_id="+this.userId;
+            this.$http.get(url).then(function(r){
+                var td = r.data;
+                this.address = td.address;
+                //console.log("add="+JSON.stringify(this.address))
+            })
+        },
+        downloadCartData:function(){
+            //获取选择的商品列表
+            var url = path + "/index/cart/buy-this?user_id="+this.userId;
+            this.$http.get(url).then(function(r){
+                var td = r.data;
+                this.cart = td;
+            })
+        }
+    },
+    created(){
+
+        loginStatus(this);
+
+        this.downloadDefaultAddress();
+        
+
+
+        if(this.$route.query.type != undefined){
+            console.log("buy now--")
+            this.pageType = "buyNow"
+            this.downloadBuyNowData();
+        }else{
+            console.log("cart")
+            
+
+            this.pageType = "cart"
+            this.downloadCartData();
+        }
+        
+
+    },
+    computed:{
+
+        
+
+        getAllCount:function(){
+
+            var count = 0;
+            for(var k in this.cart){
+                var subject = this.cart[k];
+                
+                for(var serviceIndex in subject.cart){
+                    var service = subject.cart[serviceIndex];
+
+                    count++;
+
+                }
+            }
+            //this.allCount = count;
+            //console.log("cunt = "+count);
+            return count;
+        },
+        getAllPrice:function(){
+
+            var price = 0;
+            for(var k in this.cart){
+                var subject = this.cart[k];
+                
+                for(var serviceIndex in subject.cart){
+                    var service = subject.cart[serviceIndex];
+
+                    
+                    price += service.price*service.num;
+                    
+
+                }
+            }
+            //this.allPrice = price;
+            return price;
+
+        }
+
     }
 }
 </script>
@@ -91,7 +324,7 @@ export default {
     font-weight: bold;
     color: #616161;
 }
-.cartDetail_title_btn{
+.cartDetail_title_btn a{
     color:#8aaff1;
 }
 .address{
@@ -168,4 +401,12 @@ span.go_pay{
         background: #6398ed;
         color: #ffffff;
     }
+
+.pay_way>.active{
+    border: 1px solid #559CF1;
+}
+
+
+
+
 </style>

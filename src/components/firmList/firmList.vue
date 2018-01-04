@@ -2,26 +2,58 @@
   <div>
     <ul class="firm_list">
       <li v-for="item in firmList">
-        <img :src="item.logoicon">
+        <img :src="dealImg(item.img)">
         <section>
-          <router-link :to="{name:'firmDetails',params:{id:item.id}}">{{item.name}}</router-link>
-          <span>企业法人：{{item.legal}}</span>
-          <span>联系方式：{{item.tel}}</span>
-          <span>地址：{{item.address}}</span>
+          <router-link :to="{name:'firmDetails',params:{id:item.id}}">{{item.title}}</router-link>
+          <span>企业法人：{{item.legal_person}}</span>
+          <span>联系方式：{{item.mobile}}</span>
+          <span>地址：{{item.register_address}}</span>
         </section>
-        <p>商标({{item.brand}})</p>
-        <p>专利({{item.patent}})</p>
-        <p>版权({{item.copyright}})</p>
+        <p>质押({{item.mortgage.length}})</p>
+        <p>商标({{item.copyright.length}})</p>
+        <p>专利({{item.patent.length}})</p>
+        <p>著作权({{item.trademark.length}})</p>
+        <p>软著({{item.software.length}})</p>
       </li>
     </ul>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+
+  
+
   export default {
+
+    created(){
+
+      
+
+    },
+    methods:{
+
+      showList:function(list){
+
+        //alert(list);
+        this.firmList = list;
+
+      },
+
+      dealImg:function(img){
+        return img && img!=''?path+img:require("../../assets/default/qiye_com.png")
+      }
+
+    },
+
+   
+
     data(){
       return{
-        firmList:[
+        path:path,
+
+        firmList:[],
+
+        firmListBack:[
           {
             name: '南京小米新材料科技有限公司1',
             legal: '卞国英',
@@ -105,7 +137,11 @@
     font-size: 16px;
     color: #616161;
     line-height: 32px;
+      transition: .3s;
   }
+    .firm_list li section a:hover{
+        color: #0584FF
+    }
   .firm_list li section span{
     display: block;
     font-size: 14px;
@@ -113,7 +149,7 @@
     line-height: 25px;
   }
   .firm_list li p{
-    width: 105px;
+    width: 80px;
     font-size: 14px;
     color: #b3b3b3;
     text-align: center;

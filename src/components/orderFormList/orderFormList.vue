@@ -1,28 +1,28 @@
 <template>
   <div>
     <ul>
-      <li class="order_form">
+      <li class="order_form" v-for="item in list">
         <section>
-          <span>2017-02-14 12:20:33 订单号:</span>
-          <span>12341245624</span>
+          <span>{{item.created_at}} 订单号:</span>
+          <span>{{item.order_no}}</span>
         </section>
         <section>
-          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498237151277&di=0c24d0bb103dfa9cedbf4bfb355ba637&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20150426%2Fmp12430345_1430031865711_1_th.jpeg" class="order_icon">
+          <img :src="path+item.sellcompany.cover_img" class="order_icon">
           <div>
-            <a>知识产权评估</a>
-            <span>四川贵鼎知识产权评估服务有限公司</span>
+            <a>{{item.servar_area}}</a>
+            <span>{{item.sellcompany.name}}</span>
           </div>
           <p>
-            <span>总额:￥400.00</span>
+            <span>总额:￥{{item.price}}</span>
           </p>
           <p>
-            <router-link :to="{ name: 'companyManageOrderDetail',params:{ orderId: 12}}">订单详情</router-link>
+            <router-link :to="{ name: 'orderPersonDetail',params:{ orderId: item.id}}">订单详情</router-link>
           </p>
           <p>
-            <span class="nopay">待支付</span>
+            <span class="nopay">{{order_status[item.order_status]}}</span>
           </p>
           <p>
-            <a class="topay">去支付</a>
+            <a class="topay" v-show="item.order_status == 0" :href="path + '/index/alipay/index-per?order_code='+item.order_code">去支付</a>
           </p>
         </section>
       </li>
@@ -31,7 +31,26 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  export default {
+    props:['list'],
+    data(){
+      return {
+        path:path,
+        order_status:order_status
+      }
+    },
+    created(){
+      console.log("list = "+this.list);
+    },
+    watch:{
+      'list':function(){
+        console.log("list change = "+this.list);
+      }
+    },
+    methods:{
+      
+    }
+  }
 </script>
 
 <style media="screen">

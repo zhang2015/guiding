@@ -5,12 +5,12 @@
            <div class="infor">
                <span class="font1">订单支付成功</span>
                <span class="font2">请等待对你进行服务</span>
-               <span class="font3">页面跳转中（6s）</span>
+               <!-- <span class="font3">页面跳转中（6s）</span> -->
            </div>
        </div>
        <div class="btns">
-           <a>返回个人中心</a>
-           <a>返回首页</a>
+           <a href="#/manage/personal/orderForm/orderFormAll">返回个人中心</a>
+           <a href="#/">返回首页</a>
        </div>
    </div>
 </template>

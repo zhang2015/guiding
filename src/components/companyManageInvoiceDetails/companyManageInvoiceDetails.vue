@@ -13,58 +13,58 @@
         <th width="275" class="text_center">发票状态</th>
       </tr>
       <tr>
-        <td>3223432323424224</td>
-        <td>服务项目名称</td>
-        <td>四川贵鼎知识产权服务有限公司</td>
-        <td class="money">￥200.00</td>
-        <td>已邮寄 顺丰快递 单号:4123412341234</td>
+        <td>{{result.order?result.order.order_no:''}}</td>
+        <td>{{result.order?result.order.servar_area:''}}</td>
+        <td>{{result.company?result.company.name:''}}</td>
+        <td class="money">￥{{result.order?result.order.price:''}}</td>
+        <td>{{(result.status != undefined)?invoice_status[result.status]:''}}</td>
       </tr>
     </table>
     <p class="title_invoice">发票信息</p>
     <ul class="manage_list_common manage_list_invoice">
       <li>
         <p>发票类型</p>
-        <span>企业增值税专用发票</span>
+        <span>{{result.invoice_type?invoice_type[result.invoice_type]:''}}</span>
       </li>
       <li>
         <p>发票抬头</p>
-        <span>丁老板</span>
+        <span>{{result.invoice_header?result.invoice_header:''}}</span>
       </li>
       <li>
         <p>税务登记证号</p>
-        <span>342342234234234234</span>
+        <span>{{result.registration_no?result.registration_no:''}}</span>
       </li>
       <li>
         <p>开户银行</p>
-        <span>招商银行城南支行</span>
+        <span>{{result.bank_name?result.bank_name:''}}</span>
       </li>
       <li>
         <p>开户账号</p>
-        <span>6226123112311231111</span>
+        <span>{{result.bank_num?result.bank_num:''}}</span>
       </li>
       <li>
         <p>注册场所地址</p>
-        <span>四川省成都市武侯区天府二街新希望国际B座1210</span>
+        <span>{{address.address?address.address:''}}</span>
       </li>
       <li>
         <p>公司注册电话</p>
-        <span>020-1231123</span>
+        <span>{{result.mobile?result.mobile:''}}</span>
       </li>
       <li class="upload">
         <p>税务登记扫描件</p>
-        <img src="../../assets/uploadimg.png">
+        <img :src="shuiwu_img">
       </li>
       <li class="upload">
         <p>一般纳税人证明扫描件</p>
-        <img src="../../assets/uploadimg.png">
+        <img :src="saomiao_img">
       </li>
     </ul>
     <p class="title_invoice">收件地址</p>
     <p class="consignee_address">
       <span class="icon-map-marker"></span>
-      <span>陈邓</span>
-      <span>四川省成都市锦江区锦华路一段120号天府新谷2栋2单元2010</span>
-      <span>132****5220</span>
+      <span>{{address.user_id?address.user_id:''}}</span>
+      <span>{{address.province?address.province.name:''}} {{address.city?address.city.name:''}} {{address.area?address.area.name:''}} {{address.address?address.address:''}}</span>
+      <span>{{address.phone?address.phone:''}}</span>
     </p>
     <div class="common_btn_box invoice_btn_box">
       <span class="submit_btn invoice_submit_btn">邮寄发票</span>
@@ -75,7 +75,132 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  export default {
+    data(){
+      return{
+        typesValue: '1',
+        types:[
+          {
+            name: '个人增值税普通发票',
+            value: '1'
+          },{
+            name: '企业增值税普通发票',
+            value: '2'
+          },
+          {
+            name: '企业增值税专用发票',
+            value: '3'
+          }
+        ],
+
+        result:{},
+        address:{},
+
+        //发票信息
+        invoice_type:"1",
+        invoice_header:"2",
+        registration_no:"3",
+        bank_name:"4",
+        bank_num:"5",
+        adress:"6",
+        mobile:"7",
+        shuiwu_img:require("../../assets/uploadimg.png"),
+        saomiao_img:require("../../assets/uploadimg.png"),
+        address_id:"10",
+
+        shuiwu_img_file:"",
+        saomiao_img_file:"",
+
+        //获取全局
+        invoice_type:invoice_type,
+        invoice_status:invoice_status
+
+      }
+    },
+    methods:{
+      dealSendInvoice:function(){
+        //alert("提交")
+
+        /*
+        var url = path + "/index/invoice/add-invoice";
+        var dict = {
+          user_id:this.userId,
+          id:this.$route.params.id,
+          invoice_type:this.invoice_type,
+          invoice_header:this.invoice_header,
+          registration_no:this.registration_no,
+          bank_name:this.bank_name,
+          bank_num:this.bank_num,
+          adress:this.adress,
+          mobile:this.mobile,
+          shuiwu_img:shuiwu_img_file,
+          saomiao_img:saomiao_img_file,
+          address_id:this.address_id
+        }
+        this.$http.post(url,dict,{"emulateJSON":true}).then(function(r){
+          var td = r.data;
+     
+        })
+        */
+
+      },
+      types_tab:function(value){
+        this.typesValue = value;
+      },
+      downloadDetail:function(){
+        // /index/invoice/show?id=11
+        var id = this.$route.params.id;
+
+        var url = path + "/index/invoice/show?id="+id;
+        this.$http.get(url).then(function(r){
+          var td = r.data;
+
+          this.result = td.result;
+
+          this.address = td.address;        
+
+          if (this.result.shaomiao_img != '') {
+            this.saomiao_img = path + this.this.result.shaomiao_img;
+          }
+          if (this.result.shuiwu_img != '') {
+            this.shuiwu_img = path + this.this.result.shuiwu_img;
+          }
+        })
+      },
+      uploadImageChange:function(fileTagId){
+        //获取文件标签
+        var fileTag = document.getElementById(fileTagId);
+        
+        
+        //检测和获取文件路径
+        if(fileTag.files.length==0){
+          return ;
+        }
+        var uploadFile = fileTag.files[0];
+        var url = window.URL.createObjectURL(uploadFile);
+        console.log("url = "+url);
+        
+
+
+        //显示图片
+        if(fileTagId == 'shuiwu'){
+          this.shuiwu_img = url
+          this.shuiwu_img_file = uploadFile
+        }else{
+          this.saomiao_img = url;
+          this.saomiao_img_file = uploadFile
+        }
+        
+        
+      }
+    },
+    created(){
+      loginStatus(this);
+
+      this.downloadDetail();
+      
+    }
+  }
 </script>
 
 <style media="screen">

@@ -2,10 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import main from '../components/main/main'
 import index from '../components/index/index'
-import news from '../components/news/news'
 import about from '../components/about/about'
 import help from '../components/help/help'
 import manage from '../components/manage/manage'
+import company from '../components/company/company'
+import organization from '../components/organization/organization'
+
+
+//帮助相关文件
 import helpCentre from '../components/helpCentre/helpCentre'
 import helpPay from '../components/helpPay/helpPay'
 import helpCost from '../components/helpCost/helpCost'
@@ -14,26 +18,35 @@ import helpSecrecy from '../components/helpSecrecy/helpSecrecy'
 import helpAbout from '../components/helpAbout/helpAbout'
 import helpCall from '../components/helpCall/helpCall'
 import helpDetails from '../components/helpDetails/helpDetails'
+
+
+//新闻相关
+import news from '../components/news/news'
 import newsDetails from '../components/newsDetails/newsDetails'
-import company from '../components/company/company'
-import organization from '../components/organization/organization'
+
+
+
+//企业相关
 import firm from '../components/firm/firm'
 import firmDetails from '../components/firmDetails/firmDetails'
 import firmEquity from '../components/firmEquity/firmEquity'
 import firmIntro from '../components/firmIntro/firmIntro'
 import firmBusiness from '../components/firmBusiness/firmBusiness'
 
+//服务机构相关
 import organizationDetails from '../components/organizationDetails/organizationDetails'
 import organizationEquity from '../components/organizationEquity/organizationEquity'
 import organizationIntro from '../components/organizationIntro/organizationIntro'
 import organizationBusiness from '../components/organizationBusiness/organizationBusiness'
 import organizationTeam from '../components/organizationTeam/organizationTeam'
 
+//个人相关
 import personal from '../components/personal/personal'
 import orderForm from '../components/orderForm/orderForm'
 import orderFormAll from '../components/orderFormAll/orderFormAll'
 import orderFormPay from '../components/orderFormPay/orderFormPay'
 import orderFormFinish from '../components/orderFormFinish/orderFormFinish'
+import orderPersonDetail from '../components/orderPersonDetail/orderPersonDetail'
 import myCollect from '../components/myCollect/myCollect'
 import myCompany from '../components/myCompany/myCompany'
 import myMessage from '../components/myMessage/myMessage'
@@ -48,7 +61,13 @@ import myCompanyManage from '../components/myCompanyManage/myCompanyManage'
 import invoiceList from '../components/invoiceList/invoiceList'
 import settingAccount from '../components/settingAccount/settingAccount'
 import settingInfor from '../components/settingInfor/settingInfor'
+
+//入驻
 import applicationIn from '../components/applicationIn/applicationIn'
+import applicationInCompany from '../components/applicationInCompany/applicationInCompany'
+import applicationInCheck from '../components/applicationInCheck/applicationInCheck'
+
+//机构管理
 import companyManage from '../components/companyManage/companyManage'
 import companyManageOrder from '../components/companyManageOrder/companyManageOrder'
 import companyManageOrderDetail from '../components/companyManageOrderDetail/companyManageOrderDetail'
@@ -60,6 +79,7 @@ import companyManageOrderMail from '../components/companyManageOrderMail/company
 import companyManageOrderComplete from '../components/companyManageOrderComplete/companyManageOrderComplete'
 import companyManageOrderPayment from '../components/companyManageOrderPayment/companyManageOrderPayment'
 import companyManageSetting from '../components/companyManageSetting/companyManageSetting'
+import companyManageServiceEdit from '../components/companyManageSetting/companyManageServiceEdit'
 import companyManageCompany from '../components/companyManageCompany/companyManageCompany'
 import companyManageInvoice from '../components/companyManageInvoice/companyManageInvoice'
 import companyManageInvoiceAll from '../components/companyManageInvoiceAll/companyManageInvoiceAll'
@@ -80,14 +100,27 @@ import companyManageInvoiceDetails from '../components/companyManageInvoiceDetai
 import companyManageInvoicePost from '../components/companyManageInvoicePost/companyManageInvoicePost'
 import myCompanyClaim from '../components/myCompanyClaim/myCompanyClaim'
 import myCompanyClaimApply from '../components/myCompanyClaimApply/myCompanyClaimApply'
+import companyManageTeam from '../components/companyManageTeam/companyManageTeam'
+import companyManageTeamEdit from '../components/companyManageTeam/companyManageTeamEdit'
+
+
+
+//登录和注册-忘记密码
 import login from '../components/login/login'
 import log_in from '../components/login/log_in'
 import register from '../components/login/register'
 import forget from '../components/login/forget'
+
+//购物车和支付
 import cart from '../components/cart/cart'
 import cartList from '../components/cart/cartList'
 import cartDetail from '../components/cart/cartDetail'
 import cartSuccess from '../components/cart/cartSuccess'
+import orderResult from '../components/cart/orderResult'
+import buyNowDetail from '../components/cart/buyNowDetail'
+
+import apiTest from '../components/apiTest/apiTest'
+
 
 
 Vue.use(Router)
@@ -237,7 +270,7 @@ export default new Router({
             path: '/organizationDetails/:id',
             name: 'organizationDetails',
             component: organizationDetails,
-            redirect: '/organizationDetails/:id/organizationEquity',
+            redirect: '/organizationDetails/:id/organizationIntro',
             children: [{
                     path: '/organizationDetails/:id/organizationEquity',
                     name: 'organizationEquity',
@@ -290,7 +323,13 @@ export default new Router({
                                     name: 'orderFormFinish',
                                     component: orderFormFinish
                                 }
+                                
                             ]
+                        },
+                        {
+                            path: '/manage/personal/orderPersonDetail/',
+                            name: 'orderPersonDetail',
+                            component: orderPersonDetail
                         },
                         {
                             path: '/manage/personal/myCollect',
@@ -352,7 +391,7 @@ export default new Router({
                                     component: InvoiceDetails
                                 },
                                 {
-                                    path: '/manage/personal/invoiceManage/InvoiceApply',
+                                    path: '/manage/personal/invoiceManage/InvoiceApply/:id',
                                     name: 'InvoiceApply',
                                     component: InvoiceApply
                                 }
@@ -391,6 +430,14 @@ export default new Router({
                     path: '/manage/applicationIn',
                     name: 'applicationIn',
                     component: applicationIn
+                },{
+                    path: '/manage/applicationInCompany',
+                    name: 'applicationInCompany',
+                    component: applicationInCompany
+                },{
+                    path: '/manage/applicationInCheck',
+                    name: 'applicationInCheck',
+                    component: applicationInCheck
                 },
                 {
                     path: '/manage/companyManage',
@@ -448,6 +495,19 @@ export default new Router({
                             path: '/manage/companyManage/companyManageSetting',
                             name: 'companyManageSetting',
                             component: companyManageSetting
+                        },{
+                            path: '/manage/companyManage/companyManageServiceEdit',
+                            name: 'companyManageServiceEdit',
+                            component: companyManageServiceEdit
+                        },
+                        {
+                            path: '/manage/companyManage/companyManageTeam',
+                            name: 'companyManageTeam',
+                            component: companyManageTeam
+                        },{
+                            path: '/manage/companyManage/companyManageTeamEdit',
+                            name: 'companyManageTeamEdit',
+                            component: companyManageTeamEdit
                         },
                         {
                             path: '/manage/companyManage/companyManageCompany',
@@ -491,7 +551,29 @@ export default new Router({
                         {
                             path: '/manage/companyManage/companyManageApprove',
                             name: 'companyManageApprove',
-                            component: companyManageApprove
+                            component: companyManageApprove,
+                            redirect: '/manage/companyManage/companyManageApprove/companyManageApproveTable',
+                            children: [{
+                                    path: '/manage/companyManage/companyManageApprove/companyManageApproveTable',
+                                    name: 'companyManageApproveTable',
+                                    component: companyManageApproveTable
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageApprove/companyManageApproveBrand',
+                                    name: 'companyManageApproveBrand',
+                                    component: companyManageApproveBrand
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageApprove/companyManageApproveCompany',
+                                    name: 'companyManageApproveCompany',
+                                    component: companyManageApproveCompany
+                                },
+                                {
+                                    path: '/manage/companyManage/companyManageApprove/companyManageApprovePatent',
+                                    name: 'companyManageApprovePatent',
+                                    component: companyManageApprovePatent
+                                }
+                            ]
                         },
                         {
                             path: '/manage/companyManage/companyManageWallet',
@@ -526,15 +608,23 @@ export default new Router({
                             path: '/manage/cart/cartList',
                             name: 'cartList',
                             component: cartList
-                    },{
-                            path: '/manage/cart/cartDetail',
-                            name: 'cartDetail',
-                            component: cartDetail
-                    },{
-                            path: '/manage/cart/cartSuccess',
-                            name: 'cartSuccess',
-                            component: cartSuccess
-                    }
+                        },{
+                                path: '/manage/cart/cartDetail',
+                                name: 'cartDetail',
+                                component: cartDetail
+                        },{
+                                path: '/manage/cart/cartSuccess',
+                                name: 'cartSuccess',
+                                component: cartSuccess
+                        },{
+                                path: '/manage/cart/orderResult/',
+                                name: 'orderResult',
+                                component: orderResult
+                        },{
+                                path: '/manage/cart/buyNowDetail/',
+                                name: 'buyNowDetail',
+                                component: buyNowDetail
+                        }
                     ]
                 }
             ]
@@ -761,7 +851,7 @@ export default new Router({
                                     ]
                                 },
                                 {
-                                    path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceDetails',
+                                    path: '/manage/companyManage/companyManageInvoice/companyManageInvoiceDetails/:id',
                                     name: 'companyManageInvoiceDetails',
                                     component: companyManageInvoiceDetails
                                 },
@@ -842,6 +932,10 @@ export default new Router({
                     component: forget
                 }
             ]
+        },{
+            path:'/apiTest',
+            name:'apiTest',
+            component: apiTest
         }
     ]
 })

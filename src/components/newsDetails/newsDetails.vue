@@ -5,7 +5,7 @@
         <p class="news_details_title">{{title}}</p>
         <p class="news_details_subhead">
           <section>
-            来自于：<a v-bind:href='formLink' target="_blank">{{form}}</a><span>{{time}}</span>
+            来自于：<a v-bind:href='formLink' target="_blank">{{from}}</a><span>{{time}}</span>
           </section>
           <section>
             分享到：
@@ -42,13 +42,47 @@
       return{
         title:'深圳地铁筹划受让万科股权 卖家大概率是恒大',
         time:'2017-06-06 12:44',
-        form:'腾讯网',
+        from:'腾讯网',
         formLink:'http://www.qq.com',
-        content:'<p>一则语焉不详的公告，打破了沉寂已久的万科股权之争。深铁集团正筹划受让万科股权。证券时报·e公司记者从相关人士获悉，此次股权转让的卖家大概率是恒大！若是此次转让成功后，深铁持股比例或升至29.38%。</p><p>万科6月6日晚间公告，收到深圳市地铁集团有限公司的《通知函》，深铁集团正筹划受让公司股份的重大事项，具体细节尚未最终确定，且最终需按程序批准。万科A股自6月7日开市起停牌，停牌时间预计不超过5个交易日。</p><img src="http://img3.utuku.china.com/640x0/news/20170620/e614182f-6113-4626-84e0-b9d04c76aaf9.jpg" alt=""><p>万科6月6日晚间公告，收到深圳市地铁集团有限公司的《通知函》，深铁集团正筹划受让公司股的重大事项，具体细节尚未最终确定，且最终需按程序批准。万科A股自6月7日开市起停牌，停牌时间预计不超过5个交易日。</p>'
+        content:'',
+        id:"",
+      }
+    },
+    created(){
+      var id = this.$route.params.id;
+      this.id = id;
+      this.downloadDetail();
+    },
+    methods:{
+      downloadDetail:function(){
+
+        var url = path+"/index/cms/news-info?news_id="+this.id;
+        this.$http.get(url).then(function(r){
+          var trueData = r.data;
+          this.title = trueData.title;
+          this.time = trueData.created_at;
+          this.content = trueData.content;
+          this.from = trueData.from;
+
+        })
+
       }
     },
     components: {
       recommend
+    },
+    watch: {
+      '$route' (to, from) {
+        // react to route changes...
+        console.log(""+to.path+" "+to.params.id)
+
+        console.log(""+from.path+" "+from.params.id)
+
+        if(to.params.id != from.params.id){
+          this.id = to.params.id;
+          this.downloadDetail();
+        }
+      }
     }
   }
 </script>

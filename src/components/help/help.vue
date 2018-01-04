@@ -7,8 +7,12 @@
 
 <script type="text/ecmascript-6">
   import commonNav from '../commonNav/commonNav'
+  import request from '../../ajax/request.js'
 
   export default {
+    mounted(){
+  
+    },
     data(){
       return{
         helpTabs:[
@@ -45,7 +49,22 @@
     },
     components:{
       commonNav
+    },
+    methods:{
+
+      helpList(){
+
+        var _current = this;
+          request.helpCenter(function(response){
+
+              console.log("response = "+JSON.stringify(response));
+              
+
+          })
+      }
     }
+
+
   }
 </script>
 

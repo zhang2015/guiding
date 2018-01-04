@@ -8,6 +8,26 @@
 
 <script type="text/ecmascript-6">
   export default {
+
+    created(){
+
+      this.loadData();
+
+    },
+    methods:{
+      loadData:function(){
+
+        //获取上级组件的信息
+        var info = this.$parent.$data.info;
+        //console.log("content = "+JSON.stringify(info));
+        if(info.content != undefined){
+          //console.log("firm intro loadData");
+
+          this.content = info.content;
+        }
+      }
+    },
+
     data(){
       return{
         id:this.$route.params.id,
