@@ -7,34 +7,7 @@
         <span @click="dealDelCollection(item.company_id)">取消收藏</span>
       </div>
     </section>
-    <!-- <section>
-      <img src="http://file.hmting.com/data/attachment/forum/201411/08/174731xxymzkxkmvnok13z.jpg">
-      <div>
-        <a>四川贵鼎知识产权评估服务有限公司</a>
-        <span>取消收藏</span>
-      </div>
-    </section>
-    <section>
-      <img src="http://file.hmting.com/data/attachment/forum/201411/08/174731xxymzkxkmvnok13z.jpg">
-      <div>
-        <a>四川贵鼎知识产权评估服务有限公司</a>
-        <span>取消收藏</span>
-      </div>
-    </section>
-    <section>
-      <img src="http://file.hmting.com/data/attachment/forum/201411/08/174731xxymzkxkmvnok13z.jpg">
-      <div>
-        <a>四川贵鼎知识产权评估服务有限公司</a>
-        <span>取消收藏</span>
-      </div>
-    </section>
-    <section>
-      <img src="http://file.hmting.com/data/attachment/forum/201411/08/174731xxymzkxkmvnok13z.jpg">
-      <div>
-        <a>四川贵鼎知识产权评估服务有限公司</a>
-        <span>取消收藏</span>
-      </div>
-    </section> -->
+    
   </div>
 </template>
 
@@ -79,7 +52,6 @@
       loginStatus(this);
 
       this.collectionList = this.list;
-      console.log(this.list)
     },
     watch:{
       'list':function(){

@@ -4,7 +4,7 @@
     <mainNav show='false'></mainNav>
     <div class="firm_detail_head_wrapper">
       <div class="firm_detail_head">
-        <img :src="firmInfor.src?firmInfor.src:''">
+        <img :src="firmInfor.src?firmInfor.src:require('../../assets/default/qiye_com.png')">
         <section>
           <h1>{{firmInfor.name}}<router-link :to="{path:userId?'/manage/personal/myCompany/myCompanyClaimApply':'/login',query:{name:firmInfor.name,type:'company',id:firmInfor.id}}"><span class="icon-id"></span>认领公司</router-link></h1>
           <p>
@@ -17,7 +17,7 @@
           </p>
           <div>
             分享到:
-            <span>
+            <!-- <span>
               <img src="./images/1.png" alt="">
             </span>
             <span>
@@ -28,9 +28,19 @@
             </span>
             <span>
               <img src="./images/4.png" alt="">
-            </span>
+            </span> -->
+            <div class="bdsharebuttonbox">
+              <a href="#" class="bds_more" data-cmd="more"></a>
+              <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+              <a href="#" class="bds_tsina" data-cmd="tsina"></a>
+              <a href="#" class="bds_tqq" data-cmd="tqq"></a>
+              <a href="#" class="bds_renren" data-cmd="renren"></a>
+              <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+            </div>
+
+
           </div>
-          <div @click="dealCollect">{{!isCollect?'收藏':'取消收藏'}}</div>
+          <div @click="dealCollect" class="collect_btn"><i class="icon-add"></i> {{!isCollect?'收藏':'取消收藏'}}</div>
         </section>
       </div>
     </div>
@@ -129,6 +139,8 @@
               this.isCollect = true;
             }
 
+            
+
           })
 
         }
@@ -208,6 +220,10 @@
             sub.loadData();
           }
 
+
+          //显示收藏按钮
+          baidu_share_show();
+
         })
       }
     },
@@ -252,6 +268,7 @@
     margin: auto;
     border: 1px solid #e5e7ed;
     background: #fff;
+    position: relative;
   }
   .firm_detail_head{
     display: flex;
@@ -317,4 +334,25 @@
   .firm_detail_content{
     padding: 30px 20px;
   }
+    .collect_btn{
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        height: 26px!important;
+        border: 1px solid #E1E3EA;
+        padding: 0 16px;
+        background: #F7F7F7;
+        cursor: pointer;
+        border-radius: 2px;
+        transition: .3s;
+        color: #0079FF
+    }
+    .collect_btn>i{
+        margin-right: 5px
+    }
+    .collect_btn:hover{
+        color: #fff;
+        background: #0079FF;
+        border-color: #0079FF
+    }
 </style>

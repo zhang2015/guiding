@@ -51,7 +51,7 @@
         </li> -->
       </ul>
 
-      <ZHPagination :max="max" @change="dealClickPage"></ZHPagination>  
+      <!-- <ZHPagination :max="max" @change="dealClickPage"></ZHPagination> -->  
 
 
     </div>
@@ -427,6 +427,8 @@
             alert("状态:"+r.data['0']);
 
             this.address_box_status = ""
+
+            this.downloadAddressList();
 
           }else{
             alert(r.data['0']);

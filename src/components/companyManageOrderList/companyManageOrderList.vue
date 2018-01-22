@@ -7,7 +7,7 @@
           <span>{{item.order_no}}</span>
         </section>
         <section>
-          <img :src="item.buy_company_img?path+item.buy_company_img:''" class="order_icon">
+          <img :src="item.buy_company_img?path+item.buy_company_img:default_img" class="order_icon">
           <div>
             <a>{{item.servar_area}}</a>
             <span>{{item.buy_company_name}}</span>
@@ -35,6 +35,7 @@
     props:['list'],
     data(){
       return {
+        default_img:require("../../assets/default/qiye_com.png"),
         path:path,
         order_status:order_status
       }

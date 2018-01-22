@@ -1,8 +1,8 @@
 <template>
     <div>
         <loginNav></loginNav>
-        <div class="main_wrapper">
-            <div class="login_main">
+        <div class="main_wrapper" >
+            <div class="login_main" :style="{backgroundImage: 'url(' + img + ')'}">
                 <router-view></router-view>
             </div>
         </div>
@@ -15,6 +15,11 @@ import loginNav from '../loginNav/loginNav'
 export default {
     components: {
         loginNav
+    },
+    data(){
+        return {
+            img:require('./image/login-img.png')
+        }
     }
 }
 </script>
@@ -23,12 +28,12 @@ export default {
 .login_main {
     display: flex;
     width: 100%;
-    height: 570px;
+    padding: 50px 0;
     justify-content: flex-end;
     align-items: center;
-    background-image: url(image/login-img.png);
-    background-image: -webkit-image-set(url(image/login-img.png) 1x, url(image/login-img@2x.png) 2x);
-    background-position: 100px center;
+    background-image: url("./image/login-img.png");
+    background-image: -webkit-image-set(url("./image/login-img.png") 1x, url("./image/login-img@2x.png") 2x);
+    background-position: 180px center;
     background-repeat: no-repeat;
     background-size: 428px 445px
 }
@@ -39,17 +44,22 @@ export default {
     border: 1px solid #e0e4eb;
 }
 .login_box .phone{
-    background-image:url(./image/tel.png); 
+    background-image:url("./image/tel.png"); 
     background-position: 10px center;
     background-repeat: no-repeat;
 }
 .login_box .pass{
-    background-image:url(./image/pass.png); 
+    background-image:url("./image/pass.png"); 
     background-position: 10px center;
     background-repeat: no-repeat;
 }
 .login_box .code{
-    background-image:url(./image/code.png); 
+    background-image:url("./image/code.png"); 
+    background-position: 10px center;
+    background-repeat: no-repeat;
+}
+    .login_box .code-phone{
+    background-image:url("./image/code-phone.png"); 
     background-position: 10px center;
     background-repeat: no-repeat;
 }
@@ -66,6 +76,7 @@ export default {
     margin: 5px auto;
     padding-left: 30px;
     border: 1px solid #f5f5f5;
+    font-size: 14px
 }
 
 .twoItem {
@@ -128,15 +139,20 @@ export default {
 .sign_btn{
     display: block;
     width: 310px;
-    height: 40px;
+    height: 46px;
     margin: auto;
-    line-height: 40px;
+    line-height: 46px;
     text-align: center;
-    border-radius: 5px;
-    background: #6398ed;
+    border-radius: 3px;
+    background: #006BFF;
     color: #ffffff;
     font-size: 15px;
+    cursor: pointer;
+    transition: .3s;
 }
+    .sign_btn:hover{
+        background: #227fff
+    }
 .loginway div{
     display: flex;
     width: 110px;

@@ -4,7 +4,7 @@
       <span class="icon-wallet"></span>
       <section>
         <p>账户余额</p>
-        <p>￥20,000.00</p>
+        <p>￥{{userinfo.balance}}</p>
       </section>
       <!--<a class="withdraw_btn">提现</a>-->
       <router-link :to="{name: 'withDraw'}" class="withdraw_btn">提现</router-link>
@@ -17,17 +17,12 @@
         <th width="160" class="text_center">金额(元)</th>
         <th width="130" class="text_center">余额(元)</th>
       </tr>
-      <tr>
-        <td>2017-10-21 12:12:31</td>
-        <td class="text_left">订单：43212312324244服务费</td>
-        <td class="income">+200.00</td>
-        <td>6000.00</td>
-      </tr>
-      <tr>
-        <td>2017-10-21 12:12:31</td>
-        <td class="text_left">订单：43212312324244服务费</td>
-        <td class="expend">-200.00</td>
-        <td>6000.00</td>
+      <tr v-for="item in listdata" :key="item.id">
+        <td>{{item.created_at}}</td>
+        <td class="text_left">{{item.remark}}</td>
+        <td v-if="item.state == 0" class="expend">-{{item.money}}</td>
+        <td v-else class="income">+{{item.money}}</td>
+        <td>{{item.user.balance}}</td>
       </tr>
     </table>
   </div>
@@ -38,10 +33,38 @@
     data(){
       return{
         tabTitle: '钱包',
+        // url:path+'/index/wallet/apply-list',
+        initurl: path + '/index/wallet',
+        infourl: path+'/index/user',
+        userinfo:'',
+        listdata:[]
       }
     },
     mounted(){
       this.$emit('post-title',this.tabTitle);
+    },
+    created(){
+      loginStatus(this);
+      var postdata = {user_id:this.userId};
+
+      this.$http.get(this.infourl,{params: postdata}).then(function(r){
+        var rdata = r.data;
+        this.userinfo = rdata;
+      })
+
+      this.$http.get(this.initurl,{params: postdata}).then(function(r){
+        var rdata = r.data;
+        this.listdata = rdata.data;
+      })
+
+      // this.$http.get(this.url,{params: postdata}).then(function(r){
+      //   var rdata = r.data;
+      //   if (rdata.data) {
+          
+      //   } else {
+          
+      //   }
+      // })
     }
   }
 </script>

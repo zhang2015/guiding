@@ -4,7 +4,13 @@
         <section >
             <input type="text" class="login_input phone" v-model="phone" placeholder="请输入您的手机号">
             <div class="twoItem">
-                <input type="text" class="login_input smscode_input code" v-model="smscode" placeholder="请输入手机验证码">
+                <input type="text" class="login_input smscode_input code" v-model="imgcode" placeholder="请输入右侧验证码">
+                <span class="imgCode">
+                    <img :src="verify_code" @click="dealChangeVerifyCode" />
+                </span>
+            </div>
+            <div class="twoItem">
+                <input type="text" class="login_input smscode_input code-phone" v-model="smscode" placeholder="请输入手机验证码">
                 <span class="smscode_btn" @click="disabled && getSmsCode()">{{smscodeBtnText}}</span>
             </div>
             <input type="password" class="login_input pass" v-model="pass" placeholder="请输入您的密码">
@@ -44,10 +50,26 @@ export default {
             registerUrl: path+'/index/login/register',
             wait: 90,
             disabled: true,
-            isagree: false
+            isagree: false,
+
+            imgcode:"",
+            verify_code:""
         }
     },
+    created(){
+
+
+        this.verify_code = path+"/api/verify-code?r="+Math.random();
+
+    },
     methods: {
+
+        dealChangeVerifyCode(){
+
+          this.verify_code = path+"/api/verify-code?r="+Math.random();
+
+        },
+
         getSmsCode:function(){
             if (this.phone == '') {
                 alert('请填入手机号')
@@ -56,9 +78,21 @@ export default {
                 alert('请填入正确手机号')
                 return false
             }
+
+            if (this.imgcode == '') {
+                alert('请填入图形验证码')
+                return false
+            }
+            if (this.imgcode.length != 4) {
+                alert('图形验证码必须为4位')
+                return false
+            }
+
+
             var _this = this
             this.$http.post(_this.getSmsCodeUrl,{
-                phone: _this.phone
+                phone: _this.phone,
+                yz_code: _this.imgcode
             },{emulateJSON:true}).then(function(response){
                 var data = response.data
                 if (data.code == 1) {
@@ -71,10 +105,7 @@ export default {
             });
         },
         toRegister: function(){
-            if (!this.isagree) {
-                alert("请同意《用户协议》")
-                return false
-            }
+            
             if (this.phone == '') {
                 alert('请填入手机号')
                 return false
@@ -82,14 +113,39 @@ export default {
                 alert('请填入正确手机号')
                 return false
             }
+
+            if (this.imgcode == '') {
+                alert('请填入图形验证码')
+                return false
+            }
+            if (this.imgcode.length != 4) {
+                alert('图形验证码必须为4位')
+                return false
+            }
+
             if (this.smscode == '') {
-                alert('请填入手机验证码')
+                alert('请填入手机短信验证码')
+                return false
+            }
+            if (this.smscode.length != 4) {
+                alert('手机短信验证码必须为4位')
                 return false
             }
             if (this.pass == '') {
                 alert('请填入密码')
                 return false
             }
+            if (this.pass.length < 6) {
+                alert('密码最少为6位')
+                return false
+            }
+
+            if (!this.isagree) {
+                alert("请同意《用户协议》")
+                return false
+            }
+
+
             var _this = this
             this.$http.post(_this.registerUrl,{
                 phone: _this.phone,

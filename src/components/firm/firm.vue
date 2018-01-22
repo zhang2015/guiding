@@ -15,11 +15,16 @@
       </section>
       <section>
         <p>所在地区</p>
-        <span v-for="item in address" @click="toggleTabs_address(item.value)" :class="{active:item.value==addressvalue}">{{item.name}}</span>
+        <div>
+            <span v-for="item in address" @click="toggleTabs_address(item.value)" :class="{active:item.value==addressvalue}">{{item.name}}</span>
+        </div>
+        
       </section>
       <section>
         <p>所在城市</p>
-        <span v-for="item in city" @click="toggleTabs_city(item.value)" :class="{active:item.value==cityvalue}">{{item.name}}</span>
+        <div>
+            <span v-for="item in city" @click="toggleTabs_city(item.value)" :class="{active:item.value==cityvalue}">{{item.name}}</span>
+        </div>
       </section>
       <section>
         <p>高级筛选</p>
@@ -103,6 +108,8 @@
         self.cityvalue = 'all'
         self.highvalue = 'all'
         self.keyword = keyword
+
+        self.page = 1;
 
         self.downloadData();
         
@@ -391,6 +398,17 @@
 
 <style media="screen">
 
-
+    .company_selet_box section{
+        height: auto;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        align-items: baseline;
+    }
+    .company_selet_box section>div{
+        -webkit-box-flex: 1;
+        box-flex: 1;
+        -webkit-flex: 1;
+        flex: 1;
+    }
 
 </style>

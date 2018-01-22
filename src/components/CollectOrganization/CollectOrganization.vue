@@ -1,47 +1,56 @@
 <template>
   <div>
-    <collectlist :list="list" type="organization"></collectlist>
-    <ZHPagination></ZHPagination>
+    <collectlist :list="items" type="organization"></collectlist>
+    <moPaging 
+            :page-index="currentPage" 
+            :page-size="pageSize" 
+            :total="count" 
+            @change="pageChange">
+            </moPaging>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import collectlist from '../CollectList/CollectList'
-
-  import ZHPagination from '../ZHPagination/ZHPagination'
+  import moPaging from "../MoPaging/MoPaging"
 
   export default {
     components:{
       collectlist,
-      ZHPagination:ZHPagination
+      moPaging
     },
     data(){
     	return {
-    		list:[]
+    		pageSize: 15, //每页显示20条数据
+        currentPage: 1, //当前页码
+        count: 0, //总记录数
+        items: []
     	}
-
     },
     created(){
-
     	loginStatus(this);
-
-    	this.downloadList();
-
+    	this.getList();
     },
     methods:{
-    	downloadList:function(){
-    		var url = path + "/index/company/company-attention?user_id="+this.userId;
-	    	this.$http.get(url).then(function(r){
-	    		var td = r.data;
-
+      //获取数据
+      getList() {
+        var url = path + "/index/company/company-attention"
+        var dict = {
+          user_id : this.userId,
+          page: this.currentPage
+        }
+        this.$http.get(url,{params:dict}).then(function(r){
+          var td = r.data;
           var list = td.data;
-
-
-	    		this.list = list;
-
-	    		
-	    	})
-    	}
+          this.count = td.total;
+          this.items = list;
+        })
+      },
+      //从page组件传递过来的当前page
+      pageChange(page) {
+        this.currentPage = page;
+        this.getList();
+      },
     }
   }
 </script>

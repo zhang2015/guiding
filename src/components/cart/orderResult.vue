@@ -192,7 +192,7 @@
     justify-content: center;
     align-items: flex-start;
 }
-.icon-ok{
+.cartSuccess .icon-ok{
     font-size: 65px;
     color: #87ce76;
 }
@@ -265,8 +265,6 @@
       font-size: 26px;
       text-align: center;
       color: #898989;
-      line-height: 26px;
-      padding-bottom: 0px
   }
   .order-dialog>.icon-close{
       color: #FF8A6E;

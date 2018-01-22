@@ -9,7 +9,7 @@
           </section>
           <section>
             分享到：
-            <span>
+            <!-- <span>
               <img src="./images/1.png" alt="">
             </span>
             <span>
@@ -20,7 +20,16 @@
             </span>
             <span>
               <img src="./images/4.png" alt="">
-            </span>
+            </span> -->
+            <div class="bdsharebuttonbox">
+              <a href="#" class="bds_more" data-cmd="more"></a>
+              <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+              <a href="#" class="bds_tsina" data-cmd="tsina"></a>
+              <a href="#" class="bds_tqq" data-cmd="tqq"></a>
+              <a href="#" class="bds_renren" data-cmd="renren"></a>
+              <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+            </div>
+
           </section>
         </p>
         <div class="news_details_content" v-html="content">
@@ -63,6 +72,10 @@
           this.time = trueData.created_at;
           this.content = trueData.content;
           this.from = trueData.from;
+
+
+          //显示分享按钮
+          baidu_share_show()
 
         })
 

@@ -17,7 +17,15 @@
         <td>{{result.order?result.order.servar_area:''}}</td>
         <td>{{result.company?result.company.name:''}}</td>
         <td class="money">￥{{result.order?result.order.price:''}}</td>
-        <td>{{(result.status != undefined)?invoice_status[result.status]:''}}</td>
+        <td>
+          {{(result.status != undefined)?invoice_status[result.status]:''}}
+          <div v-show="result.status == 0" class="order_i_info">
+            <p v-if="result.express_title">
+              {{result.express_title}} 单号:{{result.express_no}}
+            </p>
+            <span @click="eidtcontent = true">修改</span>
+          </div>
+        </td>
       </tr>
     </table>
     <p class="title_invoice">发票信息</p>
@@ -50,14 +58,14 @@
         <p>公司注册电话</p>
         <span>{{result.mobile?result.mobile:''}}</span>
       </li>
-      <li class="upload">
+      <!-- <li class="upload">
         <p>税务登记扫描件</p>
         <img :src="shuiwu_img">
       </li>
       <li class="upload">
         <p>一般纳税人证明扫描件</p>
         <img :src="saomiao_img">
-      </li>
+      </li> -->
     </ul>
     <p class="title_invoice">收件地址</p>
     <p class="consignee_address">
@@ -66,10 +74,21 @@
       <span>{{address.province?address.province.name:''}} {{address.city?address.city.name:''}} {{address.area?address.area.name:''}} {{address.address?address.address:''}}</span>
       <span>{{address.phone?address.phone:''}}</span>
     </p>
-    <div class="common_btn_box invoice_btn_box">
+    <!-- <div class="common_btn_box invoice_btn_box">
       <span class="submit_btn invoice_submit_btn">邮寄发票</span>
       <span class="cancel_btn invoice_cancel_btn">取消</span>
+    </div> -->
     </div>
+    <div id="eidt_box" class="windows_wrapper" v-show="eidtcontent">
+      <div class="windows_box">
+        <div class="windows_head"><span>邮寄发票</span> <span class="icon-close"  @click="eidtcontent = false"></span></div>        
+        <div class="windows_content">
+          <section><span class="label">快递名称</span> <input type="text" class="" v-model="express_title" placeholder="请输入快递公司名称"></section>
+          <section><span class="label">快递单号</span> <input type="text" class="" v-model="express_no" placeholder="请输入快递单号"></section>          
+        </div>
+        
+        <div class="windows_btn"><span class="windows_btn_cancel"  @click="eidtcontent = false">取消</span> <span class="windows_btn_confirm"  @click="change()">确定</span></div>
+      </div>
     </div>
   </div>
 </template>
@@ -113,8 +132,12 @@
 
         //获取全局
         invoice_type:invoice_type,
-        invoice_status:invoice_status
-
+        invoice_status:invoice_status,
+        //修改框显示控制
+        eidtcontent: false,
+        //修改快递信息
+        express_title:'',
+        express_no:''
       }
     },
     methods:{
@@ -192,6 +215,32 @@
         }
         
         
+      },
+      change:function(){
+        if (!this.express_title) {
+          alert('请填写快递名称')
+          return false;
+        }
+        if (!this.express_no) {
+          alert('请填写快递单号')
+          return false;
+        }
+        var url = path + '/index/invoice/add-express';
+        var formdata = {
+          invoice_id: this.$route.params.id,
+          express_title: this.express_title,
+          express_no: this.express_no
+        }
+        this.$http.post(url,formdata,{emulateJSON:true}).then(function(r){
+          var data = r.data;
+          if (data.status == 1) {
+            this.result.express_title = this.express_title;
+            this.result.express_no = this.express_no;
+            this.eidtcontent = false;
+          } else {
+            alert(data.info);
+          }
+        })
       }
     },
     created(){
@@ -204,6 +253,8 @@
 </script>
 
 <style media="screen">
+@import '../../../static/css/eidtbox.css';
+
 .invoice_table .money{
     color: #ff8a6e;
   }
@@ -249,5 +300,19 @@
     height: 45px;
     line-height: 45px;
     margin: 0 10px;
+  }
+  .order_i_info{
+    padding-top: 10px;
+  }
+  .order_i_info span{
+    display: block;
+    width: 70px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    margin: auto;
+    margin-top: 10px;
   }
 </style>

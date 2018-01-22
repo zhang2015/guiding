@@ -130,7 +130,7 @@
           this.status = 3;
         } else if (this.order.order_status == 4) {
           this.status = 4;
-        } else if (this.order.order_status == 5 || this.order.order_status == 100) {
+        } else if (this.order.order_status == 5 ) {
           this.status = 5;
         } else if (this.order.order_status == 100) {
           this.status = 6;
@@ -155,8 +155,8 @@
       },
       changeorderpay:function(id){
         if (this.status != 0) {
-          return false;
           alert('订单已生成，不能修改');
+          return false;
         }
         var url = path + '/index/order/update-order-price';
         var dict={

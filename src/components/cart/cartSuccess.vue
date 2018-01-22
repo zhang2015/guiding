@@ -44,7 +44,7 @@ export default {
     justify-content: center;
     align-items: flex-start;
 }
-.icon-ok{
+.cartSuccess .icon-ok{
     font-size: 65px;
     color: #87ce76;
 }

@@ -263,10 +263,10 @@ export default new Router({
                     path: '/firmDetails/:id/firmBusiness',
                     name: 'firmBusiness',
                     component: firmBusiness
-				}
-			]
-		},
-		{
+                }
+            ]
+        },
+        {
             path: '/organizationDetails/:id',
             name: 'organizationDetails',
             component: organizationDetails,
@@ -323,11 +323,11 @@ export default new Router({
                                     name: 'orderFormFinish',
                                     component: orderFormFinish
                                 }
-                                
+
                             ]
                         },
                         {
-                            path: '/manage/personal/orderPersonDetail/',
+                            path: '/manage/personal/orderPersonDetail/:orderId',
                             name: 'orderPersonDetail',
                             component: orderPersonDetail
                         },
@@ -430,11 +430,11 @@ export default new Router({
                     path: '/manage/applicationIn',
                     name: 'applicationIn',
                     component: applicationIn
-                },{
+                }, {
                     path: '/manage/applicationInCompany',
                     name: 'applicationInCompany',
                     component: applicationInCompany
-                },{
+                }, {
                     path: '/manage/applicationInCheck',
                     name: 'applicationInCheck',
                     component: applicationInCheck
@@ -495,7 +495,7 @@ export default new Router({
                             path: '/manage/companyManage/companyManageSetting',
                             name: 'companyManageSetting',
                             component: companyManageSetting
-                        },{
+                        }, {
                             path: '/manage/companyManage/companyManageServiceEdit',
                             name: 'companyManageServiceEdit',
                             component: companyManageServiceEdit
@@ -504,7 +504,7 @@ export default new Router({
                             path: '/manage/companyManage/companyManageTeam',
                             name: 'companyManageTeam',
                             component: companyManageTeam
-                        },{
+                        }, {
                             path: '/manage/companyManage/companyManageTeamEdit',
                             name: 'companyManageTeamEdit',
                             component: companyManageTeamEdit
@@ -559,12 +559,12 @@ export default new Router({
                                     component: companyManageApproveTable
                                 },
                                 {
-                                    path: '/manage/companyManage/companyManageApprove/companyManageApproveBrand',
+                                    path: '/manage/companyManage/companyManageApprove/companyManageApproveBrand/:qualification_id',
                                     name: 'companyManageApproveBrand',
                                     component: companyManageApproveBrand
                                 },
                                 {
-                                    path: '/manage/companyManage/companyManageApprove/companyManageApproveCompany',
+                                    path: '/manage/companyManage/companyManageApprove/companyManageApproveCompany/:qualification_id',
                                     name: 'companyManageApproveCompany',
                                     component: companyManageApproveCompany
                                 },
@@ -605,27 +605,26 @@ export default new Router({
                     component: cart,
                     redirect: '/manage/cart/cartList',
                     children: [{
-                            path: '/manage/cart/cartList',
-                            name: 'cartList',
-                            component: cartList
-                        },{
-                                path: '/manage/cart/cartDetail',
-                                name: 'cartDetail',
-                                component: cartDetail
-                        },{
-                                path: '/manage/cart/cartSuccess',
-                                name: 'cartSuccess',
-                                component: cartSuccess
-                        },{
-                                path: '/manage/cart/orderResult/',
-                                name: 'orderResult',
-                                component: orderResult
-                        },{
-                                path: '/manage/cart/buyNowDetail/',
-                                name: 'buyNowDetail',
-                                component: buyNowDetail
-                        }
-                    ]
+                        path: '/manage/cart/cartList',
+                        name: 'cartList',
+                        component: cartList
+                    }, {
+                        path: '/manage/cart/cartDetail',
+                        name: 'cartDetail',
+                        component: cartDetail
+                    }, {
+                        path: '/manage/cart/cartSuccess',
+                        name: 'cartSuccess',
+                        component: cartSuccess
+                    }, {
+                        path: '/manage/cart/orderResult/',
+                        name: 'orderResult',
+                        component: orderResult
+                    }, {
+                        path: '/manage/cart/buyNowDetail/',
+                        name: 'buyNowDetail',
+                        component: buyNowDetail
+                    }]
                 }
             ]
         },
@@ -872,11 +871,11 @@ export default new Router({
                                 name: 'companyManageApproveTable',
                                 component: companyManageApproveTable
                             }, {
-                                path: '/manage/companyManage/companyManageApprove/companyManageApproveBrand',
+                                path: '/manage/companyManage/companyManageApprove/companyManageApproveBrand/:qualification_id',
                                 name: 'companyManageApproveBrand',
                                 component: companyManageApproveBrand
                             }, {
-                                path: '/manage/companyManage/companyManageApprove/companyManageApproveCompany',
+                                path: '/manage/companyManage/companyManageApprove/companyManageApproveCompany/:qualification_id',
                                 name: 'companyManageApproveCompany',
                                 component: companyManageApproveCompany
                             }, {
@@ -908,7 +907,7 @@ export default new Router({
                             component: companyManageLogout
                         }
                     ]
-				}
+                }
             ]
         },
         {
@@ -932,9 +931,9 @@ export default new Router({
                     component: forget
                 }
             ]
-        },{
-            path:'/apiTest',
-            name:'apiTest',
+        }, {
+            path: '/apiTest',
+            name: 'apiTest',
             component: apiTest
         }
     ]

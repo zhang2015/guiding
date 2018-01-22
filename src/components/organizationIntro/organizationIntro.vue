@@ -31,7 +31,6 @@
 
           this.content = info.content;
 
-          alert("121")
         }
       }
 

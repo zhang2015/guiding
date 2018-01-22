@@ -2,13 +2,16 @@
   <div class="manage_nav_wrapper">
     <div class="manage_nav">
       
-        <img src="../../assets/logot.png" class="manage_logo">
+        <router-link to="/main">
+          <img src="../../assets/logot.png" class="manage_logo">
+        </router-link>
+        
       
       <section>
         <!-- <router-link :to="{name:'main'}">首页</router-link> -->
         <router-link to="/main">首页</router-link>
         <router-link :to="{name:'personal'}">个人中心</router-link>
-        <router-link :to="{name:'companyManage'}">服务机构管理</router-link>
+        <router-link v-if="isShowManage" :to="{name:'companyManage'}">服务机构管理</router-link>
       </section>
       <section class="manage_select">
         <select v-model="selected">
@@ -31,7 +34,7 @@
           </div>
           <div class="loged_menu" v-show="menuShow">
             <router-link :to="{name:'orderForm'}"><span class="icon-doc"></span>我的订单</router-link>
-            <router-link :to="{name:'myMessage'}"><span class="icon-doc"></span>消息中心</router-link>
+            <router-link :to="{name:'myMessage'}"><span class="icon-comment"></span>消息中心</router-link>
             <router-link :to="{name:'myCollect'}"><span class="icon-heart"></span>我的收藏</router-link>
             <router-link :to="{name:'myCompany'}"><span class="icon-briefcase"></span>我的公司</router-link>
             <router-link :to="{name:'invoiceManage'}"><span class="icon-box"></span>发票管理</router-link>
@@ -53,13 +56,49 @@
         placeholder: '请输入服务机构名称',
         loged: true,
         menuShow: false,
-        path:path
+        path:path,
+
+        isShowManage:false
       }
     },
     created(){
       loginStatus(this);
+
+      this.checkUserManage();
+    },
+    methods:{
+      //检测这个用户是否有服务机构
+      checkUserManage(){
+
+        if(!this.userId){
+          return;
+        }
+
+        //请求
+        var url = path + "/index/user/user-company?user_id="+this.userId;
+        this.$http.get(url).then(function(r){
+          var td = r.data;
+
+          console.log(td);
+
+          //说明有服务机构
+          if(td.is_has == 1){
+            this.isShowManage = true;
+
+            localStorage.companyId = td.company.id;
+            sessionStorage.companyId = td.company.id;
+            
+          }
+
+        })
+        
+
+      },
     },
     watch:{
+
+      
+
       selected:function(){
         if(this.selected == '1'){
           this.placeholder = '请输入服务机构名称'

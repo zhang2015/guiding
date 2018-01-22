@@ -9,37 +9,58 @@
       </p>
     </div>
     <div class="padding20">
-      <companyList :list="list"></companyList>
-      <ZHPagination ></ZHPagination>
+      <companyList :list="items"></companyList>
+      <moPaging 
+            :page-index="currentPage" 
+            :page-size="pageSize" 
+            :total="count" 
+            @change="pageChange">
+            </moPaging>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import companyList from '../companyList/companyList'
-
-  import ZHPagination from '../ZHPagination/ZHPagination'
+  import moPaging from "../MoPaging/MoPaging"
 
   export default {
     data(){
       return {
-        list:[]
+        pageSize: 15, //每页显示20条数据
+        currentPage: 1, //当前页码
+        count: 0, //总记录数
+        items: []
       }
     },
     created(){
       loginStatus(this);
-      var url = path + "/index/enterprise/my-enterprise?user_id="+this.userId;
-      this.$http.get(url).then(function(r){
-        var td = r.data;
-        this.list = td;
-      })
+      this.getList();
     },
     components:{
       companyList,
-      ZHPagination
+      moPaging
     },
-
     methods:{
+      //获取数据
+      getList() {
+        var url = path + "/index/enterprise/my-enterprise"
+        var dict = {
+          user_id : this.userId,
+          page: this.currentPage
+        }
+        this.$http.get(url,{params:dict}).then(function(r){
+          var td = r.data;
+          var list = td.data;
+          this.count = td.total;
+          this.items = list;
+        })
+      },
+      //从page组件传递过来的当前page
+      pageChange(page) {
+        this.currentPage = page;
+        this.getList();
+      },
       claim:function(){
         window.location.href="#/manage/personal/myCompany/myCompanyClaim";
       },

@@ -15,7 +15,7 @@
           <input v-model="companyName" type="text" value="" placeholder="请输入公司全称">
           <div>
               <span class="color-red ml25">该公司已存在</span>
-              <a href="#" class="btn-bd-green-s">去认领</a>
+              <router-link :to="applicationInButtonPath" class="btn-bd-green-s">去认领</router-link>
           </div>
         </section>
         <section>
@@ -115,10 +115,18 @@
             name: '律师所',
             value: '4'
           }
-        ]
+        ],
+
+        applicationInButtonPath:"/login"
       }
     },
     created(){
+
+      loginStatus(this);
+
+      if(this.userId){
+        this.applicationInButtonPath = "";
+      }
 
       //下载省份数据
       var url = path+"/index/address/child-address?address_id=1"

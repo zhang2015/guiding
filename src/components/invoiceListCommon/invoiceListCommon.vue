@@ -9,8 +9,8 @@
         <th width="130" class="text_center">详情</th>
         <th width="110" class="text_center">操作</th>
       </tr>
-      <tr v-for="item in invoiceList">
-        <td>{{item.order_id}}</td>
+      <tr v-for="item in invoiceList" :key="item.id">
+        <td>{{item.order.order_no}}</td>
         <td>{{item.order.servar_area}}</td>
         <td>{{item.order.buy_user_id}}</td>
         <td class="money">￥{{item.order.price}}</td>
@@ -18,24 +18,21 @@
           <router-link :to="{path:'/manage/companyManage/companyManageInvoice/companyManageInvoiceDetails/'+item.id}" class="invoice_details">详情</router-link>
         </td>
         <td>
-          <router-link :to="{path:'/manage/companyManage/companyManageInvoice/companyManageInvoiceDetails/'+item.id}" class="apply_invoice">邮寄发票</router-link>
-          
-          <!-- <router-link :to="{name:'companyManageInvoicePost'}" class="apply_invoice">邮寄发票</router-link> -->
+          <a @click="send(item.id)" class="apply_invoice">邮寄发票</a>
         </td>
       </tr>
-      <!-- <tr>
-        <td>3223432323424224</td>
-        <td>服务项目名称</td>
-        <td>丁坚</td>
-        <td class="money">￥200.00</td>
-        <td>
-          <router-link :to="{name:'companyManageInvoiceDetails'}" class="invoice_details">详情</router-link>
-        </td>
-        <td>
-          <span>已邮寄</span>
-        </td>
-      </tr> -->
     </table>
+    <div id="eidt_box" class="windows_wrapper" v-show="eidtcontent">
+      <div class="windows_box">
+        <div class="windows_head"><span>邮寄发票</span> <span class="icon-close"  @click="eidtcontent = false"></span></div>
+        <div class="windows_content">
+          <section><span class="label">快递名称</span> <input type="text" class="" v-model="invoice_name" placeholder="请输入快递公司名称"></section>
+          <section><span class="label">快递单号</span> <input type="text" class="" v-model="invoice_code" placeholder="请输入快递单号"></section>          
+        </div>
+
+        <div class="windows_btn"><span class="windows_btn_cancel"  @click="eidtcontent = false">取消</span> <span class="windows_btn_confirm"  @click="change(eidtId)">确定</span></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -44,7 +41,11 @@
     props:['list'],
     data(){
       return {
-        invoiceList:[]
+        invoiceList:[],
+        eidtId:'',
+        eidtcontent: false,
+        invoice_name:'',
+        invoice_code:''
       }
     },
     created(){
@@ -52,6 +53,36 @@
         this.invoiceList = this.list;
       }
       
+    },
+    methods:{
+      send:function(id){
+        this.eidtcontent = true;
+        this.eidtId = id;
+      },
+      change:function(id){
+        if (!this.invoice_name) {
+          alert('请输入快递名称')
+          return false;
+        }
+        if (!this.invoice_code) {
+          alert('请输入快递单号')
+          return false;
+        }
+        var url = path + '/index/invoice/add-express';
+        var formdata = {
+          invoice_id: id,
+          express_title: this.invoice_name,
+          express_no: this.invoice_code
+        }
+        this.$http.post(url,formdata,{emulateJSON:true}).then(function(r){
+          var data = r.data;
+          if (data.status == 1) {
+            this.eidtcontent = false;
+          } else {
+            alert(data.info);
+          }
+        })
+      }
     },
     watch:{
       'list':function(){
@@ -64,6 +95,7 @@
 </script>
 
 <style media="screen">
+@import '../../../static/css/eidtbox.css';
   .invoice_table{
     color: #898989;
     font-size: 14px;

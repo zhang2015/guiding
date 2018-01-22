@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-      <li class="order_form" v-for="item in list">
+      <li class="order_form" v-for="item in list" :key="item.id">
         <section>
           <span>{{item.created_at}} 订单号:</span>
           <span>{{item.order_no}}</span>
@@ -40,11 +40,9 @@
       }
     },
     created(){
-      console.log("list = "+this.list);
     },
     watch:{
       'list':function(){
-        console.log("list change = "+this.list);
       }
     },
     methods:{

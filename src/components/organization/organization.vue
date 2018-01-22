@@ -3,15 +3,21 @@
     <div class="company_selet_box">
       <section>
         <p>服务分类</p>
+        <div>
         <span v-for="(item,index) in type" @click="toggleTabs_type(item.value,index)" :class="{active:item.value==typevalue}">{{item.name}}</span>
+        </div>
       </section>
       <section>
         <p>服务内容</p>
+        <div>
         <span v-for="(item,index) in content" @click="toggleTabs_content(item.value)" :class="{active:item.value==contentvalue}">{{item.name}}</span>
+        </div>
       </section>
       <section>
         <p>所在地区</p>
+        <div>
         <span v-for="(item,index) in address" @click="toggleTabs_address(item.value)" :class="{active:item.value==addressvalue}">{{item.name}}</span>
+        </div>
       </section>
     </div>
     <div class="company_list_box common_type_box">
@@ -185,10 +191,11 @@
       eventBus.$on("changeOrganizationSearchKeyword",function(keyword){
         //console.log("search keyword = "+keyword)
 
-        self.typevalue = 'all',
-        self.contentvalue = 'all',
-        self.addressvalue = 'all',
+        self.typevalue = 'all'
+        self.contentvalue = 'all'
+        self.addressvalue = 'all'
         self.keyword = keyword
+        self.page = 1;
 
         self.getList();
         
@@ -405,4 +412,16 @@
 </script>
 
 <style media="screen">
+    .company_selet_box section{
+        height: auto;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        align-items: baseline;
+    }
+    .company_selet_box section>div{
+        -webkit-box-flex: 1;
+        box-flex: 1;
+        -webkit-flex: 1;
+        flex: 1;
+    }
 </style>

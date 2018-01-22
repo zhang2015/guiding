@@ -10,14 +10,20 @@
             <div class="twoItem">
                 <input type="text" class="login_input smscode_input code" v-model="imgcode" placeholder="请输入右侧验证码">
                 <span class="imgCode">
-                    <img src="./image/codeimg.png">
+                    <img :src="verify_code" @click="dealChangeVerifyCode">
                 </span>
             </div>
         </section>
         <section v-if="loginType == 'type2'">
             <input type="text" class="login_input phone" v-model="phone" placeholder="请输入您的手机号">
             <div class="twoItem">
-                <input type="text" class="login_input smscode_input code" v-model="smscode" placeholder="请输入手机验证码">
+                <input type="text" class="login_input smscode_input code" v-model="imgcode" placeholder="请输入右侧验证码">
+                <span class="imgCode">
+                    <img :src="verify_code" @click="dealChangeVerifyCode">
+                </span>
+            </div>
+            <div class="twoItem">
+                <input type="text" class="login_input smscode_input code-phone" v-model="smscode" placeholder="请输入手机验证码">
                 <span class="smscode_btn" @click="disabled && getSmsCode()">{{smscodeBtnText}}</span>
             </div>
         </section>
@@ -59,14 +65,28 @@ export default {
       getImgSmsCodeUrl: path + "",
       passLoginUrl: path + "/index/login",
       phoneLoginUrl: path + "/index/login/login-by-phone",
-      isagree: false
+      isagree: false,
+
+      verify_code:require("./image/codeimg.png")
     };
   },
   methods: {
+    dealChangeVerifyCode(){
+
+      this.verify_code = path+"/api/verify-code?r="+Math.random();
+
+    },
     changeTab: function(value) {
       this.loginType = value;
     },
+
+    //发送短信验证码
     getSmsCode: function() {
+
+      console.log("getSmsCode")
+
+
+
       if (this.phone == "") {
         alert("请填入手机号");
         return false;
@@ -74,16 +94,23 @@ export default {
         alert("请填入正确手机号");
         return false;
       }
+
+
       var _this = this;
-      this.$http
-        .post(
-          _this.getSmsCodeUrl,
-          {
-            phone: _this.phone
-          },
-          { emulateJSON: true }
-        )
-        .then(
+
+      if(_this.imgcode == ""){
+        alert("请填入图形验证码");
+        return;
+      }
+
+      if(_this.imgcode.length != 4){
+        alert("图形验证码必须为4位");
+        return;
+      }
+
+      
+
+      this.$http.get(_this.getSmsCodeUrl,{params:{phone: _this.phone,"yz_code":this.imgcode}}).then(
           function(response) {
             var data = response.data;
             if (data.code == 1) {
@@ -96,6 +123,22 @@ export default {
             
           }
         );
+
+      /*
+      this.$http.post(_this.getSmsCodeUrl,{phone: _this.phone,"yz_code":this.imgcode},{ emulateJSON:true }).then(
+          function(response) {
+            var data = response.data;
+            if (data.code == 1) {
+              _this.waitTime();
+            } else {
+              alert(data.msg);
+            }
+          },
+          function(response) {
+            
+          }
+        );
+      */
     },
     waitTime: function() {
       var _this = this;
@@ -122,17 +165,35 @@ export default {
         return false;
       }
       if (this.loginType == "type1") {
-        if (_this.imgcode == "") {
-          alert("请填入图形验证码");
-          return false;
-        }
+        
+
         if (_this.pass == "") {
           alert("请输入密码");
           return false;
         }
+
+        if (_this.pass.length < 6) {
+          alert("密码最少6位");
+          return false;
+        }
+
+        if (_this.imgcode == "") {
+          alert("请填入图形验证码");
+          return false;
+        }
+
+        if (_this.imgcode.length != 4) {
+          alert("图形验证码必须为4位");
+          return false;
+        }
+
+
         this.$http.post(_this.passLoginUrl,{
                 phone: _this.phone,
                 password: _this.pass,
+                img_code: _this.imgcode,
+                yz_code: _this.imgcode,
+                code: _this.imgcode
             },{emulateJSON:true}).then(function(response){
                 var data = response.data
                 if (data.state == 1) {
@@ -144,10 +205,25 @@ export default {
                 //alert('请稍后再试')
             });
       } else if (this.loginType == "type2") {
+
+        if(_this.imgcode == ""){
+          alert("请填入图形验证码");
+          return;
+        }
+
+        if(_this.imgcode.length != 4){
+          alert("图形验证码必须为4位");
+          return;
+        }
+
+
         if (_this.smscode == "") {
           alert("请填入短信验证码");
           return false;
         }
+
+
+
         this.$http.post(_this.phoneLoginUrl,{
                 phone: _this.phone,
                 code: _this.smscode,
@@ -170,17 +246,23 @@ export default {
             localStorage.setItem('name',data.name)
             localStorage.setItem('img',data.img)
 
-            localStorage.setItem('companyId',119)
+            //localStorage.setItem('companyId',119)
         }else{
             sessionStorage.setItem('userId',data.id)
             sessionStorage.setItem('nick_name',data.nick_name)
             sessionStorage.setItem('name',data.name)
             sessionStorage.setItem('img',data.img)
 
-            sessionStorage.setItem('companyId',119)
+            //sessionStorage.setItem('companyId',119)
         }
         this.$router.push('/main')
     }
+  },
+
+  created(){
+
+    this.verify_code = path+"/api/verify-code?r="+Math.random();
+
   }
 };
 </script>
@@ -195,13 +277,18 @@ export default {
 
 .login_box_tab li {
   width: 50%;
-  height: 30px;
+  height: 36px;
   text-align: center;
-  line-height: 30px;
+  line-height: 36px;
   background: #fcfcfc;
   border-top: 3px solid transparent;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .3s;
 }
-
+    .login_box_tab li:hover{
+        color: #0060FF
+    }
 .login_box_tab li:nth-child(1) {
   border-right: 1px solid #e0e4eb;
   border-bottom: 1px solid #e0e4eb;
@@ -212,10 +299,10 @@ export default {
 }
 
 .login_box_tab li.active {
-  border-top: 3px solid #6398ed;
+  border-top: 3px solid #0076FF;
   background: #ffffff;
   border-bottom: 1px solid #ffffff;
-  color: #6398ed;
+  color: #0076FF;
 }
 .login_box .left_type.agree{
  color: #6398ed;

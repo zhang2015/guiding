@@ -75,10 +75,14 @@
     created:function(){
       //this.init();
 
-      var info = this.$parent.$data.info;
+      var info = this.$parent.info;
 
       //this.init();
-      this.service_area = info.company.service_area;
+      console.log("info = ")
+      console.log(JSON.stringify(info,null,'\t'))
+
+
+      this.service_area = info.service_area;
     },
     methods: {
       // init: function () {

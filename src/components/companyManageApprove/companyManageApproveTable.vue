@@ -4,10 +4,16 @@
         
         <tr>  
             <td colspan="3" >公司认证</td>  
-            <td><div class="approve-state"><router-link :to="{name:'companyManageApproveCompany'}" class="passed"><span class="icon-ok"></span> 已认证</router-link></div></td>
+            <td>
+              <div class="approve-state">
+                <a v-if="company_auto == null" class="nopassed"><span class="icon-ok"></span> 未认证</a>
+                <a v-else-if="company_auto.status == 0"  class="passing"><span class="icon-ok"></span> 认证中...</a>
+                <a v-else-if="company_auto.status == 1"  class="passed"><span class="icon-ok"></span> 已认证</a>
+                <a v-else-if="company_auto.status == -1" class="nopassed"><span class="icon-ok"></span> 认证失败</a>
+              </div>
+              <router-link :to="{name:'companyManageApproveCompany',params: { qualification_id: 0 }}" v-show="company_auto == null || auto[0].child[0].auto == '-1'" class="btn-bd-green-s">去认证</router-link>
+            </td>
         </tr> 
-
-
 
         <tr>
           <td  rowspan="100">资质认证</td>
@@ -15,160 +21,106 @@
           <td class="long_td">{{auto[0].child[0].name}}</td>
           <td>
             <div class="approve-state">
-                <router-link :to="{name:'companyManageApproveBrand'}" class="nopassed"><span class="icon-ok"></span> 未认证</router-link>
+                <a v-if="auto[0].child[0].auto == null" class="nopassed"><span class="icon-ok"></span> 未认证</a>
+                <a v-else-if="auto[0].child[0].auto.status == 0"  class="passing"><span class="icon-ok"></span> 认证中...</a>
+                <a v-else-if="auto[0].child[0].auto.status == 1"  class="passed"><span class="icon-ok"></span> 已认证</a>
+                <a v-else-if="auto[0].child[0].auto.status == -1" class="nopassed"><span class="icon-ok"></span> 认证失败</a>
             </div> 
-            <a href="#" class="btn-bd-green-s">去认证</a>
+            <router-link :to="{name:'companyManageApproveBrand',params: { qualification_id: auto[0].child[0].id }}" class="btn-bd-green-s" v-show="auto[0].child[0].auto == null || auto[0].child[0].auto == '-1'">去认证</router-link>
           </td>
         </tr>
 
-        <!-- <tr v-for="index in auto[0].child.length-1">
-          <td class="long_td">专利代理1</td>
-            <td><div class="approve-state"><router-link :to="{name:'companyManageApprovePatent'}" class="passing"><span class="icon-ok"></span> 认证中...</router-link></div>
-          </td>
-        </tr> -->
-        <tr v-for="(item,index) in auto[0].child" v-if="index>0">
+        <tr v-for="(item,index) in auto[0].child" v-if="index>0" :key="index">
           <td  class="long_td">{{item.name}}</td>
-            <td><div class="approve-state"><router-link :to="{name:'companyManageApprovePatent'}" class="passing"><span class="icon-ok"></span> 认证中...</router-link></div>
+          <td>
+              <div class="approve-state">
+                <a v-if="item.auto == null" class="nopassed"><span class="icon-ok"></span> 未认证</a>
+                <a v-else-if="item.auto.status == 0"  class="passing"><span class="icon-ok"></span> 认证中...</a>
+                <a v-else-if="item.auto.status == 1"  class="passed"><span class="icon-ok"></span> 已认证</a>
+                <a v-else-if="item.auto.status == -1" class="nopassed"><span class="icon-ok"></span> 认证失败</a>
+            </div> 
+            <router-link :to="{name:'companyManageApproveBrand',params: { qualification_id: item.id }}" class="btn-bd-green-s" v-show="item.auto == null || item.auto == '-1'">去认证</router-link>
           </td>
         </tr>
-
-
-        <!-- <tr>
-          <td class="long_td">版权代理</td>
-          <td>
-            <div class="approve-state">
-              <a class="failpass"><span class="icon-ok"></span> 认证失败</a>
-            </div>
-            <a href="#" class="btn-bd-green-s">重新认证</a>
-          </td>
-        </tr> -->
-
-
-
 
         <tr>
           <td  :rowspan="auto[1].child.length">{{auto[1].name}} </td>
           <td class="long_td">{{auto[1].child[0].name}}</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
+          <td>
+            <div class="approve-state">
+                <a v-if="auto[1].child[0].auto == null" class="nopassed"><span class="icon-ok"></span> 未认证</a>
+                <a v-else-if="auto[1].child[0].auto.status == 0"  class="passing"><span class="icon-ok"></span> 认证中...</a>
+                <a v-else-if="auto[1].child[0].auto.status == 1"  class="passed"><span class="icon-ok"></span> 已认证</a>
+                <a v-else-if="auto[1].child[0].auto.status == -1" class="nopassed"><span class="icon-ok"></span> 认证失败</a>
+            </div> 
+            <router-link :to="{name:'companyManageApproveBrand',params: { qualification_id: auto[1].child[0].id }}" class="btn-bd-green-s" v-show="auto[1].child[0].auto == null || auto[1].child[0].auto == '-1'">去认证</router-link>
+          </td>
         </tr>
-        <tr v-for="(item,index) in auto[1].child" v-if="index>0">
+        <tr v-for="(item,index) in auto[1].child" v-if="index>0" :key="index">
           <td class="long_td">{{item.name}}</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
+          <td>
+              <div class="approve-state">
+                <a v-if="item.auto == null" class="nopassed"><span class="icon-ok"></span> 未认证</a>
+                <a v-else-if="item.auto.status == 0"  class="passing"><span class="icon-ok"></span> 认证中...</a>
+                <a v-else-if="item.auto.status == 1"  class="passed"><span class="icon-ok"></span> 已认证</a>
+                <a v-else-if="item.auto.status == -1" class="nopassed"><span class="icon-ok"></span> 认证失败</a>
+            </div> 
+            <router-link :to="{name:'companyManageApproveBrand',params: { qualification_id: item.id }}" class="btn-bd-green-s" v-show="item.auto == null || item.auto == '-1'">去认证</router-link>
+          </td>
         </tr>
-        <!-- <tr>
-          <td class="long_td">矿产评估</td> 
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr> -->
         
-        
-
-
         <tr>
           <td  :rowspan="auto[2].child.length">{{auto[2].name}}</td>
           <td class="long_td">{{auto[2].child[0].name}}</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
+          <td>
+            <div class="approve-state">
+                <a v-if="auto[2].child[0].auto == null" class="nopassed"><span class="icon-ok"></span> 未认证</a>
+                <a v-else-if="auto[2].child[0].auto.status == 0"  class="passing"><span class="icon-ok"></span> 认证中...</a>
+                <a v-else-if="auto[2].child[0].auto.status == 1"  class="passed"><span class="icon-ok"></span> 已认证</a>
+                <a v-else-if="auto[2].child[0].auto.status == -1" class="nopassed"><span class="icon-ok"></span> 认证失败</a>
+            </div> 
+            <router-link :to="{name:'companyManageApproveBrand',params: { qualification_id: auto[2].child[0].id }}" class="btn-bd-green-s" v-show="auto[2].child[0].auto == null || auto[2].child[0].auto == '-1'">去认证</router-link>
+          </td>
         </tr>
-        <tr v-for="(item,index) in auto[2].child" v-if="index>0">
-          <td class="long_td">房地产评估</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
+        <tr v-for="(item,index) in auto[2].child" v-if="index>0" :key="index">
+          <td class="long_td">{{item.name}}</td>
+          <td>
+              <div class="approve-state">
+                <a v-if="item.auto == null" class="nopassed"><span class="icon-ok"></span> 未认证</a>
+                <a v-else-if="item.auto.status == 0"  class="passing"><span class="icon-ok"></span> 认证中...</a>
+                <a v-else-if="item.auto.status == 1"  class="passed"><span class="icon-ok"></span> 已认证</a>
+                <a v-else-if="item.auto.status == -1" class="nopassed"><span class="icon-ok"></span> 认证失败</a>
+            </div> 
+            <router-link :to="{name:'companyManageApproveBrand',params: { qualification_id: item.id }}" class="btn-bd-green-s" v-show="item.auto == null || item.auto == '-1'">去认证</router-link>
+          </td>
         </tr>
-        <!-- <tr>
-          <td class="long_td">矿产评估</td> 
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr> -->
-      
-
-
 
         <tr>
           <td  :rowspan="auto[3].child.length"> {{auto[3].name}}</td>
           <td class="long_td">{{auto[3].child[0].name}}</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <tr v-for="(item,index) in auto[3].child" v-if="index>0">
-          <td class="long_td">{{item.name}}</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <!-- <tr>
-          <td class="long_td">矿产评估</td> 
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <tr>
-          <td class="long_td">房地产评估</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <tr>
-          <td class="long_td">矿产评估</td> 
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <tr>
-          <td class="long_td">房地产评估</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr> -->
-        
-      
-        
-
-
-
-       <!--
-        <tr>
-          <td  rowspan="11">资质认证</td>
-          <td  rowspan="3">知识产权所</td>
-          <td class="long_td">商标代理</td>
           <td>
             <div class="approve-state">
-                <router-link :to="{name:'companyManageApproveBrand'}" class="nopassed"><span class="icon-ok"></span> 未认证</router-link>
+                <a v-if="auto[3].child[0].auto == null" class="nopassed"><span class="icon-ok"></span> 未认证</a>
+                <a v-else-if="auto[3].child[0].auto.status == 0"  class="passing"><span class="icon-ok"></span> 认证中...</a>
+                <a v-else-if="auto[3].child[0].auto.status == 1"  class="passed"><span class="icon-ok"></span> 已认证</a>
+                <a v-else-if="auto[3].child[0].auto.status == -1" class="nopassed"><span class="icon-ok"></span> 认证失败</a>
             </div> 
-            <a href="#" class="btn-bd-green-s">去认证</a>
+            <router-link :to="{name:'companyManageApproveBrand',params: { qualification_id: auto[3].child[0].id }}" class="btn-bd-green-s" v-show="auto[3].child[0].auto == null || auto[3].child[0].auto == '-1'">去认证</router-link>
           </td>
         </tr>
-
-        <tr>
-          <td class="long_td">专利代理</td>
-            <td><div class="approve-state"><router-link :to="{name:'companyManageApprovePatent'}" class="passing"><span class="icon-ok"></span> 认证中...</router-link></div></td>
-        </tr>
-        <tr>
-          <td class="long_td">版权代理</td>
+        <tr v-for="(item,index) in auto[3].child" v-if="index>0" :key="index">
+          <td class="long_td">{{item.name}}</td>
           <td>
-            <div class="approve-state">
-              <a class="failpass"><span class="icon-ok"></span> 认证失败</a>
-            </div>
-            <a href="#" class="btn-bd-green-s">重新认证</a>
+              <div class="approve-state">
+                <a v-if="item.auto == null" class="nopassed"><span class="icon-ok"></span> 未认证</a>
+                <a v-else-if="item.auto.status == 0"  class="passing"><span class="icon-ok"></span> 认证中...</a>
+                <a v-else-if="item.auto.status == 1"  class="passed"><span class="icon-ok"></span> 已认证</a>
+                <a v-else-if="item.auto.status == -1" class="nopassed"><span class="icon-ok"></span> 认证失败</a>
+            </div> 
+            <router-link :to="{name:'companyManageApproveBrand',params: { qualification_id: item.id }}" class="btn-bd-green-s" v-show="item.auto == null || item.auto == '-1'">去认证</router-link>
           </td>
         </tr>
-        <tr>
-          <td  rowspan="5">评估公司</td>
-          <td class="long_td">综合评估</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <tr>
-          <td class="long_td">房地产评估</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <tr>
-          <td class="long_td">矿产评估</td> 
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <tr>
-          <td class="long_td">林业评估</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <tr>
-          <td class="long_td">证券从业评估</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <tr>
-          <td colspan="2">会计师事务所</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        <tr>
-          <td colspan="2">律师所</td>
-            <td><div class="approve-state"><a class="passed"><span class="icon-ok"></span> 已认证</a></div></td>
-        </tr>
-        -->
-
-
+        
       </table>
   </div>
 </template>
@@ -178,7 +130,9 @@
     data(){
       return {
         auto:[],
-
+        company_auto:{
+          status:''
+        },
         isShow:false
       }
     },
@@ -212,7 +166,7 @@
         this.$http.get(url).then(function(r){
           var td = r.data;
           this.auto = td.auto;
-
+          this.company_auto = td.company_auto;
           //测试
           // this.auto[0].child = this.auto[0].child.splice(0,1)
           // this.auto[1].child = this.auto[1].child.splice(0,1)

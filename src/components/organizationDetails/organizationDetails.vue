@@ -20,12 +20,12 @@
               <p>{{service.length>0?service[serviceIndex].info:'暂无描述'}}</p>
             </div>
             <div class="organ_head_item">
-              <span class="organ_head_name">价格：</span>
+              <span class="organ_head_name">价　　格：</span>
               <span class="money">￥{{service.length>0?service[serviceIndex].price:'0'}}</span>
             </div>
             <div class="organ_head_item">
-              <span class="organ_head_name">数量：</span>
-              <input type="number" v-model="goodsNum" min="1"/>
+              <span class="organ_head_name">数　　量：</span>
+              <input type="number" v-model="goodsNum" min="1" class="buy_num"/>
             </div>
             <div class="organ_head_item">
               <span class="organ_head_name"></span>
@@ -61,7 +61,9 @@
               </div>
             </router-link>
           	<div class="top-tab clear">
-          		<div class="communication"><img src="./images/communication.png"/>沟通</div>
+              <a target="_blank" :href="'http://wpa.qq.com/msgrd?v=3&uin='+qq+'&site=qq&menu=yes'" class="communication"><img src="./images/communication.png"/>
+                沟通
+              </a>
           		<div class="focus" @click="dealCollection(company.id)"><img src="./images/focus.png"/>{{is_gz?'取消收藏':'收藏'}}</div>
           	</div>
           </div>
@@ -79,18 +81,18 @@
         		<li>机构基本信息</li>
         		<li><img src="./images/phone.png"/>{{company.charge_phone}}</li>
         		<li><img src="./images/email.png"/>{{company.email}}</li>
-        		<li><img src="./images/finol.png"/><a v-bind:href="company.web_url">{{company.web_url}}</a></li>
+        		<li><img src="./images/finol.png"/><a v-bind:href="'http://'+company.web_url">{{company.web_url}}</a></li>
         		<li><img src="./images/address.png"/>
         		    <p class="scmessa">{{company.address}}</p>
         		</li>
         	</ul>
-        	<div class="map">
-        		<img src="./images/map.png"/>
+        	<div class="map" id="allmap">
+        		<!-- <img src="./images/map.png"/> -->
         	</div>        	
         </div> 
        <div class="main_content_right orgain_content_left protect">
        	<p class="protect-title">四大保障</p>
-       	<ul class="protect-list">
+       	<ul class="protect-list clear">
        		<li>
        			<img src="./images/list-1.png"/>
        			<p>真实</p>
@@ -124,7 +126,7 @@
     data(){
       return{
       	companyDetail:{},
-        imgUrl:path,
+        imgUrl:require("../../assets/default/fuwu_com.png"),
         order:{},
         service:[],
         serviceIndex:0,
@@ -138,6 +140,8 @@
         info:{},
 
         is_gz:0,
+
+        qq:'228349069'  //丁-公司默认的qq
 
         //当前服务的id
 
@@ -161,7 +165,10 @@
         	var td = response.data
 
           this.company = td.company
-          this.imgUrl += this.company.cover_img
+          if(this.company.cover_img){
+            this.imgUrl = path + this.company.cover_img
+          }
+          
           this.order = td.order
 
           this.service = td.company.service;
@@ -176,7 +183,7 @@
 
           console.log("download data")
           //让子组件更新到最新数据
-          var sub = self.$refs.organizationDetailSub;
+          var sub = this.$refs.organizationDetailSub;
           console.log("->"+sub)
           if(sub.loadData){
             sub.loadData();
@@ -184,6 +191,22 @@
           }else{
             console.log("NO")
           }
+
+          //qq显示
+          if(td.company.qq){
+            this.qq = td.company.qq;
+          }
+
+          //显示地图信息
+          //地图上线了再去显示
+          /*
+          if(td.company.lon && td.company.lat){
+            console.log("显示地图")
+            console.log("lon="+td.company.lon+" lat="+td.company.lat)
+            show_baidu_map(td.company.lon, td.company.lat);
+          }
+          */
+          
           
         }).catch(function(response) {
 
@@ -225,6 +248,11 @@
         this.$http.post(url,dict,{"emulateJSON":true}).then(function(r){
           var td = r.data;
           if(td.status == 1){
+
+            //更新导航栏购物车商品数量
+            eventBus.$emit("changeCart");
+
+
             alert("添加成功")
           }else{
             alert("添加失败")
@@ -365,57 +393,71 @@
     padding: 30px 20px;
   }
   .organ_head_infor{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     width: 962px;
-    height: 300px;
     border: 1px solid #eef0f6;
     margin-bottom: 20px;
+      padding: 20px 40px
   }
   .organ_head_item{
     display: flex;
-    width: 90%;
-    height: 50px;
     font-size: 14px;
-    justify-content: flex-start;
     align-items: center;
     color: #898989;
+      padding: 10px 0
   }
   .organ_head_name{
-    width: 100px;
+    width: 80px;
     font-weight: bold;
     color: #616161;
   }
   .organ_head_item div span{
-    padding: 5px 10px;
+    padding: 10px 10px;
     border: 1px solid #eef0f6;
-    margin-right: 20px;
+    margin-right: 10px;
+      cursor: pointer;
+      transition: .3s;
+      display: inline-block;
+      color: #565656
   }
+    .organ_head_item div span:hover{
+        color: #0079FF
+    }
   .organ_head_item .money{
-    font-size: 16px;
+    font-size: 22px;
     font-weight: bold;
-    color: orange;
+    color:#FF826A;
   }
   .btn{
-    height: 30px;
-    border: 1px solid #eef0f6;
-    border-radius: 5px;
+    height: 46px;
+    border-radius: 3px;
     text-align: center;
-    line-height: 30px;
+    line-height: 46px;
+      cursor: pointer;
+      transition: .3s;
+      font-size: 14px;
   }
   .btn_buy{
     width: 100px;
-    background: #6398ed;
+    background: #0079FF;
     color: #fff;
+    height: 46px;
+      border: 1px solid #0079FF;
+      box-shadow: 0 1px 1px #F8F8F8
   }
+    .btn_buy:hover{
+        background: #2d91ff
+    }
   .btn_add{
     width: 150px;
-    background: #d6d6d6;
+    background: #eff1f6;
     color: #616161;
     margin-left: 20px;
+      border: 1px solid #d4d7e2;
+      box-shadow: 0 1px 1px #F8F8F8
   }
+    .btn_add:hover{
+        background: #f7f7f7
+    }
   .orgain_content_right{
     float: right;
   }
@@ -458,27 +500,33 @@
   	width: 180px;
   	margin: 10px auto;
   }
-  .top-tab div{
+  .top-tab>*{
   	width: 80px;
   	height: 30px;
   	line-height: 30px;
 		text-align: center;
   	border-radius: 3px;
+      cursor: pointer;
+      transition: .3s;
   }
-  .top-tab div img{
+    .top-tab>*:hover{
+        background: #fff
+    }
+  .top-tab>* img{
   	vertical-align: -3px;
   	margin-right: 3px;
   }
   .communication{
   	float: left;
   	border:1px solid #d4e1f5;
+      color: #4790F2
   }
   .focus{
   	float: right;
 		border:1px solid #e5e7ed;
   }
   .mid-list{
-  	padding: 0 20px;
+  	padding: 20px;
   	overflow: hidden;
   	border-bottom: 1px solid #e5e7ed;
   }
@@ -523,24 +571,27 @@
   	color: #666;
   }
   .protect-list{
-  	padding: 0px 20px;
+  	padding:10px 20px 30px;
   }
   .protect-list li{
   	float: left;
   	width: 90px;
   	text-align: center;
   	margin-top: 15px;
-		margin-bottom: 15px;
   }
   .protect-list li p{
   	margin-top:5px ;
-  	font-size: 16px;
+  	font-size: 14px;
   	color: #999;
   }
-
+    .protect-list li>img{
+        width: 56px;
+        height: 56px
+    }
   .service-active{
-    background-color: #659AEA;
-    color: white;
+      border-color: #0079FF!important;
+      box-sizing: border-box;
+      color: #0079FF
   }
     .organization-claim{
         text-align: center;
@@ -557,5 +608,17 @@
     }
     .organization-claim>span{
         margin-right: 6px;
+    }
+
+    .map{
+      margin:0 auto 5px auto;
+      width: 185px;
+      height:138px;
+      border:1px solid #ccc;
+    }
+    .buy_num{
+        height: 32px;
+        padding: 0 10px;
+        width: 50px;
     }
 </style>

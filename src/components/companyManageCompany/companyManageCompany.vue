@@ -28,23 +28,23 @@
         </li>
         <li>
           <p>客服QQ</p>
-          <input type="text" placeholder="请输入企业客服QQ">
+          <input v-model="company.qq" type="text" placeholder="请输入企业客服QQ">
         </li>
         <li>
           <p>地址</p>
           <select v-model="provinceId" @change="dealProvinceChange">
             <option value="-1">请选择省</option>
-            <option v-for="item in provinceList" 
+            <option v-for="item in provinceList"  :key="item.id"
               :value="item.id">{{item.name}}</option>
           </select>
           <select v-model="cityId"  @change="dealCityChange">
             <option value="-1">请选择市</option>
-            <option v-for="item in cityList" 
+            <option v-for="item in cityList"  :key="item.id"
               :value="item.id">{{item.name}}</option>
           </select>
           <select v-model="areaId">
             <option value="-1">请选择区</option>
-            <option v-for="item in areaList" 
+            <option v-for="item in areaList" :key="item.id"
               :value="item.id">{{item.name}}</option>
           </select>
           <input v-model="company.address" type="text" placeholder="请输入公司详细地址" class="wallet_sort">
@@ -52,23 +52,23 @@
         <li class="company-manager-input-area">
           <p>公司主页</p>
           <p>
-            <textarea v-model="company.content" name="" id="" cols="110" rows="10"></textarea>
+            <textarea v-model="company.content" name="" id="" cols="90" rows="10"></textarea>
           </p>
         </li>
         <li class="company-manager-input-area">
           <p>服务范围</p>
           <p>
-            <textarea v-model="company.service_area" name="" id="" cols="110" rows="10"></textarea>
+            <textarea v-model="company.service_area" name="" id="" cols="90" rows="10"></textarea>
           </p>
           
         </li>
-        <li class="company-manager-input-area">
+        <!-- <li class="company-manager-input-area">
           <p>管理团队</p>
           <p>
-            <textarea v-model="company.company_team" name="" id="" cols="110" rows="10"></textarea>
+            <textarea v-model="company.company_team" name="" id="" cols="90" rows="10"></textarea>
           </p>
           
-        </li>
+        </li> -->
         <li>
           <p></p>
           <span class="submit_btn company_submit" @click="dealSendUpdateCompany">提交</span>
@@ -91,10 +91,9 @@
           content:"",
           service_area:"",
           company_team:"",
-
-          
-          
+          qq:'',
         },
+        company_type:[],
 
         src:require("../../assets/uploadimg.png"),
 
@@ -105,6 +104,7 @@
         provinceList:[],
         cityList:[],
         areaList:[],
+        license:''
       }
     },
 
@@ -113,8 +113,6 @@
       if(this.companyId){
         this.requestOrganizationDetail();
       }
-
-      
     },
 
     methods:{
@@ -123,36 +121,46 @@
       dealSendUpdateCompany:function(){
 
         //检测
-        if(this.company.name.length == 0){
+        if(!this.company.name){
           alert("请输入正确的企业名称");
           return;
         }
 
-        if(this.provinceId == -1){
+        if(this.provinceId == 0){
           alert("请选择省份");
           return;
         }
-        if(this.cityId == -1){
+        if(this.cityId == 0){
           alert("请选择城市");
           return;
         }
-        if(this.areaId == -1){
+        if(this.areaId == 0){
           alert("请选择地区");
           return;
         }
 
-        if(this.company.address.length == 0){
+        if(!this.company.address){
           alert("请输入正确的详细地址");
           return;
         }
 
-        if(this.company.mobile.length == 0){
+        if(!this.company.mobile){
           alert("请输入正确的手机号");
           return;
         }
 
-        if(this.company.email.length == 0){
+        if(!this.company.email){
           alert("请输入正确的email");
+          return;
+        }
+
+        if(!this.company.qq){
+          alert("请输入正确的qq");
+          return;
+        }
+
+        if(!this.company.content){
+          alert("请输入公司主页");
           return;
         }
 
@@ -160,54 +168,61 @@
           alert("请选择企业LOGO文件");
           return;
         }
-
-
-
         
         //发起认领请求
         var url = path + "/index/company/update-company";
 
         //创建formData
-        var formData = new FormData();
+        // var formData = new FormData();
         
-        formData.append("company_id",this.company.id);
-        formData.append("name",this.company.name);
-        formData.append("user_id",this.userId);
+        // formData.append("company_id",this.company.id);
+        // formData.append("name",this.company.name);
+        // formData.append("user_id",this.userId);
 
-        formData.append("mobile",this.company.mobile);
-        formData.append("email",this.company.email);
+        // formData.append("mobile",this.company.mobile);
+        // formData.append("email",this.company.email);
 
-        formData.append("province_id",this.provinceId);
-        formData.append("city_id",this.cityId);
-        formData.append("area_id",this.areaId);
-        formData.append("address",this.company.address);
-        formData.append("company_type",1);
-        formData.append("license",this.file);
-
-
-        formData.append("content",this.company.content);
-
-        formData.append("service_area",this.company.service_area);
-
-        formData.append("company_team",this.company.company_team);
+        // formData.append("province_id",this.provinceId);
+        // formData.append("city_id",this.cityId);
+        // formData.append("area_id",this.areaId);
+        // formData.append("address",this.company.address);
+        // formData.append("company_type",this.company_type);
+        // formData.append("license",this.file);
 
 
-        
-        
+        // formData.append("content",this.company.content);
+
+        // formData.append("service_area",this.company.service_area);
+
+        // formData.append("company_team",this.company.company_team);
+
+
+        var formDatas = {
+          company_id:this.company.id,
+          name:this.company.name,
+          user_id:this.userId,
+          province_id:this.provinceId,
+          city_id:this.cityId,
+          area_id:this.areaId,
+          address:this.company.address,
+          cover_img:this.license,
+          company_type:this.company_type,
+          content:this.company.content,
+          service_area:this.company.service_area,
+          company_team:this.company.company_team,
+          mobile:this.company.mobile,
+          email:this.company.email,
+          qq:this.company.qq,
+        }
+
         //发起请求
-        this.$http.post(url,formData,function(){
-          console.log("send")
-        }).then(function (r) {
-          //console.log(JSON.stringify(r.data))
+        this.$http.get(url,{params:formDatas}).then(function (r) {
           if(r.data.status == 1){
             alert(r.data.info);
           }else{
             alert(r.data.info);
           }
-        })
-        
-
-        
+        }) 
       },
       requestOrganizationDetail:function(){
 
@@ -224,6 +239,11 @@
           this.downloadProvinceList();
           this.downloadCityList();
           this.downloadAreaList();
+          this.license = this.company.cover_img;
+          //company_type array
+          for(var i=0;i<this.company.companytype.length;i++){
+            this.company_type.push(this.company.companytype[i].id)
+          }
         })
       },
 
@@ -239,10 +259,13 @@
         }
         var uploadFile = fileTag.files[0];
         var url = window.URL.createObjectURL(uploadFile);
-        // console.log("url = "+url);
-        
         this.file = uploadFile;
-
+        var formData = new FormData();
+        formData.append("file",this.file);
+        this.$http.post(path+'/api/uploadImage',formData,{"emulateJSON":true}).then(function(r){
+          var imgdata = r.data;
+          this.license = imgdata.uri;
+        })
         //显示图片
         this.src = url;
       },
@@ -344,6 +367,8 @@
   }
   .company-manager-input-area{
     height: 200px !important;
+    resize:none;
+    overflow-y:visible;
   }
   .upload img{
     width: 100px;

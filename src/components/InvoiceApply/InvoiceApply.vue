@@ -15,6 +15,10 @@
       </tr>
     </table>
     <p class="title_invoice">发票信息</p>
+    
+
+
+    
     <ul class="manage_list_common manage_list_invoiceapply">
       <li>
         <p>发票类型</p>
@@ -22,66 +26,200 @@
           <span v-for="(item,index) in types" :key=index class="types" :class="{'active': typesValue=== item.value}" @click="types_tab(item.value)">{{item.name}}</span>
         </section>
       </li>
-      <li>
-        <p>发票抬头</p>
-        <input v-model="invoice_header" type="text" placeholder="请输入发票抬头">
-      </li>
-      <li class="upload">
-        <p>税务登记证号</p>
-        <section>
-          <input v-model="registration_no" type="text" placeholder="请填写15到20位有效税务登记证号码">
-          <p class="des_1">请与贵公司财务人员核实后，填写准确的税务登记证号或三证合一号或五证合一号，以免影响发票后续的使用</p>
-        </section>
-      </li>
-      <li>
-        <p>开户银行</p>
-        <input v-model="bank_name" type="text" placeholder="开户行及支行，例：招商银行南油支行">
-      </li>
-      <li>
-        <p>开户账号</p>
-        <input v-model="bank_num" type="text" placeholder="请填写贵公司开户许可登记银行账号">
-      </li>
-      <li>
-        <p>注册场所地址</p>
-        <input v-model="adress" type="text" placeholder="请填写税务登记证上的地址">
-      </li>
-      <li>
-        <p>公司注册电话</p>
-        <input v-model="mobile" type="text" placeholder="请填写公司注册电话">
-      </li>
-      <li class="upload">
-        <p>税务登记扫描件</p>
-        <img :src="shuiwu_img">
-        <div class="file-select-box">
-          <input id="shuiwu" class="shuiwu_img" type="file" 
-            @change="uploadImageChange('shuiwu')">
-        </div>
+
+
+      <!--个人增值税普通发票 begin-->
+      <div v-show="typesValue == 1">
         
-        <span>请上传税务登记扫描件或三证合一或五证合一的证照扫描件（复印件需加盖公章）</span>
+        <li>
+          <p>真实姓名</p>
+          <input  type="text" placeholder="开票人真实姓名">
+        </li>
+        <li>
+          <p>身份证号</p>
+          <section>
+            <input type="text" placeholder="请输入该姓名的身份证号">
+          </section>
+        </li>
+        <li>
+          <p>备注</p>
+          <input type="text" placeholder="如：办公费、车费">
+        </li>
+
+      </div>
+      <!--个人增值税普通发票 end-->
+
+      <!--企业增值税普通发票 begin-->
+      <div v-show="typesValue == 2">
         
-      </li>
-      <li class="upload">
-        <p>一般纳税人证明扫描件</p>
-        <img :src="saomiao_img">
-        <div class="file-select-box">
-          <input id="saomiao" class="saomiao_img" type="file"
-            @change="uploadImageChange('saomiao')">
-        </div>
-      </li>
+        <li>
+          <p>发票抬头</p>
+          <input v-model="invoice_header" type="text" placeholder="请输入发票抬头">
+        </li>
+        <li class="upload">
+          <p>税务登记证号</p>
+          <section>
+            <input v-model="registration_no" type="text" placeholder="请填写15到20位有效税务登记证号码">
+            <p class="des_1">请与贵公司财务人员核实并填写准确的税务登记证号，以免影响发票后续的使用</p>
+          </section>
+        </li>
+        <li>
+          <p>开户银行</p>
+          <input v-model="bank_name" type="text" placeholder="开户行及支行，例：招商银行南油支行">
+        </li>
+        <li>
+          <p>开户账号</p>
+          <input v-model="bank_num" type="text" placeholder="请填写贵公司开户许可登记银行账号">
+        </li>
+        <li>
+          <p>注册场所地址</p>
+          <input v-model="adress" type="text" placeholder="请填写税务登记证上的地址">
+        </li>
+        <li>
+          <p>公司注册电话</p>
+          <input v-model="mobile" type="text" placeholder="请填写公司注册电话">
+        </li>
+        <li>
+          <p>备注</p>
+          <input type="text" placeholder="如：办公费、车费">
+        </li>
+
+      </div>
+      <!--企业增值税普通发票 end-->
+
+      <!--企业增值税专用发票 begin-->
+      <div  v-show="typesValue == 3">
+
+        <li>
+          <p>发票抬头</p>
+          <input v-model="invoice_header" type="text" placeholder="请输入发票抬头">
+        </li>
+        <li class="upload">
+          <p>税务登记证号</p>
+          <section>
+            <input v-model="registration_no" type="text" placeholder="请填写15到20位有效税务登记证号码">
+            <p class="des_1">请与贵公司财务人员核实并填写准确的税务登记证号，以免影响发票后续的使用</p>
+          </section>
+        </li>
+        <li>
+          <p>开户银行</p>
+          <input v-model="bank_name" type="text" placeholder="开户行及支行，例：招商银行南油支行">
+        </li>
+        <li>
+          <p>开户账号</p>
+          <input v-model="bank_num" type="text" placeholder="请填写贵公司开户许可登记银行账号">
+        </li>
+        <li>
+          <p>注册场所地址</p>
+          <input v-model="adress" type="text" placeholder="请填写税务登记证上的地址">
+        </li>
+        <li>
+          <p>公司注册电话</p>
+          <input v-model="mobile" type="text" placeholder="请填写公司注册电话">
+        </li>
+        <li>
+          <p>备注</p>
+          <input type="text" placeholder="如：办公费、车费">
+        </li>
+        
+      </div>
+      <!--企业增值税专用发票 end-->
+      
+      
     </ul>
+    
+    
     <p class="title_invoice">收件地址</p>
-    <p class="consignee_address">
-      <span class="icon-map-marker"></span>
-      <span>陈邓</span>
-      <span>四川省成都市锦江区锦华路一段120号天府新谷2栋2单元2010</span>
-      <span>132****5220</span>
-      <br />
-      <span class="change_address">更换地址</span>
-    </p>
+    <div class="consignee_address ptb30">
+      <div class="poo p-ac">
+         <div class="p-f1">
+              <span class="icon-map-marker"></span>
+              <span>陈邓</span>
+              <span>四川省成都市锦江区锦华路一段120号天府新谷2栋2单元2010</span>
+              <span>132****5220</span>
+         </div>
+         <span class="change_address">更换地址</span> 
+      </div>
+      
+      <!--更换地址 begin-->
+      <div class="bd mt20 address-more">
+          <div class="poo p15 bb">
+              <b class="mr20">罗恒</b>
+              <div class="p-f1 mr20 poo">
+                 <div class="mr10">四川省成都市双流县华阳镇滨河路二段169号</div>
+                 <div>180****1664</div>
+              </div>
+              <div>
+                  <span>选择</span>
+                  <span>编辑</span>
+              </div>
+          </div>
+          <div class="poo p15 bb">
+              <b class="mr20">罗恒</b>
+              <div class="p-f1 mr20 poo">
+                 <div class="mr10">四川省成都市双流县华阳镇滨河路二段169号</div>
+                 <div>180****1664</div>
+              </div>
+              <div>
+                  <span>选择</span>
+                  <span>编辑</span>
+              </div>
+          </div>
+          <div class="adress-add">添加新地址</div>
+      </div>
+      <!--更换地址 end-->
+    </div>
     <div class="common_btn_box invoiceapply_btn_box">
       <span class="submit_btn invoiceapply_submit_btn" @click="dealSendInvoice">提交</span>
       <span class="cancel_btn invoiceapply_cancel_btn">取消</span>
     </div>
+    
+    <!--编辑/添加地址 begin-->
+    <div class="windows_wrapper">
+      <div class="windows_box">
+        <div class="windows_head">
+          <span>新增/编辑收货地址</span>
+          <span class="icon-close" @click="address_box_status = ''"></span>
+        </div>
+        <div class="windows_content">
+          <section>
+            <span class="label">收件人</span>
+            <input v-model="input_name" type="text" placeholder="请输入收件人姓名">
+          </section>
+          <section>
+            <span class="label">所在地区</span>
+            <select v-model="provinceId" @change="dealProvinceChange">
+              <option value="-1">请选择省</option>
+              <option v-for="item in provinceList" 
+              :value="item.id">{{item.name}}</option>
+            </select>
+            <select v-model="cityId" @change="dealCityChange">
+              <option value="-1">请选择市</option>
+              <option v-for="item in cityList" 
+              :value="item.id">{{item.name}}</option>
+            </select>
+            <select v-model="areaId">
+              <option value="-1">请选择区</option>
+              <option v-for="item in areaList" 
+              :value="item.id">{{item.name}}</option>
+            </select>
+          </section>
+          <section>
+            <span class="label">详细地址</span>
+            <input v-model="input_address" type="text" placeholder="请补全详细地址">
+          </section>
+          <section>
+            <span class="label">电话/手机</span>
+            <input v-model="input_phone" type="text" placeholder="请输入电话号码或手机号码">
+          </section>
+        </div>
+        <div class="windows_btn">
+          <span class="windows_btn_cancel" @click="address_box_status = ''">取消</span>
+          <span class="windows_btn_confirm" @click="dealProcess">提交</span>
+        </div>
+      </div>
+    </div>
+    <!--编辑/添加地址 end-->
   </div>
 </template>
 
@@ -232,9 +370,6 @@
     font-weight: 600;
   }
   .consignee_address{
-    display: flex;
-    height: 70px;
-    justify-content: flex-start;
     align-items: center;
     padding-left: 20px;
     border-bottom: 1px solid #e5e6ed;
@@ -247,7 +382,7 @@
   .consignee_address span:nth-child(1){
     font-size: 15px;
   }
-  .consignee_address span:nth-child(2){
+  .consignee_address .p-f1 span:nth-child(2){
     font-weight: 600; 
   }
   .manage_list_invoiceapply li p.des_1{
@@ -266,9 +401,12 @@
     margin: 0 10px;
   }
   span.change_address{
-    color: #6389ed;
+    color: #1372FB;
     cursor: pointer;
   }
+    span.change_address:hover{
+        color: #4893ff
+    }
 
   .file-select-box{
     position:absolute;
@@ -282,4 +420,33 @@
     padding-bottom: 60px;
     opacity: 0.1;
   }
+    
+    .adress-add{
+        text-align: center;
+        padding: 10px 0;
+        background: #F5F5F5;
+        color: #1372FB;
+        transition: .3s;
+        cursor: pointer
+    }
+    .adress-add:hover{
+        background: #fdfdfd
+    }
+    .address-more{
+        font-size: 14px;
+        
+    }
+    .address-more b{
+        font-weight: bold
+    }
+    .address-more span{
+        font-size: 14px!important;
+        font-weight: normal!important;
+        color: #1372FB;
+        transition: .3s;
+        cursor: pointer!important
+    }
+    .address-more span:hover{
+        color: #4893ff
+    }
 </style>

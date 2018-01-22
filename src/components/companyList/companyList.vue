@@ -1,8 +1,8 @@
 <template>
   <div>
     <ul class="my_company_list">
-      <li v-for="item in companyList">
-        <img :src="item.enterprise?path+item.enterprise.img:''">
+      <li v-for="item in companyList" :key="item.id">
+        <img :src="item.enterprise?item.enterprise.img?path+item.enterprise.img:defaultImage:defaultImage">
         <section>
           <h1>
             <a>
@@ -26,84 +26,6 @@
           </p>
         </section>
       </li>
-      <!-- <li>
-        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498370799390&di=813dd5f752726dfaf917a2f2ab1e6673&imgtype=0&src=http%3A%2F%2Fimgm.ph.126.net%2FgOGc6lK7LrDuZjSytmnylQ%3D%3D%2F1295347842840489363.png">
-        <section>
-          <h1>
-            <a>
-              南京小米科技有限公司
-            </a>
-            <span>
-              <span class="auditing">入驻审核中</span>
-            </span>
-          </h1>
-          <p>
-            <span class="icon-tel"></span>
-            <span>电话:12312312312</span>
-            <span class="icon-message"></span>
-            <span>邮箱:asdasklcjak@qq.com</span>
-            <span class="icon-globe"></span>
-            <span>网址:<a>www.baidu.com</a></span>
-          </p>
-          <p>
-            <span class="icon-compass"></span>
-            <span>地址:北京市北京市北京市北京市北京市北京市北京市</span>
-          </p>
-        </section>
-      </li>
-      <li>
-        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498370799390&di=813dd5f752726dfaf917a2f2ab1e6673&imgtype=0&src=http%3A%2F%2Fimgm.ph.126.net%2FgOGc6lK7LrDuZjSytmnylQ%3D%3D%2F1295347842840489363.png">
-        <section>
-          <h1>
-            <a>
-              南京小米科技有限公司
-            </a>
-            <span>
-              <span class="audited">
-                <router-link :to="{name:'myCompanyManage'}">管理</router-link>
-                <span>取消管理</span>
-              </span>
-            </span>
-          </h1>
-          <p>
-            <span class="icon-tel"></span>
-            <span>电话:12312312312</span>
-            <span class="icon-message"></span>
-            <span>邮箱:asdasklcjak@qq.com</span>
-            <span class="icon-globe"></span>
-            <span>网址:<a>www.baidu.com</a></span>
-          </p>
-          <p>
-            <span class="icon-compass"></span>
-            <span>地址:北京市北京市北京市北京市北京市北京市北京市</span>
-          </p>
-        </section>
-      </li>
-      <li>
-        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498370799390&di=813dd5f752726dfaf917a2f2ab1e6673&imgtype=0&src=http%3A%2F%2Fimgm.ph.126.net%2FgOGc6lK7LrDuZjSytmnylQ%3D%3D%2F1295347842840489363.png">
-        <section>
-          <h1>
-            <a>
-              南京小米科技有限公司
-            </a>
-            <span>
-              <router-link :to="{name: 'myCompanyClaimApply'}" class="claim">认领</router-link>
-            </span>
-          </h1>
-          <p>
-            <span class="icon-tel"></span>
-            <span>电话:12312312312</span>
-            <span class="icon-message"></span>
-            <span>邮箱:asdasklcjak@qq.com</span>
-            <span class="icon-globe"></span>
-            <span>网址:<a>www.baidu.com</a></span>
-          </p>
-          <p>
-            <span class="icon-compass"></span>
-            <span>地址:北京市北京市北京市北京市北京市北京市北京市</span>
-          </p>
-        </section>
-      </li> -->
     </ul>
   </div>
 </template>
@@ -118,7 +40,8 @@
       return {
         company_status:company_status,
         path:path,
-        companyList:[]
+        companyList:[],
+        defaultImage:require('../../assets/default/qiye_com.png'),
       }
     },
 
@@ -130,8 +53,6 @@
 
     //创建
     created(){
-
-      //console.log("created");
 
     },
     watch:{

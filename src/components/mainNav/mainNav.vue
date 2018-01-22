@@ -27,15 +27,15 @@
             </section> -->
 
             
-            <section v-for="fatherItem in qualificationList" class="clearfix" >
+            <section v-for="(fatherItem,fatherIndex) in qualificationList" :key="fatherItem.id" class="clearfix" >
               <p>
-                <img src="./images/icon_1.png">
+                <img :src="require('./images/icon_'+(fatherIndex+1)+'.png')">
                 <span>
                   <router-link :to="{name:'organization',query:{ type:  fatherItem.id}}">{{fatherItem.name}}</router-link>
                 </span>
               </p>
 
-              <router-link v-for="item in fatherItem.child" :to="{name:'organization',query:{ type:  item.pid,content:item.id}}">{{item.name}}</router-link>
+              <router-link v-for="item in fatherItem.child" :key="item.id" :to="{name:'organization',query:{ type:  item.pid,content:item.id}}">{{item.name}}</router-link>
                         
             </section>
 
@@ -112,8 +112,8 @@
       </p>
       <p>
         <span class="icon-shopping-cart"></span>
-        <router-link to="/manage/cart"><span>   我的购物车</span></router-link>
-        <span class="items_num">0</span>
+        <router-link :to="userId?'/manage/cart':'/login'"><span>   我的购物车</span></router-link>
+        <span class="items_num">{{getAllCount}}</span>
       </p>
     </div>
   </div>
@@ -124,11 +124,18 @@
     data(){
       return{
         dropDownShow:false,
-        qualificationList:[]
+        qualificationList:[],
+
+        goodsCount:0,
+        firstRun:true,
+
+        cart:[]
       }
     },
     props:['show'],
     created(){
+
+      loginStatus(this);
       
       var url = path + "/index/index/qualification"
       this.$http.get(url).then(function(r){
@@ -136,6 +143,10 @@
         this.qualificationList = td;
       })
 
+      this.downloadCartData();
+
+      //一旦接收changeCart事件, 重新下载数据
+      eventBus.$on("changeCart",this.downloadCartData);
 
     },
 
@@ -152,7 +163,39 @@
       }
     },
     methods:{
-      
+      downloadCartData(){
+
+        // http://api.chinashouzhi.com/index/user/user-company?user_id=2
+
+        var url = path +"/index/cart?user_id="+this.userId
+
+        this.$http.get(url).then(function(r){
+          this.cart = r.data;
+        })
+
+      }
+    },
+
+    computed:{
+      getAllCount:function(){
+
+            var count = 0;
+            for(var k in this.cart){
+                var subject = this.cart[k];
+                
+                for(var serviceIndex in subject.cart){
+                    var service = subject.cart[serviceIndex];
+
+                    count++;
+
+                }
+            }
+            //this.allCount = count;
+            //console.log("cunt = "+count);
+            return count;
+        }
+
+
     }
 
   }

@@ -2,7 +2,7 @@
   <div>
     <ul class="firm_list">
       <li v-for="item in list">
-        <img :src="item.cover_img?path+item.cover_img:''">
+        <img :src="item.cover_img?path+item.cover_img:require('../../assets/default/qiye_com.png')">
         <section>
           <router-link :to="{name:'organizationDetails',params:{id:item.id}}">{{item.name}}</router-link>
           <div class="firm_list_tabs">

@@ -3,30 +3,33 @@
     <ul class="manage_list_common setting_list">
       <li class="upload">
         <p>头像</p>
-        <p><img :src="headImage">
-          <input type="file" id="file" @change="uploadImageChange"></p>
+        <p>
+            <img :src="headImage">
+             <input type="file" id="file" @change="uploadImageChange" style="display:none">
+             <label for="file" class="select-head">选择头像</label>
+          </p>
 
         <p><span @click="sendUploadHeadImage">上传头像</span></p>
       </li>
       <li>
         <p>邮箱</p>
-        <p>123123231123@qq.com</p>
+        <p>{{show_email}}</p>
         <p>
-          <span @click="email_edit = true">绑定</span>
+          <span @click="dealClickEditEmail">绑定</span>
         </p>
       </li>
       <li>
         <p>手机</p>
-        <p>183****1234</p>
+        <p>{{phone_num_encrypt(show_phone)}}</p>
         <p>
-          <span @click="tel_edit = true">修改</span>
+          <span @click="dealClickEditPhone">修改</span>
         </p>
       </li>
       <li>
         <p>密码</p>
         <p>********</p>
         <p>
-          <span @click="pass_edit = true">修改</span>
+          <span @click="dealClickEditPassword">修改</span>
         </p>
       </li>
     </ul>
@@ -57,12 +60,11 @@
         <div class="windows_content">
           <section>
             <span class="label">原手机号</span>
-            <input v-model="input_old_phone" type="text" placeholder="请输入原手机号" class="shot">
-            <span class="smscode_btn" @click="dealSendOldPhoneCode">发送验证码</span>
+            <input v-model="input_old_phone" type="text" placeholder="请输入原手机号">
           </section>
           <section>
-            <span class="label">验证码</span>
-            <input v-model="input_old_code" type="text" placeholder="请输入原手机收到的验证码">
+            <span class="label">密码</span>
+            <input v-model="input_old_code" type="text" placeholder="请输入密码">
           </section>
           <section>
             <span class="label">新手机号</span>
@@ -89,15 +91,15 @@
         <div class="windows_content">
           <section>
             <span class="label">原密码</span>
-            <input v-model="input_old_password" type="text" placeholder="请输入原密码">
+            <input v-model="input_old_password" type="password" placeholder="请输入原密码">
           </section>
           <section>
             <span class="label">新密码</span>
-            <input v-model="input_new_password" type="text" placeholder="请输入新密码">
+            <input v-model="input_new_password" type="password" placeholder="请输入新密码">
           </section>
           <section>
             <span class="label">确认新密码</span>
-            <input v-model="input_new_sure_password" type="text" placeholder="请再次输入新密码">
+            <input v-model="input_new_sure_password" type="password" placeholder="请再次输入新密码">
           </section>
         </div>
         <div class="windows_btn">
@@ -128,18 +130,65 @@
 
         input_old_password:"",
         input_new_password:"",
-        input_new_sure_password:""
+        input_new_sure_password:"",
+
+        show_email:"",
+        show_phone:"",
+
+        sendNewPhoneCode: false,
       }
     },
     created(){
       loginStatus(this);
       this.headImage = path + this.img;
+
+      //获取用户基本信息
+      this.getUserInfo();
     },
     methods:{
+
+      dealClickEditEmail(){
+        this.input_email = ""
+        this.email_edit = true;
+      },
+
+      dealClickEditPhone(){
+        this.input_old_phone = ""
+        this.input_old_code = ""
+        this.input_new_phone = ""
+        this.input_new_code = ""
+
+        this.tel_edit = true;
+      },
+
+      dealClickEditPassword(){
+
+        this.input_old_password = ""
+        this.input_new_password = ""
+        this.input_new_sure_password = ""
+
+        this.pass_edit = true
+      },
+
+      getUserInfo(){
+          // /index/user
+          var url = path + "/index/user?user_id="+this.userId;
+          this.$http.get(url).then(function(r){
+            var td = r.data;
+            this.show_email = td.email;
+            this.show_phone = td.phone;
+          })
+      },
+
       dealChangePassword:function(){
 
         if(this.input_old_password == ""){
           alert("请输入原密码");
+          return;
+        }
+
+        if(this.input_old_password.length < 6){
+          alert("原密码最少6位");
           return;
         }
 
@@ -148,8 +197,23 @@
           return;
         }
 
+        if(this.input_new_password.length < 6){
+          alert("新密码最少6位");
+          return;
+        }
+
         if(this.input_new_sure_password == ""){
           alert("请输入新的重复密码");
+          return;
+        }
+
+        if(this.input_new_sure_password.length <6){
+          alert("新的重复密码最少6位");
+          return;
+        }
+
+        if(this.input_new_password != this.input_new_sure_password){
+          alert("新密码和新的重复密码不一致");
           return;
         }
 
@@ -165,17 +229,36 @@
           var td = r.data;
           if(td.state == 1){
             alert("密码修改成功")
+
+            this.pass_edit = false
           }else{
             alert("密码修改失败")
           }
         })
 
       },
-      dealSendOldPhoneCode:function(){
-
-      },
       dealSendNewPhoneCode:function(){
-
+        if(this.input_new_phone == ""){
+          alert("请输入新手机号");
+          return;
+        }
+        if (this.sendNewPhoneCode) {
+          alert("请稍后请求");
+          return;
+        }
+        var url = path + '/index/login/send-update-mobile-code';
+        var dict = {
+          phone:this.input_new_phone
+        }
+        this.$http.post(url,dict,{"emulateJSON":true}).then(function(r){
+          var td = r.data;
+          if(td.code == 1){
+            this.show_phone = this.input_new_phone;
+            alert("手机验证码发送成功")
+          }else{
+            alert(data.msg)
+          }
+        })
       },
       dealChangePhone:function(){
 
@@ -185,7 +268,7 @@
         }
 
         if(this.input_old_code == ""){
-          alert("请输入原有手机号验证码");
+          alert("请输入密码");
           return;
         }
 
@@ -203,15 +286,17 @@
         var dict = {
           user_id:this.userId,
           old_phone:this.input_old_phone,
+          pwd:this.input_old_code,
           phone:this.input_new_phone,
           code:this.input_new_code
         }
         this.$http.post(url,dict,{"emulateJSON":true}).then(function(r){
           var td = r.data;
           if(td.state == 1){
+            this.show_phone = this.input_new_phone;
             alert("手机号修改成功")
-
-
+          }else if (td.state == -1) {
+            alert("手机号已存在")
           }else{
             alert("手机号修改失败")
           }
@@ -226,6 +311,15 @@
           return;
         }
 
+        //邮箱规则
+        // var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+        // reg.test(str);
+        var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        if(!reg.test(this.input_email)){
+          alert("邮箱格式错误!");
+          return;
+        } 
+
         var url = path + "/index/user/bind-user-email";
         var dict = {
           user_id:this.userId,
@@ -234,7 +328,11 @@
         this.$http.post(url,dict,{"emulateJSON":true}).then(function(r){
           var td = r.data;
           if(td.state == 1){
+            this.show_email = this.input_email;
             alert("邮箱绑定成功")
+            this.email_edit = false
+            //重新下载数据
+            this.getUserInfo();
           }else{
             alert("邮箱绑定失败")
           }
@@ -303,6 +401,9 @@
 
         //显示图片
         this.headImage = url;
+      },
+      phone_num_encrypt:function(phoneNum){
+        return phoneNum.substring(0,3)+'****'+phoneNum.substring(8,11);
       }
     }
   }
@@ -313,4 +414,23 @@
     width: 100px;
     height: 100px;
   }
+    .select-head{
+        position: relative;
+        vertical-align: top;
+        width: 70px;
+        height: 28px;
+        line-height: 28px;
+        border-radius: 4px;
+        border: 1px solid #e5e7ed;
+        margin: auto;
+        font-size: 12px;
+        display: inline-block;
+        text-align: center;
+        background: #FCFCFC;
+        cursor: pointer;
+        transition: .3s;
+    }
+    .select-head:hover{
+        background: #ffffff
+    }
 </style>

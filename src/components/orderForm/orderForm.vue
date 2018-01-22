@@ -6,19 +6,19 @@
       <router-link :to="{name:'orderFormFinish'}">待完成</router-link>
     </div>
     <router-view></router-view>
-    <ZHPagination />
+    <!-- <ZHPagination /> -->
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 
-	import ZHPagination from '../ZHPagination/ZHPagination'
+	// import ZHPagination from '../ZHPagination/ZHPagination'
 
-  export default {
-  	components:{
-  		ZHPagination
-  	}
-  }
+  // export default {
+  // 	components:{
+  // 		ZHPagination
+  // 	}
+  // }
 </script>
 
 <style media="screen">

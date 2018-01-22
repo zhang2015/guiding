@@ -46,7 +46,7 @@
         if(this.selected == '1'){
           this.placeholder = '请输入服务机构名称'
         }else{
-          this.placeholder = '请输入服企业名称'
+          this.placeholder = '请输入企业名称'
         }
       }
     },

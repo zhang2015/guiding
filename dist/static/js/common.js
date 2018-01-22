@@ -10,6 +10,7 @@ function loginStatus(that) {
         _this.name = localStorage.getItem('name')
 
         _this.companyId = localStorage.getItem('companyId')
+
     } else if (sessionStorage.getItem('userId')) {
         _this.userId = sessionStorage.getItem('userId')
         _this.nick_name = sessionStorage.getItem('nick_name')
@@ -17,6 +18,7 @@ function loginStatus(that) {
         _this.name = sessionStorage.getItem('name')
 
         _this.companyId = sessionStorage.getItem('companyId')
+        
     } else {
         _this.userId = false
         _this.companyId = false
